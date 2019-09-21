@@ -3,6 +3,8 @@
 
 [Репозиторий бекенда](https://github.com/go-park-mail-ru/2019_2_Next_Level)
 
+<a href="https://next-level-mail.now.sh"><img src="https://sun9-28.userapi.com/c857628/v857628146/818b3/Uqc9OlGEf20.jpg"></a>
+
 ## Команда разработчиков
 Ментор — [Липко Дмитрий](https://github.com/dlipko)
 - [Керимов Ахмед](https://github.com/wcdbmv)
