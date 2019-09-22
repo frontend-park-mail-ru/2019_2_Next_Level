@@ -1,0 +1,24 @@
+{
+  "name": "next_level_mail",
+  "version": "1.0.0",
+  "description": "Репозиторий фронтенда",
+  "scripts": {
+    "start": "node server",
+    "build": "echo no build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2019_2_Next_Level.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2019_2_Next_Level/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2019_2_Next_Level#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
