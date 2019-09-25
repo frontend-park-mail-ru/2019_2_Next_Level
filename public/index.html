@@ -5,15 +5,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="./style.css" type="text/css">
+	<link rel="import" href="/components/components.html">
 	<title>Next Level Mail</title>
 </head>
 <body>
-		<div class="application">
-				
-		</div>
-	<script src="components/FormInput/FormInput.tmpl.js"></script>
-	<script src="components/Button/Button.tmpl.js"></script>
-	<script src="components/SignUp/SignUp.tmpl.js"></script>
+	<div class="application"></div>
+	
 	<script type="module" src="index.js"></script>
+	<!-- Import components links -->
+	<script>
+			var link = document.querySelector('link[rel=import]');
+			var content = link.import.querySelector('p');
+			document.body.appendChild(content.cloneNode(true));
+	</script>
 </body>
 </html>
