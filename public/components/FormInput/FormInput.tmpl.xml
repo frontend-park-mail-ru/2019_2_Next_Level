@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="form_block">
+        <div><fest:value output="text">json.title</fest:value></div>
+        <input type="{json.type}" />
+        <div class="error" style="visibility: hidden;"><fest:value output="text">json.error</fest:value></div>
+    </div>
+</fest:template>

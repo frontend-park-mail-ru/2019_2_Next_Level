@@ -1,0 +1,32 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="page">
+        <div class="central">
+            <fest:choose>
+                <fest:when test="json.page=='signup'">
+                    <h1>Join us!</h1>
+                    <form action="#" class="login-form">
+
+                    </form>
+                    <h4>
+                        Have an account already??
+                        <a href="#">Log in!</a>
+                    </h4>
+                </fest:when>
+                <fest:when test="json.page=='login'">
+                    <h1>Welcome back!</h1>
+                    <form action="#" class="login-form">
+                    </form>
+                    <h4>
+                        Have not registered yet?
+                        <a href="#">Join us!</a>
+                    </h4>
+                </fest:when>
+
+                <fest:otherwise>
+                    <h1 color="red">DE</h1>
+                </fest:otherwise>
+            </fest:choose>
+                
+        </div>
+    </div>
+</fest:template>
