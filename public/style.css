@@ -1,7 +1,9 @@
+@import url("main-style.css");
 body {
+    margin: 0px;
     background: linear-gradient(180deg, #033E75 0%, #15548E 47.4%, #02325E 98.44%), #1927A4;
     font-family: 'Roboto';
-    color: #737272;
+    color: hsl(0, 0%, 45%);
 }
 
 .page {
@@ -48,7 +50,10 @@ body {
     font-size: 10pt;
     color: #B60606;
 }
-.login-form input {
+.form_block{
+    font-weight: 300;
+}
+.form_block input {
     width: 100%;
     height: 30px;
     margin: 10px auto;
@@ -89,6 +94,7 @@ body {
     font-size: 15pt;
     color: #fff;
 }
+
 .login-form input[type=submit]:hover{
     background-color: 07549A;
 }
