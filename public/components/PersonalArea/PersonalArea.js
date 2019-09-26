@@ -40,7 +40,17 @@ export class PersonalArea {
                 header: "Account Settings",
                 avatar: {
                     image: '/images/avatar-placeholder.png',
-                }
+                },
+                inputs: [
+                    {width: 3, title: "Name", type: "text"},
+                    {width: 3, title: "Sirname", type: "text"},
+                    {width: 3, title: "Middle name", type: "text"},
+                    {width: 6, title: "Email", type: "email"},
+                    {width: 2, button:{type: "submit", value: "Change", id:""}},
+                    {width: 3, title: "Password", type: "password"},
+                    {width: 3, title: "Repeat assword", type: "password"},
+                    {width: 2, button:{type: "submit", value: "Change", id:""}},
+                ]
             }
         }
     }

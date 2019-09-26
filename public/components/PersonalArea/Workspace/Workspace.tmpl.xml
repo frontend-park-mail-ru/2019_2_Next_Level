@@ -5,72 +5,16 @@
             <hr id="header-hr" />
 
             <div class="row">
-                <!--  -->
-
-                <!-- <div class="col-2 ml-5 d-flex flex-column" >
-                    <img src="./images/avatar-placeholder.png" id="avatar-img" />
-                    <input type="button" value="Change" id="change-avatar" />
-                </div> -->
                 <fest:include context="json.avatar" src="./Avatar/Avatar.tmpl.xml"/>
 
                 <div class="col-9">
 
                     <div class="row">
-                        <div class="col-3">
-                            <div class="form_block">
-                                    <div>Name</div>
-                                    <input type="text" />
-                                    <!-- <div class="error">Wrong password!</div> -->
+                        <fest:for iterate="json.inputs" index="i">
+                            <div class="col-{json.inputs[i].width}">
+                                 <fest:include context="json.inputs[i]" src="../../FormInput/FormInput.tmpl.xml"/>
                             </div>
-                        </div>
-
-                        <div class="col-3">
-                            <div class="form_block">
-                                    <div>Sirname</div>
-                                    <input type="text" />
-                                    <!-- <div class="error">Wrong password!</div> -->
-                            </div>
-                        </div>
-
-                        <div class="col-3">
-                            <div class="form_block">
-                                    <div>Middle name</div>
-                                    <input type="text" />
-                                    <!-- <div class="error">Wrong password!</div> -->
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <div class="form_block">
-                                    <div>Email</div>
-                                    <input type="email" />
-                                    <div class="error">Wrong email!</div>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                                <input type="submit" value="Change" id="change-email" />
-                        </div>
-
-                        <div class="col-3">
-                            <div class="form_block">
-                                    <div>Password</div>
-                                    <input type="password" />
-                                    <div class="error">Wrong password!</div>
-                            </div>
-                        </div>
-
-                        <div class="col-3">
-                            <div class="form_block">
-                                    <div>Repeat password</div>
-                                    <input type="password" />
-                                    <div class="error">Passwords not same!</div>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                                <input type="submit" value="Change" id="change-email" />
-                        </div>
+                        </fest:for>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,9 @@
         <div class="menu-header">
             <fest:choose>
                 <fest:when test="json.buttonDirect=='back'">
-                    <img src="./images/arrow-menu.png" id="menu_icon" />
+                    <a data-link="ajax">
+                        <img src="./images/arrow-menu.png" id="menu_icon" />
+                    </a>
 
                 </fest:when>
                 <fest:otherwise>

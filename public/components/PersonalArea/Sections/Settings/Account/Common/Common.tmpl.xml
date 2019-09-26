@@ -1,0 +1,18 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="row">
+        <fest:include context="json.avatar" src="./Avatar/Avatar.tmpl.xml"/>
+
+        <div class="col-9">
+
+            <div class="row">
+                <fest:for iterate="json.inputs" index="i">
+                    <div class="col-{json.inputs[i].width}">
+                            <fest:include context="json.inputs[i]" src="../../FormInput/FormInput.tmpl.xml"/>
+                    </div>
+                </fest:for>
+            </div>
+        </div>
+    </div>
+
+    <input type="button" value="Log out" id="logout-button" />
+</fest:template>

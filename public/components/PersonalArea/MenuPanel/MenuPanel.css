@@ -8,12 +8,27 @@
     font-weight: lighter;
 }
 #menu_icon {
-    width: 40px;
-    height: 35px;
-    padding: 8px;
+    width: 25px;
+    height: 25px;
+    padding: 8px 8px;
     margin: auto 0;
+    cursor: pointer;
 }
 
+.menu-item{
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background: #0D5291;
+    z-index: 10;
+}
+
+#menu_icon:hover {
+    background: #0D5291;
+}
 .menu-header {
     display: flex;
     margin-bottom: 20px;
@@ -24,6 +39,7 @@
     font-weight: 300;
     align-items: center;
     margin: auto;
+    position: relative;
 }
 
 .lvl-0 {
