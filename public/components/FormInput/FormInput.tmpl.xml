@@ -7,7 +7,7 @@
             </fest:when>
             <fest:otherwise>
                 <div><fest:value output="text">json.title</fest:value></div>
-                <input type="{json.type}"  />
+                <input type="{json.type}"  name="{json.name}" value="{json.value}"/>
                 <div class="error" style="visibility: hidden;"><fest:value output="text">json.error</fest:value></div>
             </fest:otherwise>
         </fest:choose>

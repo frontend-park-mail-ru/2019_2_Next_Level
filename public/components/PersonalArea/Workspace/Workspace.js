@@ -14,5 +14,6 @@ export class Workspace {
             case RenderMethod.replace:
                 this._parent.innerHTML = module;
         }
+        console.log(this._data.accountInfo);
     }
 }

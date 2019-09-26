@@ -12,7 +12,7 @@
                         <a href="#">Log in!</a>
                     </h4>
                 </fest:when>
-                <fest:when test="json.page=='login'">
+                <fest:when test="json.page=='signin'">
                     <h1>Welcome back!</h1>
                     <form action="#" class="login-form">
                     </form>
