@@ -6,10 +6,12 @@
 
             <div class="row">
                 <!--  -->
-                <div class="col-2 ml-5 d-flex flex-column" >
+
+                <!-- <div class="col-2 ml-5 d-flex flex-column" >
                     <img src="./images/avatar-placeholder.png" id="avatar-img" />
                     <input type="button" value="Change" id="change-avatar" />
-                </div>
+                </div> -->
+                <fest:include context="json.avatar" src="./Avatar/Avatar.tmpl.xml"/>
 
                 <div class="col-9">
 

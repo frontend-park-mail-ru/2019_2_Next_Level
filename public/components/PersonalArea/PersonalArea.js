@@ -38,6 +38,9 @@ export class PersonalArea {
             },
             workspace: {
                 header: "Account Settings",
+                avatar: {
+                    image: '/images/avatar-placeholder.png',
+                }
             }
         }
     }

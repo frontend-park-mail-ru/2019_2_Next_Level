@@ -1,0 +1,8 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="col-2 ml-5 d-flex flex-column" >
+        <!-- <img src="./images/avatar-placeholder.png" id="avatar-img" /> -->
+        <img src="{json.image}" id="avatar-img" />
+        <!-- <input type="button" value="Change" id="change-avatar" /> -->
+        <fest:include context="{type:'submit', value:'Change', id:'change-avatar'}" src="../../../Button/Button.tmpl.xml"/>
+    </div>
+</fest:template>

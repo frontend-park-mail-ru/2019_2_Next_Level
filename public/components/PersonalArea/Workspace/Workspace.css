@@ -1,0 +1,62 @@
+@import url("./Avatar/Avatar.css");
+#header-hr {
+    border: 1px solid #F5F2F2;
+    margin: 0 2vw;
+    margin-bottom: 4vh;
+}
+#avatar-img{
+    width: 120px;
+    /* padding: 50px; */
+    padding-bottom: 20px;
+    margin: 0 auto;
+}
+
+.main-page {
+    background-color: #fff;
+    /* flex: 0 0 83%;
+    max-width: 83%; */
+    width: 82.7vw;
+    height: 100vh;
+    font-weight: 300;
+    position: relative;
+}
+
+.main-page h2 {
+    font-weight: inherit;
+    color: #393939;
+    display: flex;
+    padding: 1vh 5vw;
+    height: 3vh;
+}
+
+#change-email {
+    margin-top: 30px;
+    width: 70px;
+    height: 30px;
+    background: #03335F;
+    border-radius: 2px;
+    border-color: #000;
+    font-size: 12pt;
+    color: #fff;
+    display: block;
+}
+
+#logout-button {
+    position: absolute;
+    right: 3vw;
+    bottom: 3vh;
+    background: #760C05;
+    border-radius: 4px; 
+    border-width: 0px;
+    color: white;
+    height: 4vh;
+}
+
+input [type=submit] {
+    background: #03335F;
+    border-radius: 2px;
+    border-color: #000;
+    font-size: 13pt;
+    color: #fff;
+    display: block;
+}

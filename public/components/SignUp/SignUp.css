@@ -1,0 +1,81 @@
+.page {
+    width: 60%;
+    height: 100vh;
+    background-color: #fff;
+    display: block;
+    margin: 0px auto;
+    align-content: center;
+    padding-top: 5em;
+    text-align: center;
+}
+
+.page h1 {
+    display: flex;
+    width: auto;
+    font-size: 30pt;
+    display: block;
+    text-align: center;
+}
+
+.central {
+    position: relative;
+    margin: 0px auto;
+    width: 50%;
+    text-align: left;
+}
+.central a {
+    color: inherit;
+    display: block;
+}
+.central h4 {
+    text-align: center;
+    font-size: 13pt;
+    font-weight: normal;
+    color: #A6A5A5;
+}
+
+.login-form .form_block{
+    font-size: 15pt;
+    margin: 20px auto;
+}
+
+.usual_text {
+    font-size: 13pt;
+    color: #A6A5A5;
+    display: inline;
+    align-items: center;
+    vertical-align: center;
+}
+#keep_in {
+    display: block;
+    margin-top: 50px;
+    text-align: left;
+    align-content: left;
+    vertical-align: center;
+}
+.login-form input[type=checkbox] {
+    width: 20px;
+    margin: auto 0px;
+    display: inline;
+    box-sizing: 0px;
+}
+.login-form input[type=submit] {
+    width: 120px;
+    height: 40px;
+    background: #03335F;
+    border-radius: 2px;
+    border-color: #000;
+    font-size: 15pt;
+    color: #fff;
+}
+
+.login-form input[type=submit]:hover{
+    background-color: 07549A;
+}
+.login-form hr {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #9CA9C9;
+    display: block;
+    margin-bottom: 50px;
+}
