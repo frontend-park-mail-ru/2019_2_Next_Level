@@ -6,15 +6,15 @@
 
             <div class="row">
                 <!--  -->
-                <div class="col-md-2 ml-5 d-flex flex-column justify-content-center" >
+                <div class="col-2 ml-5 d-flex flex-column" >
                     <img src="./images/avatar-placeholder.png" id="avatar-img" />
                     <input type="button" value="Change" id="change-avatar" />
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-9">
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <div class="form_block">
                                     <div>Name</div>
                                     <input type="text" />
@@ -22,7 +22,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <div class="form_block">
                                     <div>Sirname</div>
                                     <input type="text" />
@@ -30,7 +30,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <div class="form_block">
                                     <div>Middle name</div>
                                     <input type="text" />
@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <div class="form_block">
                                     <div>Email</div>
                                     <input type="email" />
@@ -46,11 +46,11 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-4">
                                 <input type="submit" value="Change" id="change-email" />
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <div class="form_block">
                                     <div>Password</div>
                                     <input type="password" />
@@ -58,7 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <div class="form_block">
                                     <div>Repeat password</div>
                                     <input type="password" />
@@ -66,7 +66,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-4">
                                 <input type="submit" value="Change" id="change-email" />
                         </div>
                     </div>
