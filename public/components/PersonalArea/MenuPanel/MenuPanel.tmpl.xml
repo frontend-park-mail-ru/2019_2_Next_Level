@@ -1,0 +1,22 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="left-panel">
+        <div class="menu-header">
+            <fest:choose>
+                <fest:when test="json.buttonDirect=='back'">
+                    <img src="./images/arrow-menu.png" id="menu_icon" />
+
+                </fest:when>
+                <fest:otherwise>
+                    <img src="./images/menu-icon.png" id="menu_icon" />
+                </fest:otherwise>
+            </fest:choose>
+            <h4><fest:value>json.header</fest:value></h4>
+        </div>
+        <fest:for iterate="json.items" index="i">
+            <div class="menu-item lvl-{json.items[i].level}">
+                <!-- {json.items[i].name} -->
+                <fest:value>json.items[i].name</fest:value>
+            </div>
+        </fest:for>
+    </div>
+</fest:template>

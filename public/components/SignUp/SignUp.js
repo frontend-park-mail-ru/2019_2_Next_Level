@@ -44,7 +44,7 @@ export class SignUp {
                     break;
                 case 'login':
                     this._createSignup();
-                    break;
+                    break
                 default: console.error("Wrong data.page");
             }
         });

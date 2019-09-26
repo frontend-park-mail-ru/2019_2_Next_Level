@@ -1,5 +1,7 @@
 'use strict'
 import {SignUp} from './components/SignUp/SignUp.js';
+import { PersonalArea } from './components/PersonalArea/PersonalArea.js';
+import { RenderMethod } from './components/config.js';
 let app = document.getElementsByClassName("application")[0];
 
 // const SignUpPage = {
@@ -14,4 +16,5 @@ let app = document.getElementsByClassName("application")[0];
 //     button: {value: "Join!", type: "submit", id: ""},
 // };
 // console.log(SignUpPage);
-(new SignUp(app, {page: "signup",})).render()
+//(new SignUp(app, {page: "signup",})).render()
+(new PersonalArea(app, {page: "profile"})).render(RenderMethod.replace);

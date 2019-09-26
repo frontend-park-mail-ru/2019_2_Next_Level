@@ -4,7 +4,9 @@
   "description": "Репозиторий фронтенда",
   "scripts": {
     "start": "node server",
-    "build": "echo no build"
+    "build": "echo no build",
+    "fest": "./node_modules/.bin/fest-build --dir=public",
+    "prestart": "npm run fest"
   },
   "repository": {
     "type": "git",
