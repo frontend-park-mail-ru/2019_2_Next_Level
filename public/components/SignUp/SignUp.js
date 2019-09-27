@@ -85,7 +85,7 @@ export class SignUp {
                 url: '/signin', 
                 body: {email, password}, 
                 callback: (status, responceText) => {
-                    if (status === 201) {
+                    if (status === 200) {
                         // _createProfile();
                         console.log("Logged in");
                         (new PersonalArea(this._parent, {page: "profile"})).render(RenderMethod.replace);
@@ -101,6 +101,31 @@ export class SignUp {
     _createSignup() {
         this._data.page = 'signup';
         this._render();
+
+        let form = this._parent.querySelector("form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            console.log("Event-register")
+
+            const name = form.elements['name'].value;
+            const email = form.elements['email'].value;
+            const password = form.elements['password'].value;
+
+            console.log(email, password);
+            globalThis.AjaxModule.doPost({
+                url: '/signup', 
+                body: {name, email, password}, 
+                callback: (status, responceText) => {
+                    if (status === 200) {
+                        console.log("Registered");
+                        (new PersonalArea(this._parent, {page: "profile"})).render(RenderMethod.replace);
+                        return;
+                    }
+                    const {error} = JSON.parse(responceText);
+                    // alert(error);
+                },
+            });
+        });
     }
 
     _createProfile() {

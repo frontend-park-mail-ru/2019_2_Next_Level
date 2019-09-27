@@ -93,10 +93,13 @@ export class PersonalArea {
             callback: (status, responseText) => {
                     if (status != 200) {
                         // alert('ACHTUNG! No autorization');
+                        console.log("No authorization");
                         (new SignUp(this._parent, {page: "signin",})).render()
                         return;
                     }
                     try{
+                        console.log("Authorized")
+                        console.log(responseText)
                         const responseBody = JSON.parse(responseText);
                         this._createProfile(responseBody);
                     }catch(e) {
