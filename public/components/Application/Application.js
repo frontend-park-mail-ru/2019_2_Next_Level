@@ -16,7 +16,7 @@ export class Application {
 		this._signin = new SignIn(this);
 		this._signup = new SignUp(this);
 
-		fetchGet('http://localhost:3000/api/profile/get')
+		fetchGet('/api/profile/get')
 			.then(this._check_response)
 			.then(this._dosignin)
 			.catch(this._dosignout);

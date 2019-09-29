@@ -32,7 +32,7 @@ export class SignUp {
 		const email = form.elements['email'].value;
 		const password = form.elements['password'].value;
 
-		fetchPost('http://localhost:3000/api/auth/signup', {name, email, password})
+		fetchPost('/api/auth/signup', {name, email, password})
 			.then(this._application._check_response)
 			.then(this._application._dosignin)
 			.catch(this._application._catch_error);

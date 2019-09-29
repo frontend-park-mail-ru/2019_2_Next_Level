@@ -8,7 +8,7 @@ export class Profile {
 
 	render = () => {
 		console.log('Profile.render');
-		fetchGet('http://localhost:3000/api/profile/get')
+		fetchGet('/api/profile/get')
 			.then(this._application._receive_response)
 			.then(response => {
 				console.log('Profile.render: fetch(/api/profile/get).then.then');
@@ -25,7 +25,7 @@ export class Profile {
 		e.preventDefault();
 
 
-		fetchGet('http://localhost:3000/api/auth/signout')
+		fetchGet('/api/auth/signout')
 			.then(this._application._receive_response)
 			.then(this._application._dosignout)
 			.catch(this._application._catch_error);
