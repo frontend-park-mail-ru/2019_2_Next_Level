@@ -2,7 +2,7 @@
  * Generates a call wrapper for `func`. Calling this wrapper is equivalent to invoking `func` with some of its arguments
  * bounds to args
  * @param   {function} func
- * @param   {[*]} argsBound
+ * @param   {...*} argsBound
  * @returns {function(...[*]): *}
  */
 export function partial(func, ...argsBound) {

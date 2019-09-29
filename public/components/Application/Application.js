@@ -72,4 +72,8 @@ export class Application {
 		console.log('Application._catch_error', err);
 		console.error(err);
 	};
+
+	_get_form__block__error = name => document.querySelector(`.form__block__input[name=${name}]~.form__block__error`);
+	_set_form__block__error_visibility = (name, visibility) => this._get_form__block__error(name).style.visibility = visibility;
+
 }

@@ -6,4 +6,7 @@ node_modules
 package-lock.json
 
 # Fest
-*tmpl.js
+*.tmpl.js
+
+# Inc
+*.inc.js
