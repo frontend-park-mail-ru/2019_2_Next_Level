@@ -1,0 +1,57 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+	<div class="sidebar">
+		<div class="menu-header">
+			<img src="../../images/arrow-menu.png" id="menu_icon"/>
+			<h4>Settings</h4>
+		</div>
+
+		<div class="menu-item lvl-0">Accounts</div>
+		<div class="menu-item lvl-1">admin@yandex.ru</div>
+		<div class="menu-item lvl-2">Signature</div>
+		<div class="menu-item lvl-2">Templates</div>
+		<div class="menu-item lvl-1">user@yandex.ru</div>
+	</div>
+
+	<div class="workspace">
+		<div class="workspace__header">
+			<h2>Account Settings</h2>
+			<hr/>
+		</div>
+
+		<div class="workspace__body">
+			<div class="avatar__block">
+				<img src="./images/avatar-placeholder.png" id="avatar-img"/>
+				<input type="button" value="Change" id="change-avatar"/>
+			</div>
+
+			<div class="central-column">
+				<form action="/api/profile/change_name" method="POST">
+					<div class="form__block">
+						<div class="form__block__legend">Name</div>
+						<input class="form__block__input" type="text" name="name" value="{json.name}"/>
+						<div class="form__block__error">Wrong name!</div>
+					</div>
+					<input class="submit-button" type="submit" value="Change" id="change-name"/>
+				</form>
+
+				<form action="/api/profile/change_password" method="POST">
+					<div class="form__block">
+						<div class="form__block__legend">Password</div>
+						<input class="form__block__input" type="password" name="password"/>
+						<div class="form__block__error">Wrong password!</div>
+					</div>
+
+					<div class="form__block">
+						<div class="form__block__legend">Repeat password</div>
+						<input class="form__block__input" type="password" name="repear_password"/>
+						<div class="form__block__error">Passwords do not match</div>
+					</div>
+
+					<input class="submit-button" type="submit" value="Change" id="change-password"/>
+				</form>
+			</div>
+
+			<input type="button" value="Sign out" id="signout-button"/>
+		</div>
+	</div>
+</fest:template>

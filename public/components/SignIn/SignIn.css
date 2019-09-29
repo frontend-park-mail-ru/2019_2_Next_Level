@@ -1,0 +1,56 @@
+.page {
+	width: 60%;
+	height: 100vh;
+	background-color: #fff;
+	display: block;
+	margin: 0 auto;
+	align-content: center;
+	padding-top: 5em;
+	text-align: center;
+}
+
+.page h1 {
+	width: auto;
+	font-size: 30pt;
+	display: block;
+	text-align: center;
+}
+
+.central {
+	position: relative;
+	margin: 0 auto;
+	width: 50%;
+	text-align: left;
+}
+
+.central a {
+	color: inherit;
+	display: block;
+}
+
+.central h4 {
+	text-align: center;
+	font-size: 13pt;
+	font-weight: normal;
+	color: #A6A5A5;
+}
+
+.signin-form .form__block{
+	font-size: 15pt;
+	margin: 20px auto;
+}
+
+.signin-form input[type=checkbox] {
+	width: 20px;
+	margin: auto 0;
+	display: inline;
+	box-sizing: 0px;
+}
+
+.form__block hr {
+	position: absolute;
+	width: 100%;
+	border: 1px solid #9CA9C9;
+	display: block;
+	margin-bottom: 50px;
+}
