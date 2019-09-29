@@ -19,6 +19,10 @@
     "url": "https://github.com/frontend-park-mail-ru/2019_2_Next_Level/issues"
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2019_2_Next_Level#readme",
+  "engines": {
+    "node": ">=10",
+    "npm": ">=6"
+  },
   "dependencies": {
     "babel-eslint": "^10.0.3",
     "body-parser": "^1.18.3",
