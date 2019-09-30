@@ -28,7 +28,7 @@ export class SignIn {
 	};
 
 	_signin_form_listener = (form, e) => {
-		console.log('SignIn._signin_form_listener', form, e);
+		console.log('SignIn._signin_form_listener', e);
 		e.preventDefault();
 
 		const email = form.elements['email'].value;

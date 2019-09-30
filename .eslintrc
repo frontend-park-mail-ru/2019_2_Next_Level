@@ -52,7 +52,7 @@
 		"comma-dangle": ["error", "always-multiline"],
 		"func-call-spacing": "error",
 		"key-spacing": "error",
-		"lines-between-class-members": "error",
+		"lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
 		"max-depth": ["warn", 5],
 		"no-trailing-spaces": "error",
 		"semi-spacing": "error",

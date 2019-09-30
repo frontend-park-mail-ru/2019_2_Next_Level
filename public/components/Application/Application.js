@@ -76,4 +76,7 @@ export class Application {
 	_get_form__block__error = name => document.querySelector(`.form__block__input[name=${name}]~.form__block__error`);
 	_set_form__block__error_visibility = (name, visibility) => this._get_form__block__error(name).style.visibility = visibility;
 
+	_check_name = name => name.split(/\s+/).every(word => /^[a-zA-Z]+$/.test(word));
+	_check_email = email => /\w+@\w+\.[a-z]+/.test(email);
+	_check_password = password => password.match(/^\S{4,}$/);
 }

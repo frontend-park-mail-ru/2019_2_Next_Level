@@ -125,6 +125,34 @@ app.get('/api/profile/get', (req, res) => {
 	return res.status(HttpStatus.OK).json({email, 'name': users[email]['name']});
 });
 
+app.post('/api/profile/edit', (req, res) => {
+	console.log('/api/profile/edit');
+
+	const session_id = req.cookies['user-token'];
+	if (!(session_id in ids)) {
+		console.log(Errors.NotAuthorized.msg);
+		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+	}
+
+	// for now it's impossible
+	const email = ids[session_id];
+	if (!email || !(email in users)) {
+		console.log(Errors.NotAuthorized.msg);
+		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+	}
+
+	const name = req.body.name;
+	const password = req.body.password;
+
+	if (name) {
+		users[email].name = name;
+	} else if (password) {
+		users[email].password = password;
+	}
+
+	return res.status(HttpStatus.OK).json({response: 'ok'});
+});
+
 const signin = (res, email) => {
 	console.log('signin', email);
 

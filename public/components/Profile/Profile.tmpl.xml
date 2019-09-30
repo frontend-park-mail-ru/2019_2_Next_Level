@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="central-column">
-				<form action="/api/profile/change_name" method="POST">
+				<form action="/api/profile/edit" method="POST" id="change-name__form">
 					<div class="form__block">
 						<div class="form__block__legend">Name</div>
 						<input class="form__block__input" type="text" name="name" value="{json.name}"/>
@@ -34,7 +34,7 @@
 					<input class="submit-button" type="submit" value="Change" id="change-name"/>
 				</form>
 
-				<form action="/api/profile/change_password" method="POST">
+				<form action="/api/profile/change_password" method="POST" id="change-password__form">
 					<div class="form__block">
 						<div class="form__block__legend">Password</div>
 						<input class="form__block__input" type="password" name="password"/>
@@ -43,7 +43,7 @@
 
 					<div class="form__block">
 						<div class="form__block__legend">Repeat password</div>
-						<input class="form__block__input" type="password" name="repear_password"/>
+						<input class="form__block__input" type="password" name="repeat_password"/>
 						<div class="form__block__error">Passwords do not match</div>
 					</div>
 

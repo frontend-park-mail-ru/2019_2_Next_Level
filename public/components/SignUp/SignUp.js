@@ -26,7 +26,7 @@ export class SignUp {
 	};
 
 	_signup_form_listener = (form, e) => {
-		console.log('SignUp._signup_form_listener', form, e);
+		console.log('SignUp._signup_form_listener', e);
 		e.preventDefault();
 
 		const name = form.elements['name'].value;
