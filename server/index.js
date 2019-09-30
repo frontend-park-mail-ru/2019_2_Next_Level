@@ -168,6 +168,6 @@ const signin = (res, email) => {
 	return res.status(HttpStatus.OK).json({response: 'ok'});
 };
 
-const _check_name = name => name && name.match(/\w+/);
-const _check_email = email => email && email.match(/@/);
-const _check_password = password => password && password.match(/^\S{4,}$/);
+const _check_name = name => name.split(/\s+/).every(word => /^[a-zA-Z]+$/.test(word));
+const _check_email = email => /\w+@\w+\.[a-z]+/.test(email);
+const _check_password = password => password.match(/^\S{4,}$/);
