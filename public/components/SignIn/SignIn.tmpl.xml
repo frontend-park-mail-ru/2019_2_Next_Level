@@ -1,0 +1,10 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:include src="../common/Form/Form.tmpl.xml"/>
+	<div class="page">
+		<div class="central">
+			<h1>Welcome Back!</h1>
+			<fest:get name="form">{type: 'signin'}</fest:get>
+			<h4>Have not registered yet? <a href="#" id="signup-link">Join us!</a></h4>
+		</div>
+	</div>
+</fest:template>

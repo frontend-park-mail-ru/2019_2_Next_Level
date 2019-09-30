@@ -1,0 +1,16 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:set name="form__block">
+		<div class="form__block">
+			<div class="form__block__legend"><fest:value>params.legend</fest:value></div>
+			<fest:choose>
+				<fest:when test="params.placeholder === undefined">
+					<input class="form__block__input" type="{params.type}" name="{params.name}" required=""/>
+				</fest:when>
+				<fest:otherwise>
+					<input class="form__block__input" type="{params.type}" name="{params.name}" placeholder="{params.placeholder}" required=""/>
+				</fest:otherwise>
+			</fest:choose>
+			<div class="form__block__error"><fest:value>params.error</fest:value></div>
+		</div>
+	</fest:set>
+</fest:template>

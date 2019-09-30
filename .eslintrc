@@ -1,0 +1,61 @@
+{
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"parser": "babel-eslint",
+	"rules": {
+		"indent": ["error", "tab"],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		"no-extra-parens": "error",
+		"no-extra-semi": "error",
+		"no-irregular-whitespace": "error",
+		"no-unreachable": "error",
+		"no-unsafe-finally": "error",
+		"class-methods-use-this": "warn",
+		"complexity": ["error", 8],
+//		"consistent-return": "error",
+		"curly": "error",
+//		"default-case": "error",
+		"default-param-last": "error",
+		"dot-location": ["error", "property"],
+		"eqeqeq": ["error", "always"],
+		"guard-for-in": "error",
+		"max-classes-per-file": ["error", 3],
+		"no-alert": "error",
+		"no-case-declarations": "error",
+		"no-div-regex": "error",
+		"no-else-return": "error",
+		"no-empty-function": "error",
+		"no-fallthrough": "warn",
+		"no-invalid-this": "warn",
+		"no-magic-numbers": "warn",
+		"no-multi-spaces": "error",
+		"no-self-assign": "error",
+		"no-self-compare": "error",
+		"init-declarations": ["error", "always"],
+		"array-bracket-spacing": ["error", "never"],
+		"block-spacing": ["error", "always"],
+		"brace-style": "error",
+		"comma-dangle": ["error", "always-multiline"],
+		"func-call-spacing": "error",
+		"key-spacing": "error",
+		"lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
+		"max-depth": ["warn", 5],
+		"no-trailing-spaces": "error",
+		"semi-spacing": "error",
+		"arrow-spacing": "error"
+	}
+}
