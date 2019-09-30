@@ -4,3 +4,9 @@
 # Node.js
 node_modules
 package-lock.json
+
+# Fest
+*.tmpl.js
+
+# Inc
+*.inc.js

@@ -1,0 +1,5 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:set name="button">
+		<input type="submit" value='{params.value}' class="submit-button" id="{params.id}"/>
+	</fest:set>
+</fest:template>
