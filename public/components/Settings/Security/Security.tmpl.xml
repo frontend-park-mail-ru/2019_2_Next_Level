@@ -1,0 +1,14 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:include src="../../Form/FormRow/FormRow.tmpl.xml"/>
+	<div class="form__title">Security</div>
+	<form class="form">
+		<fest:get name="form__row">{label: "Current password", id: "currentPassword", name: "currentPassword", value: "", placeholder: "", type: "password"}</fest:get>
+		<fest:get name="form__row">{label: "New password", id: "newPassword", name: "newPassword", value: "", placeholder: "", type: "password"}</fest:get>
+		<fest:get name="form__row">{label: "New password again", id: "newPasswordAgain", name: "newPasswordAgain", value: "", placeholder: "", type: "password"}</fest:get>
+
+		<div class="form__actions">
+			<button type="submit" name="save">Save!</button>
+			<button name="cancel">Cancel</button>
+		</div>
+	</form>
+</fest:template>

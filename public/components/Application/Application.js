@@ -1,82 +1,65 @@
-import {Profile} from '../Profile/Profile.js';
-import {SignIn} from '../SignIn/SignIn.js';
-import {SignUp} from '../SignUp/SignUp.js';
-import {fetchGet} from '../../modules/fetch.js';
+import Header from '../Header/Header.js';
+import Main from '../Main/Main.js';
+import Nav from '../Nav/Nav.js';
+import Auth from '../Auth/Auth.js';
+import Settings from '../Settings/Settings.js';
+import {fetchGet, jsonizeResponse, consoleError} from '../../modules/fetch.js';
+import {renderAppend, renderReplace} from '../../modules/render.js';
 
-const ApplicationState = {
-	NOT_AUTHORIZED: 0,
-	AUTHORIZED: 1,
-};
-
-export class Application {
+export default class Application {
 	constructor(element=document.body) {
-		console.log('Application.constructor');
-		this._element = element;
-		this._profile = new Profile(this);
-		this._signin = new SignIn(this);
-		this._signup = new SignUp(this);
-
-		fetchGet('/api/profile/get')
-			.then(this._check_response)
-			.then(this._dosignin)
-			.catch(this._dosignout);
+		this.element = element;
+		this.header = new Header(this);
+		this.main = new Main(this);
+		this.nav = new Nav(this);
+		this.auth = new Auth(this);
+		this.settings = new Settings(this);
 	}
 
 	render = () => {
-		console.log('Application.render');
-		switch (this._state) {
-		case ApplicationState.NOT_AUTHORIZED:
-			this._signin.render();
-			break;
-		case ApplicationState.AUTHORIZED:
-			this._profile.render();
-			break;
-		}
+		fetchGet('/api/auth/isAuthorized')
+			.then(jsonizeResponse)
+			.catch(consoleError)
+			.then(response => {
+				if (response.status === 'ok') {
+					this.renderSettings();
+				} else {
+					this.renderAuth();
+				}
+			})
+			.catch(consoleError);
 	};
 
-	get _session_id() {
-		console.log('Application._session_id');
-		return document.cookie['user-token'];
-	}
-
-	_dosignin = () => {
-		console.log('Application._dosignin');
-		this._state = ApplicationState.AUTHORIZED;
-		this._profile.render();
+	renderSettings = () => {
+		fetchGet('/api/users/get')
+			.then(jsonizeResponse)
+			.catch(consoleError)
+			.then(response => {
+				if (response.status === 'ok') {
+					const {firstName, secondName, nickName, avatar, birthDate, sex} = response;
+					const userData = {firstName, secondName, nickName, avatar, birthDate, sex};
+					this.header.render(renderReplace, nickName, avatar);
+					this.main.render(renderAppend);
+					this.nav.render(renderAppend);
+					this.settings.render(renderAppend, userData);
+				} else {
+					this.renderAuth();
+				}
+			})
+			.catch(consoleError);
 	};
 
-	_dosignout = () => {
-		console.log('Application._dosignout');
-		this._state = ApplicationState.NOT_AUTHORIZED;
-		this._signin.render();
+	renderAuth = () => {
+		this.header.render(renderReplace);
+		this.main.render(renderAppend);
+		this.auth.render(renderReplace);
 	};
 
-	_receive_response = (response) => {
-		console.log('Application._receive_response', response);
-		if (!response.ok) {
-			throw new Error(`Неверный статус ${response.status}`);
-		}
-		return response.json();
+	authorize = () => {
+		this.renderSettings();
 	};
 
-	// IF response(200).end() [WITHOUT .json()] THEN USE THIS
-	_check_response = (response) => {
-		console.log('Application._check_response', response);
-		if (!response.ok) {
-			throw new Error(`Неверный статус ${response.status}`);
-		}
-		return response;
+	signOut = () => {
+		this.renderAuth();
 	};
-
-	_catch_error = (err) => {
-		console.log('Application._catch_error', err);
-		console.error(err);
-	};
-
-	_get_form__block__error = name => document.querySelector(`.form__block__input[name=${name}]~.form__block__error`);
-	_set_form__block__error_visibility = (name, visibility) => this._get_form__block__error(name).style.visibility = visibility;
-
-	_check_name = name => name.split(/\s+/).every(word => /^[a-zA-Z]+$/.test(word));
-	_check_email = email => /\w+@\w+\.[a-z]+/.test(email);
-	_check_password = password => password.match(/^\S{4,}$/);
 }

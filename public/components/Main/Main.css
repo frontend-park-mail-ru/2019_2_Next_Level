@@ -1,0 +1,25 @@
+main {
+	position: absolute;
+	height: calc(100% - 42px);
+	width: 100%;
+	top: 42px;
+	overflow: auto;
+}
+
+main .layout {
+	display: flex;
+	align-items: flex-start;
+	box-sizing: border-box;
+	height: 100%;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+input[type='text'], input[type='password'], input[type='submit'] {
+	display: block;
+	outline: none;
+}
+
+main .box {
+	width: 795px;
+}
