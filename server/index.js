@@ -122,8 +122,8 @@ app.get('/api/auth/signOut', (req, res) => {
 	return response(res, {status: 'ok'});
 });
 
-app.get('/api/users/get', (req, res) => {
-	console.log('/api/users/get');
+app.get('/api/profile/get', (req, res) => {
+	console.log('/api/profile/get');
 
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
@@ -149,8 +149,8 @@ app.get('/api/users/get', (req, res) => {
 	});
 });
 
-app.post('/api/settings/changeUserInfo', (req, res) => {
-	console.log('/api/settings/changeUserInfo');
+app.post('/api/profile/editUserInfo', (req, res) => {
+	console.log('/api/profile/editUserInfo');
 
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
@@ -192,8 +192,8 @@ app.post('/api/settings/changeUserInfo', (req, res) => {
 	return response(res, {status: 'ok'});
 });
 
-app.post('/api/settings/changePassword', (req, res) => {
-	console.log('/api/settings/changePassword');
+app.post('/api/profile/editPassword', (req, res) => {
+	console.log('/api/profile/editPassword');
 
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {

@@ -31,7 +31,7 @@ export default class Application {
 	};
 
 	renderSettings = () => {
-		fetchGet('/api/users/get')
+		fetchGet('/api/profile/get')
 			.then(jsonizeResponse)
 			.catch(consoleError)
 			.then(response => {

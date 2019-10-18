@@ -44,7 +44,7 @@ export default class Security {
 			}
 		}
 
-		fetchPost('/api/settings/changePassword', {currentPassword, newPassword})
+		fetchPost('/api/profile/editPassword', {currentPassword, newPassword})
 			.then(jsonizeResponse)
 			.catch(consoleError)
 			.then(this.securityFormListenerOnFulfilled)

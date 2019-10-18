@@ -13,7 +13,7 @@ const checkDate = date => {
 	return g && !isNaN((new Date(`${g[3]}-${g[2]}-${g[1]}`)).getTime());
 };
 
-const checkSex = sex => sex === 'male' || sex === 'female';
+const checkSex = sex => /^(fe)?male$/.test(sex);
 
 inc('validate', [
 	{declaration: 'checkLogin', definition: String(checkLogin)},

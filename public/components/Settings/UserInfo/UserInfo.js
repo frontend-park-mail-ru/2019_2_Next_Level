@@ -50,7 +50,7 @@ export default class UserInfo {
 			}
 		}
 
-		fetchPost('/api/settings/changeUserInfo', {firstName, secondName, nickName, birthDate, sex})
+		fetchPost('/api/profile/editUserInfo', {firstName, secondName, nickName, birthDate, sex})
 			.then(jsonizeResponse)
 			.catch(consoleError)
 			.then(this.userInfoFormListenerOnFulfilled)
