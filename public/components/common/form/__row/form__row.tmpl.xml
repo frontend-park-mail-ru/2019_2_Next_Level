@@ -1,9 +1,25 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<div class="form-row">
-		<div class="form-row__label-wrap">
-			<label class="form-row__label" for="{args.input.id}"><fest:value>args.label</fest:value></label>
+	<fest:script><![CDATA[
+		var r_cls = '';
+		(args.r_modifiers || (args.r_modifiers = [])).forEach(modifier => {
+			r_cls += `form__row_${modifier} `;
+		});
+
+		var lw_cls = '';
+		(args.lw_modifiers || (args.lw_modifiers = [])).forEach(modifier => {
+			lw_cls += `form__label-wrap_${modifier} `;
+		});
+
+		var ww_cls = '';
+		(args.ww_modifiers || (args.ww_modifiers = [])).forEach(modifier => {
+			ww_cls += `form__widget-wrap_${modifier} `;
+		});
+	]]></fest:script>
+	<div class="form__row {r_cls}">
+		<div class="form__label-wrap {lw_cls}">
+			<label class="form__label" for="{args.input.id}"><fest:value>args.label</fest:value></label>
 		</div>
-		<div class="form-row__widget-wrap">
+		<div class="form__widget-wrap {ww_cls}">
 			<fest:include context="args.input" src="../__input/form__input.tmpl.xml"/>
 			<div class="form__message form__message_{args.input.name}"/>
 		</div>

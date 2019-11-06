@@ -5,6 +5,7 @@
 .layout {
 	display: flex;
 	align-items: flex-start;
+	box-sizing: border-box;
 	width: 960px;
 	padding-left: 15px;
 	padding-right: 15px;

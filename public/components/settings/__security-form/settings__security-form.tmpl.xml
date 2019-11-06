@@ -5,6 +5,9 @@
 			title: 'User info',
 			rows: [
 				{
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'Current password',
 					input: {
 						cls: 'form__input_current-password',
@@ -13,6 +16,9 @@
 						name: 'currentPassword',
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'New password',
 					input: {
 						cls: 'form__input_new-password',
@@ -21,6 +27,9 @@
 						name: 'newPassword',
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'New password again',
 					input: {
 						cls: 'form__input_new-password-again',
@@ -31,7 +40,7 @@
 				},
 			],
 			actions: {
-				cls: 'form__actions_auth',
+				cls: 'form__actions_settings',
 				buttons: [
 					{
 						cls: 'form__button_accent',
@@ -49,16 +58,4 @@
 	<div class="box box_settings">
 		<fest:include context="args" src="../../common/form/form.tmpl.xml"/>
 	</div>
-<!--	<fest:include src="../../Form/FormRow/FormRow.tmpl.xml"/>-->
-<!--	<div class="form__title">Security</div>-->
-<!--	<form class="form">-->
-<!--		<fest:get name="form__row">{label: "Current password", id: "currentPassword", name: "currentPassword", value: "", placeholder: "", type: "password"}</fest:get>-->
-<!--		<fest:get name="form__row">{label: "New password", id: "newPassword", name: "newPassword", value: "", placeholder: "", type: "password"}</fest:get>-->
-<!--		<fest:get name="form__row">{label: "New password again", id: "newPasswordAgain", name: "newPasswordAgain", value: "", placeholder: "", type: "password"}</fest:get>-->
-
-<!--		<div class="form__actions">-->
-<!--			<button type="submit" name="save">Save!</button>-->
-<!--			<button name="cancel">Cancel</button>-->
-<!--		</div>-->
-<!--	</form>-->
 </fest:template>

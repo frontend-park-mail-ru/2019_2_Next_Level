@@ -19,8 +19,20 @@
 				<label class="form__input_radio-label" for=""><fest:value>args.values[i]</fest:value></label>
 			</fest:for>
 		</fest:when>
-		<fest:when test="args.type === 'image'">
+		<fest:when test="args.type === 'avatar'">
+			<fest:choose>
+				<fest:when test="args.src === null">
+					<img class="form__avatar" src="/images/icons/noavatar.svg" alt="avatar"/>
+				</fest:when>
+				<fest:otherwise>
+					<img class="form__avatar" src="{args.src}" alt="avatar"/>
+				</fest:otherwise>
+			</fest:choose>
 
+			<div class="form__infotext">
+				<div class="form__note">The size of the uploading photo should be less than 1 MB</div>
+				<input class="form__field" name="avatar" value="Upload photo" type="file"/>
+			</div>
 		</fest:when>
 	</fest:choose>
 </fest:template>

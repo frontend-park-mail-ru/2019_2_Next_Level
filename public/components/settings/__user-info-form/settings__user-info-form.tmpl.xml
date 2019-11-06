@@ -5,6 +5,9 @@
 			title: 'User info',
 			rows: [
 				{
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'First name',
 					input: {
 						cls: 'form__input_first-name',
@@ -14,6 +17,9 @@
 						value: args.firstName,
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'Second name',
 					input: {
 						cls: 'form__input_second-name',
@@ -23,6 +29,9 @@
 						value: args.secondName,
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'Nick name',
 					input: {
 						cls: 'form__input_nick-name',
@@ -32,15 +41,21 @@
 						value: args.nickName,
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings', 'avatar'],
 					label: 'Avatar',
 					input: {
 						cls: 'form__input_avatar',
 						type: 'avatar',
 						id: 'avatar',
 						name: 'avatar',
-						value: args.avatar,
+						src: args.avatar,
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'Date of Birth',
 					input: {
 						type: 'text',
@@ -49,6 +64,9 @@
 						value: args.birthDate,
 					},
 				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
 					label: 'Sex',
 					input: {
 						cls: 'form__input_sex',
@@ -63,7 +81,7 @@
 				},
 			],
 			actions: {
-				cls: 'form__actions_auth',
+				cls: 'form__actions_settings',
 				buttons: [
 					{
 						cls: 'form__button_accent',
@@ -81,57 +99,4 @@
 	<div class="box box_settings">
 		<fest:include context="args" src="../../common/form/form.tmpl.xml"/>
 	</div>
-<!--		<fest:include src="../../Form/FormRow/FormRow.tmpl.xml"/>-->
-<!--		<div class="form__title">User info</div>-->
-<!--		<form class="form">-->
-<!--			<fest:get name="form__row">{label: "First name", id: "firstName", name: "firstName", value: json.firstName, placeholder: "", type: "text"}</fest:get>-->
-<!--			<fest:get name="form__row">{label: "Second name", id: "secondName", name: "secondName", value: json.secondName, placeholder: "", type: "text"}</fest:get>-->
-<!--			<fest:get name="form__row">{label: "Nick name", id: "nickName", name: "nickName", value: json.nickName, placeholder: "", type: "text"}</fest:get>-->
-
-<!--			<div class="form__row">-->
-<!--				<div class="form__row__label">-->
-<!--					<label>Avatar</label>-->
-<!--				</div>-->
-<!--				<div class="form__row__widget flex">-->
-<!--					<fest:choose>-->
-<!--						<fest:when test="json.avatar === null">-->
-<!--							<img class="form__row__avatar" src="images/icons/noavatar.svg" alt="avatar"/>-->
-<!--						</fest:when>-->
-<!--						<fest:otherwise>-->
-<!--							<img class="form__row__avatar" src="{json.avatar}" alt="avatar"/>-->
-<!--						</fest:otherwise>-->
-<!--					</fest:choose>-->
-
-<!--					<div class="form__row__avatar__infotext">-->
-<!--						<div class="form__row__note">The size of the uploading photo should be less than 1 MB</div>-->
-<!--						<input class="form__field" name="avatar" value="Upload photo" type="file"/>-->
-<!--						<div class="form__message"/>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-
-<!--			<fest:get name="form__row">{label: "Date of Birth", id: "birthDate", name: "birthDate", value: json.birthDate, placeholder: "dd.mm.yyyy", type: "text"}</fest:get>-->
-
-<!--			<div class="form__row">-->
-<!--				<div class="form__row__label">-->
-<!--					<label>Sex</label>-->
-<!--				</div>-->
-<!--				<div class="form__row__widget">-->
-<!--					<label>-->
-<!--						<input id="male" class="form__sex__radio" name="sex" value="male" type="radio"/>-->
-<!--						male-->
-<!--					</label>-->
-<!--					<label>-->
-<!--						<input id="female" class="form__sex__radio" name="sex" value="female" type="radio"/>-->
-<!--						female-->
-<!--					</label>-->
-<!--					<div class="form__message"/>-->
-<!--				</div>-->
-<!--			</div>-->
-
-<!--			<div class="form__actions">-->
-<!--				<button type="submit" name="save">Save!</button>-->
-<!--				<button name="cancel">Cancel</button>-->
-<!--			</div>-->
-<!--		</form>-->
 </fest:template>
