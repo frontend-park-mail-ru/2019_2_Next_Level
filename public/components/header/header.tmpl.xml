@@ -1,0 +1,31 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<header class="header">
+		<div class="layout">
+			<div class="layout__left layout__left_header">
+				<a class="header__logo-wrap" href="#">
+					<img class="header__logo" src="/images/logo/nlmail.svg" alt="logo"/>
+				</a>
+			</div>
+			<fest:if test="args.authorized === true">
+				<div class="layout__right layout__right_header">
+					<div class="header__search-wrap">
+						<input class="header__search" type="text" placeholder="Search"/>
+					</div>
+					<a class="header__profile-wrap" href="#">
+						<div class="header__profile-name"><fest:value>args.nickName</fest:value></div>
+						<fest:choose>
+							<fest:when test="[null, undefined].includes(args.avatar)">
+								<img class="header__profile-avatar" src="/images/icons/noavatar.svg" alt="avatar"/>
+							</fest:when>
+							<fest:otherwise>
+								<img class="header__profile-avatar" src="{args.avatar}" alt="avatar"/>
+							</fest:otherwise>
+						</fest:choose>
+						<img class="header__profile-arrow" src="/images/icons/arrow.svg" alt="arrow"/>
+						<div class="header__profile-menu"/>
+					</a>
+				</div>
+			</fest:if>
+		</div>
+	</header>
+</fest:template>

@@ -1,0 +1,23 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<form class="form {args.cls}">
+		<div class="form__header">
+			<span class="form__title"><fest:value>args.title</fest:value></span>
+		</div>
+		<div class="form__main">
+			<fest:for iterate="args.rows" index="i">
+				<fest:include context="args.rows[i]" src="__row/form__row.tmpl.xml"/>
+			</fest:for>
+			<div class="form__actions {args.actions.cls}">
+				<fest:for iterate="args.actions.buttons" index="i">
+					<fest:include context="args.actions.buttons[i]" src="__button/form__button.tmpl.xml"/>
+				</fest:for>
+			</div>
+		</div>
+		<fest:if test="Object.keys(args.footer).length !== 0">
+			<div class="form__footer">
+				<span class="form__footer-text"><fest:value>args.footer.text</fest:value></span><br/>
+				<a class="form__footer-link {args.footer.link.cls}" href="{args.footer.link.href}"><fest:value>args.footer.link.text</fest:value></a>
+			</div>
+		</fest:if>
+	</form>
+</fest:template>

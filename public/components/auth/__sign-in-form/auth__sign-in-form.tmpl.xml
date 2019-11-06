@@ -1,0 +1,48 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<fest:script><![CDATA[
+		var args = {
+			cls: 'form_sign-in',
+			title: 'Welcome back!',
+			rows: [
+				{
+					label: 'Login',
+					input: {
+						cls: 'form__input_placeholder-right',
+						type: 'text',
+						id: 'login',
+						name: 'login',
+						placeholder: '@nlmail.ru ',
+					},
+				}, {
+					label: 'Password',
+					input: {
+						type: 'password',
+						id: 'password',
+						name: 'password',
+					},
+				},
+			],
+			actions: {
+				cls: 'form__actions_auth',
+				buttons: [
+					{
+						cls: 'form__button_accent form__button_auth-sign-in',
+						type: 'submit',
+						text: 'Sign in!',
+					},
+				],
+			},
+			footer: {
+				text: 'Have not registered yet?',
+				link: {
+					cls: 'form__footer-link_auth-sign-up',
+					text: 'Join us!',
+					href: '/auth/sign-up',
+				},
+			},
+		};
+	]]></fest:script>
+	<div class="box box_auth">
+		<fest:include context="args" src="../../common/form/form.tmpl.xml"/>
+	</div>
+</fest:template>

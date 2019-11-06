@@ -1,0 +1,9 @@
+.layout__right {
+	box-sizing: border-box;
+	width: 795px;
+}
+
+.layout__right_header {
+	display: flex;
+	justify-content: space-between;
+}

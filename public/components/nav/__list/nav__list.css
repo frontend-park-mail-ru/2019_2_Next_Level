@@ -1,0 +1,8 @@
+@import 'nav__list_2.css';
+
+.nav__list {
+	list-style: none;
+	width: 150px;
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,18 @@
+@import '__center/layout__center.css';
+@import '__left/layout__left.css';
+@import '__right/layout__right.css';
+
+.layout {
+	display: flex;
+	align-items: flex-start;
+	width: 960px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 0 auto;
+}
+
+.layout_main {
+	box-sizing: border-box;
+	padding-top: 30px;
+	height: 100%;
+}

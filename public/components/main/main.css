@@ -1,0 +1,8 @@
+.main {
+	position: absolute;
+	top: 42px;
+	box-sizing: border-box;
+	height: calc(100% - 42px);
+	width: 100%;
+	overflow: auto;
+}

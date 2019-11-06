@@ -1,3 +1,5 @@
+const backend = '';
+
 /**
  * Fetch POST
  * @param   {string} url
@@ -6,7 +8,7 @@
  */
 export const fetchPost = (url, body) => {
 	console.log('fetchPost', url, body);
-	return fetch(url, {
+	return fetch(backend + url, {
 		method: 'POST',
 		headers: {
 			'Accept': 'application/json',
@@ -24,7 +26,7 @@ export const fetchPost = (url, body) => {
  */
 export const fetchGet = url => {
 	console.log('fetchGet', url);
-	return fetch(url, {
+	return fetch(backend + url, {
 		method: 'GET',
 		credentials: 'include',
 	});
@@ -37,7 +39,7 @@ export const fetchGet = url => {
  * @returns {Promise<Response>}
  */
 export const fetchData = (url, formData) => {
-	return fetch(url, {
+	return fetch(backend + url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'multipart/form-data',
@@ -66,4 +68,15 @@ export const jsonizeResponse = response => {
  */
 export const consoleError = error => {
 	console.error(error);
+};
+
+/**
+ * hmm today i will
+ * @param   {Promise<Response>} response
+ * @returns {Promise<Object>}
+ */
+export const jsonize = response => {
+	return response
+		.then(jsonizeResponse)
+		.catch(consoleError);
 };

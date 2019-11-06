@@ -1,0 +1,25 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<!-- TODO: refactor component (leave this as abstract and add new app depended component) -->
+	<nav class="nav">
+		<ul class="nav__list">
+			<li class="nav__list-item">
+				<a href="#">Letters</a>
+				<fest:if test="args.page === 'letters'">
+					<ul class="nav__list nav__list_2">
+						<li class="nav__list-item"><a class="nav__link" href="/letters/inbox" name="inbox">Inbox</a></li>
+						<li class="nav__list-item"><a class="nav__link" href="/letters/sent" name="sent">Sent</a></li>
+					</ul>
+				</fest:if>
+			</li>
+			<li class="nav__list-item">
+				<a class="nav__link" href="#">Settings</a>
+				<fest:if test="args.page === 'settings'">
+					<ul class="nav__list nav__list_2">
+						<li class="nav__list-item"><a class="nav__link" href="/settings/user-info" name="userInfo">User info</a></li>
+						<li class="nav__list-item"><a class="nav__link" href="/settings/security" name="security">Security</a></li>
+					</ul>
+				</fest:if>
+			</li>
+		</ul>
+	</nav>
+</fest:template>

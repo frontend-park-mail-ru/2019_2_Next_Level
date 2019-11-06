@@ -1,0 +1,11 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<div class="form-row">
+		<div class="form-row__label-wrap">
+			<label class="form-row__label" for="{args.input.id}"><fest:value>args.label</fest:value></label>
+		</div>
+		<div class="form-row__widget-wrap">
+			<fest:include context="args.input" src="../__input/form__input.tmpl.xml"/>
+			<div class="form__message form__message_{args.input.name}"/>
+		</div>
+	</div>
+</fest:template>

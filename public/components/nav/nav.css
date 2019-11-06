@@ -1,0 +1,11 @@
+@import '__link/nav__link.css';
+@import '__list/nav__list.css';
+@import '__list-item/nav__list-item.css';
+
+.nav {
+	display: block;
+	width: 150px; /* doesn't work for no reason */
+	margin-right: 15px;
+	font-size: 18px;
+	color: hsl(0, 0%, 30%);
+}

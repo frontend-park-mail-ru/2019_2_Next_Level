@@ -1,0 +1,9 @@
+.layout__left {
+	box-sizing: border-box;
+	width: 165px;
+}
+
+.layout__left_header {
+	height: 42px;
+}
+

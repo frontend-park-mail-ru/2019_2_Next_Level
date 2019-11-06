@@ -1,5 +1,0 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-	<fest:set name="form__button">
-		<button class="form__button" type="{params.type}"><fest:value>params.value</fest:value></button>
-	</fest:set>
-</fest:template>

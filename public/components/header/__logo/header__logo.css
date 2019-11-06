@@ -1,0 +1,13 @@
+.header__logo-wrap {
+	display: block;
+	box-sizing: border-box;
+	width: 165px;
+	height: 42px;
+}
+
+.header__logo {
+	display: block;
+	height: 34px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
