@@ -13,10 +13,19 @@ export default class ApplicationView {
 	constructor(applicationModel) {
 		this.applicationModel = applicationModel;
 
-		eventBus.addEventListener('render:auth-sign-in', this.render);
-		eventBus.addEventListener('render:auth-sign-up', this.render);
-		eventBus.addEventListener('render:settings-user-info', this.render);
-		eventBus.addEventListener('render:settings-security', this.render);
+		addStyleSheetUnsafe('/components/application/application.css');
+
+		[
+			'/auth/sign-in',
+			'/auth/sign-up',
+			'/settings/user-info',
+			'/settings/security',
+			'/messages/compose',
+			'/messages/inbox',
+			'/messages/sent',
+		].forEach(page => {
+			eventBus.addEventListener(`render:${page}`, this.render);
+		});
 	}
 
 	render = () => {
@@ -24,7 +33,6 @@ export default class ApplicationView {
 			return;
 		}
 
-		addStyleSheetUnsafe('components/application/application.css');
 		renderFest(InsertAfterBeginRenderer, 'body', 'components/application/application.tmpl');
 		this.applicationModel.renderState = ApplicationRenderState.Rendered;
 	};

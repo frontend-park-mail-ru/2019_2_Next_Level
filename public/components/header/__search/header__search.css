@@ -17,4 +17,5 @@
 
 .header__search:focus {
 	background-color: #00000011;
+	outline: none;
 }

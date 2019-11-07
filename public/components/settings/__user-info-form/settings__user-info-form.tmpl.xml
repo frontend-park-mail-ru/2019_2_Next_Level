@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
 	<fest:script><![CDATA[
-		var args = {
+		args = {
 			cls: 'form_user-info',
 			title: 'User info',
 			rows: [
@@ -84,11 +84,11 @@
 				cls: 'form__actions_settings',
 				buttons: [
 					{
-						cls: 'form__button_accent',
+						cls: 'form__button_accent form__button_save',
 						type: 'submit',
 						text: 'Save!',
 					}, {
-						cls: '',
+						cls: 'form__button_cancel',
 						type: '',
 						text: 'Cancel',
 					},

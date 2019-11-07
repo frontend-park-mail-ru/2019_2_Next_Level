@@ -15,30 +15,28 @@ export default class SettingsModel {
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 
 		eventBus.addEventListener('settings:user-info-save-button-clicked', this.onUserInfoSaveButtonClicked);
-		eventBus.addEventListener('settings:user-info-cancel-button-clicked', this.onUserInfoCancelButtonClicked);
 		eventBus.addEventListener('settings:security-save-button-clicked', this.onSecuritySaveButtonClicked);
-		eventBus.addEventListener('settings:security-cancel-button-clicked', this.onSecurityCancelButtonClicked);
 	}
 
 	dropRenderState = () => {
 		this.renderState = SettingsRenderState.NotRendered;
 	};
 
-	onAuthorized = ({firstName, secondName, nickName, avatar, birthDate, sex}) => {
-		this.userInfo = {firstName, secondName, nickName, avatar, birthDate, sex};
+	onAuthorized = userInfo => {
+		this.userInfo = userInfo;
 	};
 
 	onNotAuthorized = () => {
 		this.userInfo = {};
 	};
 
-	onUserInfoSaveButtonClicked = ({firstName, secondName, nickName, birthDate, sex}) => {
+	onUserInfoSaveButtonClicked = userInfo => {
 		//
 	};
 
-	onUserInfoCancelButtonClicked = () => {
-		//
-	};
+	// onUserInfoCancelButtonClicked = () => {
+	// 	eventBus.emitEvent('render:settings-user-info');
+	// };
 
 	onSecuritySaveButtonClicked = ({currentPassword, newPassword, newPasswordAgain}) => {
 		//

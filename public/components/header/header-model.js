@@ -24,7 +24,5 @@ export default class HeaderModel {
 		this.userInfo = {
 			authorized: false,
 		};
-
-		console.log(this.userInfo);
 	};
 }

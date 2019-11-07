@@ -1,6 +1,6 @@
 /**
  * Parses search parameters
- * @param   {DOMString} search
+ * @param   {string} search
  * @returns {Object}
  */
 export const parseSearch = search => {

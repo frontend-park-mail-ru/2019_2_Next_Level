@@ -140,12 +140,15 @@ app.get('/api/profile/get', (req, res) => {
 
 	return response(res, {
 		status: 'ok',
-		firstName: users[login].firstName,
-		secondName: users[login].secondName,
-		nickName: users[login].nickName,
-		avatar: users[login].avatar,
-		birthDate: users[login].birthDate,
-		sex: users[login].sex,
+		userInfo: {
+			login: login,
+			firstName: users[login].firstName,
+			secondName: users[login].secondName,
+			nickName: users[login].nickName,
+			avatar: users[login].avatar,
+			birthDate: users[login].birthDate,
+			sex: users[login].sex,
+		},
 	});
 });
 
@@ -165,7 +168,7 @@ app.post('/api/profile/editUserInfo', (req, res) => {
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
-	const {firstName, secondName, nickName, birthDate, sex, avatar} = req.body;
+	const {firstName, secondName, nickName, birthDate, sex, avatar} = req.body.userInfo;
 	console.log(firstName, secondName, nickName, birthDate, sex, avatar);
 
 	const checks = [

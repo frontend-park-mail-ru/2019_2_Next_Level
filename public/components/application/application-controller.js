@@ -18,11 +18,19 @@ export default class ApplicationController {
 		this.headerController = new HeaderController();
 		this.mainController = new MainController();
 
-		router.register('/', (pathname, search) => eventBus.emitEvent('prerender:auth-sing-in', {pathname, search}));
-		router.register('/auth/sign-in', (pathname, search) => eventBus.emitEvent('prerender:auth-sing-in', {pathname, search}));
-		router.register('/auth/sign-up', (pathname, search) => eventBus.emitEvent('prerender:auth-sing-up', {pathname, search}));
-		router.register('/settings/user-info', (pathname, search) => eventBus.emitEvent('prerender:settings-user-info', {pathname, search}));
-		router.register('/settings/security', (pathname, search) => eventBus.emitEvent('prerender:settings-security', {pathname, search}));
+		router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
+
+		[
+			'/auth/sign-in',
+			'/auth/sign-up',
+			'/settings/user-info',
+			'/settings/security',
+			'/messages/compose',
+			'/messages/inbox',
+			'/messages/sent',
+		].forEach(path => {
+			router.register(path, () => eventBus.emitEvent(`prerender:${path}`));
+		});
 	}
 
 	/**

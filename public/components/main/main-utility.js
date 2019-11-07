@@ -2,5 +2,5 @@ export const MainRenderState = {
 	NotRendered: 0,
 	RenderedAuth: 1,
 	RenderedSettings: 2,
-	RenderedLetters: 3,
+	RenderedMessages: 3,
 };

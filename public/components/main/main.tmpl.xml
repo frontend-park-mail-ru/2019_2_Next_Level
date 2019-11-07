@@ -5,7 +5,7 @@
 				<fest:when test="args.page === 'auth'">
 					<div class="layout__center layout__center_auth-wrap"/>
 				</fest:when>
-				<fest:when test="['settings', 'letters'].includes(args.page)">
+				<fest:when test="['settings', 'messages'].includes(args.page)">
 					<div class="layout__left layout__left_nav-wrap"/>
 					<div class="layout__right layout__right_{args.page}-wrap"/>
 				</fest:when>

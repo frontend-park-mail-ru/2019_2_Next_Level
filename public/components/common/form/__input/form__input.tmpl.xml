@@ -22,7 +22,7 @@
 		<fest:when test="args.type === 'avatar'">
 			<fest:choose>
 				<fest:when test="args.src === null">
-					<img class="form__avatar" src="/images/icons/noavatar.svg" alt="avatar"/>
+					<img class="form__avatar" src="/images/icons/no-avatar.svg" alt="avatar"/>
 				</fest:when>
 				<fest:otherwise>
 					<img class="form__avatar" src="{args.src}" alt="avatar"/>

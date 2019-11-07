@@ -11,8 +11,6 @@ export default class MainModel {
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
-
-		eventBus.addEventListener('application:replace-inner',() => this.renderState = MainRenderState.NotRendered);
 	}
 
 	onAuthorized = () => {

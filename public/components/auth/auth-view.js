@@ -9,6 +9,7 @@ import '../../modules/string.js';
 import './__sign-in-form/auth__sign-in-form.tmpl.js';
 import './__sign-up-form/auth__sign-up-form.tmpl.js';
 
+
 export default class AuthView {
 	/**
 	 * @constructor
@@ -19,41 +20,39 @@ export default class AuthView {
 
 		addStyleSheet('/components/common/form/form.css');
 
-		eventBus.addEventListener('render:auth-sign-in', this.prerenderSignIn);
-		eventBus.addEventListener('render:auth-sign-up', this.prerenderSignUp);
-		eventBus.addEventListener('render:settings-user-info', this.authModel.dropRenderState);
-		eventBus.addEventListener('render:settings-security', this.authModel.dropRenderState);
+		[
+			'/settings/user-info',
+			'/settings/security',
+			'/messages/compose',
+			'/messages/inbox',
+			'/messages/sent',
+		].forEach(page => {
+			eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
+		});
+
+		[
+			{
+				page: 'sign-in',
+				renderer: this.renderSignIn,
+				renderState: AuthRenderState.RenderedSignIn,
+			}, {
+				page: 'sign-up',
+				renderer: this.renderSignUp,
+				renderState: AuthRenderState.RenderedSignUp,
+			},
+		].forEach(({page, renderer, renderState}) => {
+			eventBus.addEventListener(`render:/auth/${page}`, partial(this.prerender, renderer, renderState));
+		});
 
 		eventBus.addEventListener('auth:sign-in-validate', this.signInDisplayMessage);
 		eventBus.addEventListener('auth:sign-up-validate', this.signUpDisplayMessage);
 	}
 
-	prerenderSignIn = () => {
-		switch (this.authModel.renderState) {
-		case AuthRenderState.NotRendered:
-		case AuthRenderState.RenderedSignUp:
-			this.renderSignIn();
-			break;
-		case AuthRenderState.RenderedSignIn:
-			break;
-		default:
-			console.error('Unknown AuthRenderState:', this.authModel.renderState);
+	prerender = (renderer, toRenderState) => {
+		if (this.authModel.renderState !== toRenderState) {
+			renderer();
+			this.authModel.renderState = toRenderState;
 		}
-		this.authModel.renderState = AuthRenderState.RenderedSignIn;
-	};
-
-	prerenderSignUp = () => {
-		switch (this.authModel.renderState) {
-		case AuthRenderState.NotRendered:
-		case AuthRenderState.RenderedSignIn:
-			this.renderSignUp();
-			break;
-		case AuthRenderState.RenderedSignUp:
-			break;
-		default:
-			console.error('Unknown AuthRenderState:', this.authModel.renderState);
-		}
-		this.authModel.renderState = AuthRenderState.RenderedSignUp;
 	};
 
 	renderSignIn = () => {

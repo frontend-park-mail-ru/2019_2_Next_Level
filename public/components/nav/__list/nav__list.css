@@ -2,7 +2,7 @@
 
 .nav__list {
 	list-style: none;
-	width: 150px;
+	/*width: 150px; with box_nav it's 130px*/
 	margin: 0;
 	padding: 0;
 }

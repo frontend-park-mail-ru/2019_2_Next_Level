@@ -13,13 +13,13 @@ class Router {
 
 	/**
 	 * @callback RouterCallback
-	 * @param {DOMString} pathname
+	 * @param {string} pathname
 	 * @param {Object} search
 	 */
 
 	/**
 	 * Registers route
-	 * @param   {DOMString} path
+	 * @param   {string} path
 	 * @param   {RouterCallback} callback
 	 * @returns {Router}
 	 */
@@ -87,8 +87,8 @@ class Router {
 	/**
 	 * Opens new url
 	 * @param   {*} data
-	 * @param   {DOMString} title
-	 * @param   {DOMString} url
+	 * @param   {string} title
+	 * @param   {string} url
 	 * @returns {Router}
 	 */
 	routeNew = (data, title, url) => {
@@ -106,8 +106,8 @@ class Router {
 
 	/**
 	 * Routes path
-	 * @param   {DOMString} pathname
-	 * @param   {DOMString} search
+	 * @param   {string} pathname
+	 * @param   {string} search
 	 * @returns {Router}
 	 */
 	route = (pathname, search) => {

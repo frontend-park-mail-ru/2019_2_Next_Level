@@ -13,7 +13,7 @@ class EventBus {
 
 	/**
 	 * Subscribes event listener
-	 * @param   {DOMString} event
+	 * @param   {string} event
 	 * @param   {EventBusCallback} callback
 	 * @returns {EventBus}
 	 */
@@ -24,7 +24,7 @@ class EventBus {
 
 	/**
 	 * Unsubscribes event listener
-	 * @param   {DOMString} event
+	 * @param   {string} event
 	 * @param   {EventBusCallback} callback
 	 * @returns {EventBus}
 	 */
@@ -35,11 +35,11 @@ class EventBus {
 
 	/**
 	 * Dispatches event
-	 * @param   {DOMString} event
+	 * @param   {string} event
 	 * @param   {*} data
 	 * @returns {EventBus}
 	 */
-	emitEvent = (event, data) => {
+	emitEvent = (event, data={}) => {
 		console.log('emit', event, data);
 		(this.listeners[event] || (this.listeners[event] = [])).forEach(callback => callback(data));
 		return this;

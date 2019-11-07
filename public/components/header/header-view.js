@@ -14,20 +14,43 @@ export default class HeaderView {
 	constructor(headerModel) {
 		this.headerModel = headerModel;
 
-		eventBus.addEventListener('render:auth-sign-in', partial(this.render, HeaderRenderState.RenderedNotAuthorized));
-		eventBus.addEventListener('render:auth-sign-up', partial(this.render, HeaderRenderState.RenderedNotAuthorized));
-		eventBus.addEventListener('render:settings-user-info', partial(this.render, HeaderRenderState.RenderedAuthorized));
-		eventBus.addEventListener('render:settings-security', partial(this.render, HeaderRenderState.RenderedAuthorized));
+		addStyleSheetUnsafe('/components/header/header.css');
 
-		addStyleSheetUnsafe('components/header/header.css');
+		[
+			{
+				func: partial(this.prerender, HeaderRenderState.RenderedAuthorized),
+				pages: [
+					'/settings/user-info',
+					'/settings/security',
+					'/messages/compose',
+					'/messages/inbox',
+					'/messages/sent',
+				],
+			}, {
+				func: partial(this.prerender, HeaderRenderState.RenderedNotAuthorized),
+				pages: [
+					'/auth/sign-in',
+					'/auth/sign-up',
+				],
+			},
+		].forEach(({func, pages}) => pages.forEach(page => {
+			eventBus.addEventListener(`render:${page}`, func);
+		}));
 	}
 
-	render = renderState => {
-		if (renderState !== this.headerModel.renderState) {
-			renderFest(ReplaceInnerRenderer, '.application', 'components/header/header.tmpl', this.headerModel.userInfo);
-			eventBus.emitEvent('application:replace-inner');
-
-			this.headerModel.renderState = this.headerModel.userInfo.authorized ? HeaderRenderState.RenderedAuthorized : HeaderRenderState.RenderedNotAuthorized;
+	prerender = toRenderState => {
+		if (this.headerModel.renderState !== toRenderState) {
+			this.render();
+			this.headerModel.renderState = toRenderState;
 		}
+	};
+
+	render = () => {
+		renderFest(
+			ReplaceInnerRenderer,
+			'.application__header-wrap',
+			'components/header/header.tmpl',
+			this.headerModel.userInfo,
+		);
 	};
 }
