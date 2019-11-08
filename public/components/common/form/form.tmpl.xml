@@ -13,7 +13,7 @@
 				</fest:for>
 			</div>
 		</div>
-		<fest:if test="Object.keys(args.footer).length !== 0">
+		<fest:if test="args.footer">
 			<div class="form__footer">
 				<span class="form__footer-text"><fest:value>args.footer.text</fest:value></span><br/>
 				<a class="form__footer-link {args.footer.link.cls}" href="{args.footer.link.href}"><fest:value>args.footer.link.text</fest:value></a>

@@ -30,7 +30,7 @@ export default class ApplicationModel {
 	 * Tries to GET /api/profile/get
 	 */
 	prerender = toRender => {
-		if (this.authorized !== !!/auth/.test(toRender)) {
+		if (this.authorized === !/auth/.test(toRender)) {
 			eventBus.emitEvent(`render:${toRender}`);
 			return;
 		}

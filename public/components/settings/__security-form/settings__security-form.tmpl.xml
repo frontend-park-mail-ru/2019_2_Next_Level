@@ -48,7 +48,6 @@
 						text: 'Save!',
 					}, {
 						cls: 'form__button_cancel',
-						type: '',
 						text: 'Cancel',
 					},
 				],
