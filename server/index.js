@@ -17,7 +17,7 @@ app.use(cookie());
 
 const HttpStatus = require('./http_status');
 const {Errors} = require('./errors.commonjs.inc');
-const {checkName, checkNickName, checkDate, checkSex, checkLogin, checkPassword} = require('./validate.commonjs.inc');
+const {checkName, checkNickName, checkDate, checkSex, checkLogin, checkPassword, checkEmail} = require('./validate.commonjs.inc');
 
 const users = {
 	'user': {
@@ -240,6 +240,45 @@ app.post('/api/profile/editPassword', (req, res) => {
 	}
 
 	users[login].password = newPassword;
+
+	return response(res, {status: 'ok'});
+});
+
+app.post('/api/messages/send',(req, res) => {
+	console.log('/api/messages/send');
+
+	const {session_id} = req.cookies;
+	if (!(session_id in ids)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	// for now it's impossible
+	const login = ids[session_id];
+	if (!login || !(login in users)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	const {to, subject, content} = req.body.message;
+
+	for (let email of to) {
+		if (!checkEmail(email)) {
+			return response(res, jsonizeError(Errors.InvalidEmail));
+		}
+	}
+
+	if (!subject.trim().length) {
+		return response(res, jsonizeError(Errors.EmptySubject));
+	}
+
+	if (!content.trim().length) {
+		return response(res, jsonizeError(Errors.EmptyContent));
+	}
+
+	if (content.length > 1024) {
+		return response(res, jsonizeError(Errors.ContentTooLarge));
+	}
 
 	return response(res, {status: 'ok'});
 });

@@ -3,6 +3,7 @@ import MainView from './main-view.js';
 import AuthController from '../auth/auth-controller.js';
 import NavController from '../nav/nav-controller.js';
 import SettingsController from '../settings/settings-controller.js';
+import MessagesController from '../messages/messages-controller.js';
 
 export default class MainController {
 	/**
@@ -15,6 +16,7 @@ export default class MainController {
 		this.authController = new AuthController();
 		this.navController = new NavController();
 		this.settingsController = new SettingsController();
+		this.messagesController = new MessagesController();
 	}
 
 	// render = () => {

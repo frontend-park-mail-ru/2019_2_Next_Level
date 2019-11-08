@@ -5,4 +5,5 @@
 	height: calc(100% - 42px);
 	width: 100%;
 	overflow: auto;
+	color: hsl(0, 0%, 30%);
 }

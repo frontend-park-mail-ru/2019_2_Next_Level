@@ -2,6 +2,7 @@ import {NavRenderSate} from './nav-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
+import router from '../../modules/router.js';
 import {addStyleSheetUnsafe, addStyleSheet, renderFest} from '../../modules/view-utility.js';
 
 import './nav.tmpl.js';
@@ -54,5 +55,22 @@ export default class NavView {
 
 	render = page => {
 		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page});
+
+		if (page === 'auth') {
+			return;
+		}
+
+		document.querySelector('.actions__button_compose').addEventListener('click', event => {
+			event.preventDefault();
+
+			if (window.location.pathname === '/messages/compose') {
+				if (confirm('The body of your email will be lost.')) {
+					eventBus.emitEvent('rerender:/messages/compose');
+				}
+				return;
+			}
+
+			router.routeNew({}, '', '/messages/compose');
+		});
 	};
 }

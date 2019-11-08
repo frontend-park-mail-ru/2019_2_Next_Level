@@ -1,0 +1,8 @@
+@import '__avatar/compose-head__avatar.css';
+@import '__input/compose-head__input.css';
+@import '__label-wrap/compose-head__label-wrap.css';
+@import '__row/compose-head__row.css';
+
+.compose-head {
+	display: flex;
+}

@@ -33,7 +33,6 @@
 		"linebreak-style": ["error", "unix"],
 		"lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
 		"max-depth": ["warn", 5],
-		"no-alert": "error",
 		"no-case-declarations": "error",
 		"no-div-regex": "error",
 		"no-else-return": "error",

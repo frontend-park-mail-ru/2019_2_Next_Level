@@ -18,6 +18,11 @@ const Errors = {
 	InvalidPassword: {code: 18, msg: 'Invalid password'},
 	UserExists: {code: 19, msg: 'User with this login already exists'},
 	SamePasswords: {code: 20, msg: 'Passwords are same'},
+
+	InvalidEmail: {code: 30, msg: 'Wrong email'},
+	EmptySubject: {code: 31, msg: 'Empty subject'},
+	EmptyContent: {code: 32, msg: 'Empty content'},
+	ContentTooLarge: {code: 33, msg: 'Content too large'},
 };
 
 inc('errors', [{declaration: 'Errors', definition: JSON.stringify(Errors)}]);

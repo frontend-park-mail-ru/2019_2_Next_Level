@@ -15,6 +15,8 @@ const checkDate = date => {
 
 const checkSex = sex => /^(fe)?male$/.test(sex);
 
+const checkEmail = email => /@/.test(email);
+
 inc('validate', [
 	{declaration: 'checkLogin', definition: String(checkLogin)},
 	{declaration: 'checkPassword', definition: String(checkPassword)},
@@ -22,4 +24,5 @@ inc('validate', [
 	{declaration: 'checkNickName', definition: String(checkNickName)},
 	{declaration: 'checkDate', definition: String(checkDate)},
 	{declaration: 'checkSex', definition: String(checkSex)},
+	{declaration: 'checkEmail', definition: String(checkEmail)},
 ]);
