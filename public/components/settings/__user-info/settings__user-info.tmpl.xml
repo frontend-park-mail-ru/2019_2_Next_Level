@@ -1,0 +1,101 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<fest:script><![CDATA[
+		args = {
+			cls: 'form_user-info',
+			title: 'User info',
+			rows: [
+				{
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'First name',
+					input: {
+						cls: 'form__input_first-name',
+						type: 'text',
+						id: 'firstName',
+						name: 'firstName',
+						value: args.firstName,
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'Second name',
+					input: {
+						cls: 'form__input_second-name',
+						type: 'text',
+						id: 'secondName',
+						name: 'secondName',
+						value: args.secondName,
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'Nick name',
+					input: {
+						cls: 'form__input_nick-name',
+						type: 'text',
+						id: 'nickName',
+						name: 'nickName',
+						value: args.nickName,
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings', 'avatar'],
+					label: 'Avatar',
+					input: {
+						cls: 'form__input_avatar',
+						type: 'avatar',
+						id: 'avatar',
+						name: 'avatar',
+						src: args.avatar,
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'Date of Birth',
+					input: {
+						type: 'text',
+						id: 'birthDate',
+						name: 'birthDate',
+						value: args.birthDate,
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'Sex',
+					input: {
+						cls: 'form__input_sex',
+						type: 'radio',
+						name: 'sex',
+						values: [
+							'male',
+							'female',
+						],
+						value: args.sex,
+					},
+				},
+			],
+			actions: {
+				cls: 'form__actions_settings',
+				buttons: [
+					{
+						cls: 'form__button_accent form__button_save',
+						type: 'submit',
+						text: 'Save!',
+					}, {
+						cls: 'form__button_cancel',
+						text: 'Cancel',
+					},
+				],
+			},
+		};
+	]]></fest:script>
+	<div class="box box_settings">
+		<fest:include context="args" src="../../common/form/form.tmpl.xml"/>
+	</div>
+</fest:template>

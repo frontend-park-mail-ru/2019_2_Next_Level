@@ -16,20 +16,18 @@ app.use(body.json());
 app.use(cookie());
 
 const HttpStatus = require('./http_status');
-const Errors = require('../public/modules/errors.commonjs.inc');
+const {Errors} = require('./errors.commonjs.inc');
+const {checkName, checkNickName, checkDate, checkSex, checkLogin, checkPassword, checkEmail} = require('./validate.commonjs.inc');
 
 const users = {
-	'a@nlmail.ru': {
+	'user': {
 		password: 'password',
-		name: 'Ivanov Ivan',
-	},
-	'admin@nlmail.ru': {
-		password: 'admin',
-		name: 'Admin',
-	},
-	'dr@hug.oz': {
-		password: 'pass-go-hw',
-		name: 'Moskovsky Dmitry',
+		firstName: 'Ivan',
+		secondName: 'Ivanov',
+		nickName: 'Ivan Ivanov',
+		avatar: null,
+		birthDate: '01.01.1970',
+		sex: 'male',
 	},
 };
 
@@ -42,132 +40,245 @@ app.listen(port, () => {
 	console.log(`Server listening port ${port}`);
 });
 
-app.post('/api/auth/signup', (req, res) => {
-	console.log('/api/auth/signup');
+const jsonizeError = error => ({status: 'error', error});
+const response = (res, json) => res.status(HttpStatus.OK).json(json);
 
-	const name = req.body.name;
-	const email = req.body.email;
-	const password = req.body.password;
+[
+	'/',
+	'/auth/sign-in',
+	'/auth/sign-up',
+	'/settings/user-info',
+	'/settings/security',
+	'/messages/compose',
+	'/messages/inbox',
+	'/messages/sent',
+].forEach(pathname => app.get(pathname, (req, res) => {
+	res.sendFile(path.join(__dirname, '../public', 'index.html'));
+}));
 
-	if (!_check_name(name)) {
-		console.log(Errors.InvalidName.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.InvalidName});
-	}
+app.get('/api/auth/isAuthorized', (req, res) => {
+	console.log('/api/auth/isAuthorized');
 
-	if (!_check_email(email)) {
-		console.log(Errors.InvalidEmail.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.InvalidEmail});
-	}
-
-	if (!_check_password(password)) {
-		console.log(Errors.InvalidPassword.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.InvalidPassword});
-	}
-
-	if (email in users) {
-		console.log(Errors.UserExists.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.UserExists});
-	}
-
-	users[email] = {name, password};
-
-	return signin(res, email);
-});
-
-app.post('/api/auth/signin', (req, res) => {
-	console.log('/api/auth/signin');
-
-	const email = req.body.email;
-	const password = req.body.password;
-
-	if (!(email in users)) {
-		console.log(Errors.WrongEmail.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.WrongEmail});
-	}
-
-	if (users[email].password !== password) {
-		console.log(Errors.WrongPassword.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.WrongPassword});
-	}
-
-	return signin(res, email);
-});
-
-app.get('/api/auth/signout', (req, res) => {
-	console.log('/api/auth/signout');
-
-	const session_id = req.cookies['user-token'];
+	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
 		console.log(Errors.NotAuthorized.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	return response(res, {status: 'ok'});
+});
+
+app.post('/api/auth/signIn', (req, res) => {
+	console.log('/api/auth/signIn');
+
+	const {login, password} = req.body;
+	if (!(login in users)) {
+		console.log(Errors.WrongLogin.msg);
+		return response(res, jsonizeError(Errors.WrongLogin));
+	}
+
+	if (users[login].password !== password) {
+		console.log(Errors.WrongPassword.msg);
+		return response(res, jsonizeError(Errors.WrongPassword));
+	}
+
+	return signIn(res, login);
+});
+
+const signIn = (res, login) => {
+	console.log('signIn', login);
+
+	const session_id = uuid();
+	ids[session_id] = login;
+
+	res.cookie('session_id', session_id, {expires: new Date(Date.now() + 1000*60*10)});
+	return response(res, {status: 'ok'});
+};
+
+app.post('/api/auth/signUp', (req, res) => {
+	console.log('/api/auth/signUp');
+
+	const {firstName, secondName, birthDate, sex, login, password} = req.body;
+
+	const checks = [
+		{check: checkName, variable: firstName, error: Errors.InvalidFirstName},
+		{check: checkName, variable: secondName, error: Errors.InvalidSecondName},
+		{check: checkDate, variable: birthDate, error: Errors.InvalidBirthDate},
+		{check: checkSex, variable: sex, error: Errors.InvalidSex},
+		{check: checkLogin, variable: login, error: Errors.InvalidLogin},
+		{check: checkPassword, variable: password, error: Errors.InvalidPassword},
+		{check: user => !(user in users), variable: login, error: Errors.UserExists},
+	];
+
+	for (let c of checks) {
+		if (!c.check(c.variable)) {
+			console.log(c.error.msg);
+			return response(res, jsonizeError(c.error));
+		}
+	}
+
+	users[login] = {firstName, secondName, nickName: `${firstName} ${secondName}`, avatar: null, birthDate, sex, password};
+
+	return signIn(res, login);
+});
+
+app.get('/api/auth/signOut', (req, res) => {
+	console.log('/api/auth/signOut');
+
+	const {session_id} = req.cookies;
+	if (!(session_id in ids)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	delete ids[session_id];
-	return res.status(HttpStatus.OK).json({response: 'ok'});
+	return response(res, {status: 'ok'});
 });
 
 app.get('/api/profile/get', (req, res) => {
 	console.log('/api/profile/get');
 
-	const session_id = req.cookies['user-token'];
+	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
 		console.log(Errors.NotAuthorized.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	// for now it's impossible
-	const email = ids[session_id];
-	if (!email || !(email in users)) {
+	const login = ids[session_id];
+	if (!login || !(login in users)) {
 		console.log(Errors.NotAuthorized.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
-	return res.status(HttpStatus.OK).json({email, 'name': users[email]['name']});
+	return response(res, {
+		status: 'ok',
+		userInfo: {
+			login: login,
+			firstName: users[login].firstName,
+			secondName: users[login].secondName,
+			nickName: users[login].nickName,
+			avatar: users[login].avatar,
+			birthDate: users[login].birthDate,
+			sex: users[login].sex,
+		},
+	});
 });
 
-app.post('/api/profile/edit', (req, res) => {
-	console.log('/api/profile/edit');
+app.post('/api/profile/editUserInfo', (req, res) => {
+	console.log('/api/profile/editUserInfo');
 
-	const session_id = req.cookies['user-token'];
+	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
 		console.log(Errors.NotAuthorized.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	// for now it's impossible
-	const email = ids[session_id];
-	if (!email || !(email in users)) {
+	const login = ids[session_id];
+	if (!login || !(login in users)) {
 		console.log(Errors.NotAuthorized.msg);
-		return res.status(HttpStatus.BadRequest).json({error: Errors.NotAuthorized});
+		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
-	const name = req.body.name;
-	const password = req.body.password;
+	const {firstName, secondName, nickName, birthDate, sex, avatar} = req.body.userInfo;
+	console.log(firstName, secondName, nickName, birthDate, sex, avatar);
 
-	if (name) {
-		users[email].name = name;
-	} else if (password) {
-		users[email].password = password;
+	const checks = [
+		{check: checkName, variable: firstName, error: Errors.InvalidFirstName},
+		{check: checkName, variable: secondName, error: Errors.InvalidSecondName},
+		{check: checkNickName, variable: nickName, error: Errors.InvalidNickName},
+		{check: checkDate, variable: birthDate, error: Errors.InvalidBirthDate},
+		{check: checkSex, variable: sex, error: Errors.InvalidSex},
+	];
+
+	for (let c of checks) {
+		if (!c.check(c.variable)) {
+			console.log(c.error.msg);
+			return response(res, jsonizeError(c.error));
+		}
 	}
 
-	return res.status(HttpStatus.OK).json({response: 'ok'});
+	users[login].firstName = firstName;
+	users[login].secondName = secondName;
+	users[login].nickName = nickName;
+	users[login].birthDate = birthDate;
+	users[login].sex = sex;
+
+	return response(res, {status: 'ok'});
 });
 
-const signin = (res, email) => {
-	console.log('signin', email);
+app.post('/api/profile/editPassword', (req, res) => {
+	console.log('/api/profile/editPassword');
 
-	const session_id = uuid();
-	ids[session_id] = email;
+	const {session_id} = req.cookies;
+	if (!(session_id in ids)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
 
-	const ten_minutes = 10;
-	const seconds_in_minute = 60;
-	const milliseconds_in_second = 1000;
-	const ten_minutes_in_milliseconds = ten_minutes * seconds_in_minute * milliseconds_in_second;
+	// for now it's impossible
+	const login = ids[session_id];
+	if (!login || !(login in users)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
 
-	res.cookie('user-token', session_id, {expires: new Date(Date.now() + ten_minutes_in_milliseconds)});
-	return res.status(HttpStatus.OK).json({response: 'ok'});
-};
+	const {currentPassword, newPassword} = req.body;
 
-const _check_name = name => name.split(/\s+/).every(word => /^[a-zA-Z]+$/.test(word));
-const _check_email = email => /\w+@\w+\.[a-z]+/.test(email);
-const _check_password = password => password.match(/^\S{4,}$/);
+	const checks = [
+		{check: pass => pass === users[login].password, variable: currentPassword, error: Errors.WrongPassword},
+		{check: checkPassword, variable: newPassword, error: Errors.InvalidPassword},
+		{check: pass => !(pass === users[login].password), variable: newPassword, error: Errors.SamePasswords},
+	];
+
+	for (let c of checks) {
+		if (!c.check(c.variable)) {
+			console.log(c.error.msg);
+			return response(res, jsonizeError(c.error));
+		}
+	}
+
+	users[login].password = newPassword;
+
+	return response(res, {status: 'ok'});
+});
+
+app.post('/api/messages/send',(req, res) => {
+	console.log('/api/messages/send');
+
+	const {session_id} = req.cookies;
+	if (!(session_id in ids)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	// for now it's impossible
+	const login = ids[session_id];
+	if (!login || !(login in users)) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	const {to, subject, content} = req.body.message;
+
+	for (let email of to) {
+		if (!checkEmail(email)) {
+			return response(res, jsonizeError(Errors.InvalidEmail));
+		}
+	}
+
+	if (!subject.trim().length) {
+		return response(res, jsonizeError(Errors.EmptySubject));
+	}
+
+	if (!content.trim().length) {
+		return response(res, jsonizeError(Errors.EmptyContent));
+	}
+
+	if (content.length > 1024) {
+		return response(res, jsonizeError(Errors.ContentTooLarge));
+	}
+
+	return response(res, {status: 'ok'});
+});

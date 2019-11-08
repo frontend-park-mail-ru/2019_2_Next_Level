@@ -1,0 +1,38 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<fest:choose>
+		<fest:when test="['text', 'password'].includes(args.type)">
+			<input class="form__input form__input_field {args.cls}" type="{args.type}" id="{args.id}" name="{args.name}" placeholder="{args.placeholder}" value="{args.value}" required=""/>
+		</fest:when>
+		<fest:when test="args.type === 'radio'">
+			<fest:for iterate="args.values" index="i">
+				<fest:script><![CDATA[
+					var radioInputId = args.id + args.values[i].capitalize();
+				]]></fest:script>
+				<fest:choose>
+					<fest:when test="args.values[i] === args.value">
+						<input class="form__input form__input_radio {args.cls}" type="radio" id="{radioInputId}" name="{args.name}" value="{args.values[i]}" checked="" required=""/>
+					</fest:when>
+					<fest:otherwise>
+						<input class="form__input form__input_radio {args.cls}" type="radio" id="{radioInputId}" name="{args.name}" value="{args.values[i]}" required=""/>
+					</fest:otherwise>
+				</fest:choose>
+				<label class="form__input_radio-label" for=""><fest:value>args.values[i]</fest:value></label>
+			</fest:for>
+		</fest:when>
+		<fest:when test="args.type === 'avatar'">
+			<fest:choose>
+				<fest:when test="args.src === null">
+					<img class="form__avatar" src="/images/icons/no-avatar.svg" alt="avatar"/>
+				</fest:when>
+				<fest:otherwise>
+					<img class="form__avatar" src="{args.src}" alt="avatar"/>
+				</fest:otherwise>
+			</fest:choose>
+
+			<div class="form__infotext">
+				<div class="form__note">The size of the uploading photo should be less than 1 MB</div>
+				<input class="form__field" name="avatar" value="Upload photo" type="file"/>
+			</div>
+		</fest:when>
+	</fest:choose>
+</fest:template>

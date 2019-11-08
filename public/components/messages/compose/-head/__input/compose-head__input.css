@@ -1,0 +1,9 @@
+.compose-head__input {
+	border: 0;
+	border-bottom: 2px solid lightgrey;
+	width: 560px;
+}
+
+.compose-head__input:focus {
+	outline: none;
+}

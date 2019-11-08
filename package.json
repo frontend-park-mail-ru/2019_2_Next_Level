@@ -7,7 +7,7 @@
     "start": "node server",
     "build": "npm run fest && npm run inc",
     "fest": "fest-build --dir=public",
-    "inc": "node public/modules/errors.js",
+    "inc": "node build/errors.js && node build/validate.js",
     "lint": "eslint --ignore-path .gitignore ."
   },
   "repository": {

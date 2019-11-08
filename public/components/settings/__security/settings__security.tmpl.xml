@@ -1,0 +1,60 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<fest:script><![CDATA[
+		args = {
+			cls: 'form_security',
+			title: 'Security',
+			rows: [
+				{
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'Current password',
+					input: {
+						cls: 'form__input_current-password',
+						type: 'password',
+						id: 'currentPassword',
+						name: 'currentPassword',
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'New password',
+					input: {
+						cls: 'form__input_new-password',
+						type: 'password',
+						id: 'newPassword',
+						name: 'newPassword',
+					},
+				}, {
+					r_modifiers: ['settings'],
+					lw_modifiers: ['settings'],
+					ww_modifiers: ['settings'],
+					label: 'New password again',
+					input: {
+						cls: 'form__input_new-password-again',
+						type: 'password',
+						id: 'newPasswordAgain',
+						name: 'newPasswordAgain',
+					},
+				},
+			],
+			actions: {
+				cls: 'form__actions_settings',
+				buttons: [
+					{
+						cls: 'form__button_accent form__button_save',
+						type: 'submit',
+						text: 'Save!',
+					}, {
+						cls: 'form__button_cancel',
+						text: 'Cancel',
+					},
+				],
+			},
+		};
+	]]></fest:script>
+	<div class="box box_settings">
+		<fest:include context="args" src="../../common/form/form.tmpl.xml"/>
+	</div>
+</fest:template>

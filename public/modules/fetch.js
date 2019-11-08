@@ -1,3 +1,5 @@
+const backend = '';
+
 /**
  * Fetch POST
  * @param   {string} url
@@ -6,7 +8,7 @@
  */
 export const fetchPost = (url, body) => {
 	console.log('fetchPost', url, body);
-	return fetch(url, {
+	return fetch(backend + url, {
 		method: 'POST',
 		headers: {
 			'Accept': 'application/json',
@@ -22,10 +24,59 @@ export const fetchPost = (url, body) => {
  * @param   {string} url
  * @returns {Promise<Response>}
  */
-export const fetchGet = (url) => {
+export const fetchGet = url => {
 	console.log('fetchGet', url);
-	return fetch(url, {
+	return fetch(backend + url, {
 		method: 'GET',
 		credentials: 'include',
 	});
+};
+
+/**
+ * Fetch POST FormData
+ * @param   {string} url
+ * @param   {FormData} formData
+ * @returns {Promise<Response>}
+ */
+export const fetchData = (url, formData) => {
+	return fetch(backend + url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'multipart/form-data',
+		},
+		body: formData,
+		credentials: 'include',
+	});
+};
+
+/**
+ * Converts response to JSON
+ * @param   {Promise<Response>} response
+ * @returns {*|Promise<Object>}
+ */
+export const jsonizeResponse = response => {
+	if (!response.ok) {
+		throw new Error(`Response status is ${response.status}`);
+	}
+
+	return response.json();
+};
+
+/**
+ * Logs error
+ * @param error
+ */
+export const consoleError = error => {
+	console.error(error);
+};
+
+/**
+ * hmm today i will
+ * @param   {Promise<Response>} response
+ * @returns {Promise<Object>}
+ */
+export const jsonize = response => {
+	return response
+		.then(jsonizeResponse)
+		.catch(consoleError);
 };
