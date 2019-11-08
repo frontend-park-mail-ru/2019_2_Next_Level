@@ -20,7 +20,6 @@ export default class AuthModel {
 	};
 
 	onSignInButtonClicked = ({login, password}) => {
-		console.log('onSignInButtonClicked', login, password);
 		const checks = [
 			{check: checkLogin, variable: login, name: 'login', msg: 'Wrong login!'},
 			{check: checkPassword, variable: password, name: 'password', msg: 'Wrong password!'},
@@ -33,28 +32,26 @@ export default class AuthModel {
 			}
 		}
 
-		jsonize(fetchPost('/api/auth/signIn', {login, password}))
-			.then(response => {
-				if (response.status === 'ok') {
-					eventBus.emitEvent('auth:authorized');
-					return;
-				}
+		jsonize(fetchPost('/api/auth/signIn', {login, password})).then(response => {
+			if (response.status === 'ok') {
+				eventBus.emitEvent('auth:authorized');
+				return;
+			}
 
-				let inputName = '';
-				switch (response.error.code) {
-				case Errors.WrongLogin.code:
-					inputName = 'login';
-					break;
-				case Errors.WrongPassword.code:
-					inputName = 'password';
-					break;
-				default:
-					console.error('Unknown response:', response);
-					return;
-				}
-				eventBus.emitEvent('auth:sign-in-validate', {inputName, message: response.error.msg});
-			})
-			.catch(consoleError);
+			let inputName = '';
+			switch (response.error.code) {
+			case Errors.WrongLogin.code:
+				inputName = 'login';
+				break;
+			case Errors.WrongPassword.code:
+				inputName = 'password';
+				break;
+			default:
+				console.error('Unknown response:', response);
+				return;
+			}
+			eventBus.emitEvent('auth:sign-in-validate', {inputName, message: response.error.msg});
+		}).catch(consoleError);
 	};
 
 	onSignUpButtonClicked = ({firstName, secondName, birthDate, sex, login, password}) => {
@@ -73,37 +70,35 @@ export default class AuthModel {
 			}
 		}
 
-		jsonize(fetchPost('/api/auth/signUp', {firstName, secondName, birthDate, sex, login, password}))
-			.then(response => {
-				if (response.status === 'ok') {
-					eventBus.emitEvent('auth:authorized');
-					return;
-				}
+		jsonize(fetchPost('/api/auth/signUp', {firstName, secondName, birthDate, sex, login, password})).then(response => {
+			if (response.status === 'ok') {
+				eventBus.emitEvent('auth:authorized');
+				return;
+			}
 
-				let inputName = '';
-				switch (response.error.code) {
-				case Errors.InvalidLogin.code:
-				case Errors.UserExists.code:
-					inputName = 'login';
-					break;
-				case Errors.InvalidPassword.code:
-					inputName = 'password';
-					break;
-				case Errors.InvalidFirstName.code:
-					inputName = 'firstName';
-					break;
-				case Errors.InvalidSecondName.code:
-					inputName = 'secondName';
-					break;
-				case Errors.InvalidBirthDate.code:
-					inputName = 'birthDate';
-					break;
-				default:
-					console.error('Unknown response:', response);
-					return;
-				}
-				eventBus.emitEvent('auth:sign-up-validate', {inputName, message: response.error.msg});
-			})
-			.catch(consoleError);
+			let inputName = '';
+			switch (response.error.code) {
+			case Errors.InvalidLogin.code:
+			case Errors.UserExists.code:
+				inputName = 'login';
+				break;
+			case Errors.InvalidPassword.code:
+				inputName = 'password';
+				break;
+			case Errors.InvalidFirstName.code:
+				inputName = 'firstName';
+				break;
+			case Errors.InvalidSecondName.code:
+				inputName = 'secondName';
+				break;
+			case Errors.InvalidBirthDate.code:
+				inputName = 'birthDate';
+				break;
+			default:
+				console.error('Unknown response:', response);
+				return;
+			}
+			eventBus.emitEvent('auth:sign-up-validate', {inputName, message: response.error.msg});
+		}).catch(consoleError);
 	};
 }

@@ -7,7 +7,7 @@
 		<div class="box box_nav">
 			<ul class="nav__list">
 				<li class="nav__list-item">
-					<a href="#">Messages</a>
+					<a href="/messages/inbox">Messages</a>
 					<fest:if test="args.page === 'messages'">
 						<ul class="nav__list nav__list_2">
 							<li class="nav__list-item"><a class="nav__link" href="/messages/inbox" name="inbox">Inbox</a></li>
@@ -16,7 +16,7 @@
 					</fest:if>
 				</li>
 				<li class="nav__list-item">
-					<a class="nav__link" href="#">Settings</a>
+					<a class="nav__link" href="/settings/user-info">Settings</a>
 					<fest:if test="args.page === 'settings'">
 						<ul class="nav__list nav__list_2">
 							<li class="nav__list-item"><a class="nav__link" href="/settings/user-info" name="userInfo">User info</a></li>

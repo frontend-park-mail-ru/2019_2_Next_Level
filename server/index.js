@@ -43,6 +43,19 @@ app.listen(port, () => {
 const jsonizeError = error => ({status: 'error', error});
 const response = (res, json) => res.status(HttpStatus.OK).json(json);
 
+[
+	'/',
+	'/auth/sign-in',
+	'/auth/sign-up',
+	'/settings/user-info',
+	'/settings/security',
+	'/messages/compose',
+	'/messages/inbox',
+	'/messages/sent',
+].forEach(pathname => app.get(pathname, (req, res) => {
+	res.sendFile(path.join(__dirname, '../public', 'index.html'));
+}));
+
 app.get('/api/auth/isAuthorized', (req, res) => {
 	console.log('/api/auth/isAuthorized');
 

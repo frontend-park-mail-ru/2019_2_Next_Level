@@ -1,8 +1,8 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
 	<fest:script><![CDATA[
 		args = {
-			cls: 'form_user-info',
-			title: 'User info',
+			cls: 'form_security',
+			title: 'Security',
 			rows: [
 				{
 					r_modifiers: ['settings'],

@@ -1,13 +1,12 @@
 import {AuthRenderState} from './auth-utility.js';
-import Form from '../common/form/form.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {renderFest, addStyleSheet} from '../../modules/view-utility.js';
+import {renderFest, addStyleSheet, abstractDisplayMessage} from '../../modules/view-utility.js';
 
 import '../../modules/string.js';
-import './__sign-in-form/auth__sign-in-form.tmpl.js';
-import './__sign-up-form/auth__sign-up-form.tmpl.js';
+import './__sign-in/auth__sign-in.tmpl.js';
+import './__sign-up/auth__sign-up.tmpl.js';
 
 
 export default class AuthView {
@@ -59,7 +58,7 @@ export default class AuthView {
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__center_auth-wrap',
-			'components/auth/__sign-in-form/auth__sign-in-form.tmpl',
+			'components/auth/__sign-in/auth__sign-in.tmpl',
 		);
 
 		const form = document.querySelector('.form_sign-in');
@@ -77,7 +76,7 @@ export default class AuthView {
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__center_auth-wrap',
-			'components/auth/__sign-up-form/auth__sign-up-form.tmpl',
+			'components/auth/__sign-up/auth__sign-up.tmpl',
 		);
 
 		const form = document.querySelector('.form_sign-up');
@@ -95,21 +94,12 @@ export default class AuthView {
 		});
 	};
 
-	abstractDisplayMessage = (inputs, {inputName, message}) => {
-		console.log('abstractDisplayMessage', inputs, inputName, message);
-		inputs.forEach(input => {
-			Form.displayMessage(input, '');
-		});
-
-		Form.displayMessage(inputName, message);
-	};
-
-	signInDisplayMessage = partial(this.abstractDisplayMessage, [
+	signInDisplayMessage = partial(abstractDisplayMessage, [
 		'login',
 		'password',
 	]);
 
-	signUpDisplayMessage = partial(this.abstractDisplayMessage, [
+	signUpDisplayMessage = partial(abstractDisplayMessage, [
 		'firstName',
 		'secondName',
 		'birthDate',

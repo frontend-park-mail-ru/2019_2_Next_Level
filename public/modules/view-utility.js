@@ -1,4 +1,5 @@
 import eventBus from './event-bus.js';
+import Form from '../components/common/form/form.js';
 
 /**
  * Adds event listener to element that emits event to event bus
@@ -44,4 +45,19 @@ export const addStyleSheet = href => {
 	if (!document.querySelector(`head link[href="${href}"]`)) {
 		addStyleSheetUnsafe(href);
 	}
+};
+
+/**
+ * Displays selected form__message (and clears others)
+ * @param {[string]} inputs
+ * @param {string} inputName
+ * @param {string} message
+ */
+export const abstractDisplayMessage = (inputs, {inputName, message}) => {
+	console.log('abstractDisplayMessage', inputs, inputName, message);
+	inputs.forEach(input => {
+		Form.displayMessage(input, '');
+	});
+
+	Form.displayMessage(inputName, message);
 };
