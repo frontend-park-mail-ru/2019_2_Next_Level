@@ -3,6 +3,8 @@
 		<div class="actions">
 			<button class="actions__button actions__button_select"><input type="checkbox"/></button>
 			<button class="actions__button actions__button_delete">Delete</button>
+			<button class="actions__button actions__button_read">Read</button>
+			<button class="actions__button actions__button_unread">Unread</button>
 		</div>
 		<div class="box box_datalist">
 			<div class="datalist datalist_{args.page}">

@@ -104,6 +104,41 @@ export default class MessagesView {
 			'components/messages/datalist/datalist.tmpl',
 			{page: 'inbox', messages: this.messagesModel.inbox.messages},
 		);
+
+		const checkboxes = document.querySelectorAll('.datalist-item__checkbox');
+
+		const selectAll = document.querySelector('.actions__button_select input');
+		selectAll.addEventListener('click', event => {
+			event.stopPropagation();
+			this.checkAll(checkboxes, selectAll.checked);
+		});
+
+		document.querySelector('.actions__button_select').addEventListener('click', event => {
+			event.preventDefault();
+			selectAll.checked = !selectAll.checked;
+			this.checkAll(checkboxes, selectAll.checked);
+		});
+
+		checkboxes.forEach(checkbox => checkbox.addEventListener('click', event => {
+			if (checkbox.checked) {
+				selectAll.checked = true;
+			} else if (!this.anyChecked(checkboxes)) {
+				selectAll.checked = false;
+			}
+		}));
+	};
+
+	checkAll = (checkboxes, checked) => {
+		checkboxes.forEach(checkbox => checkbox.checked = checked);
+	};
+
+	anyChecked = checkboxes => {
+		for (let checkbox of checkboxes) {
+			if (checkbox.checked) {
+				return true;
+			}
+		}
+		return false;
 	};
 
 	renderSent = () => {
