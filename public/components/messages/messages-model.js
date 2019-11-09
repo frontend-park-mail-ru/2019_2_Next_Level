@@ -13,8 +13,47 @@ export default class MessagesModel {
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
+		eventBus.addEventListener('application:inbox', this.onInbox);
+		eventBus.addEventListener('application:sent', this.onSent);
 
-		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked)
+		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked);
+
+		this.inbox = {
+			// pagesCount: 1,
+			// page: 1,
+			messages: [
+				{
+					read: false,
+					addr: 'Google',
+					subject: 'Subject',
+					content: 'Content content content Content content content Content content content Content content content...',
+					date: '13:05',
+				}, {
+					read: false,
+					addr: 'Google',
+					subject: 'Subject a bit longer',
+					content: 'Content content content Content content content Content content content Content content content...',
+					date: 'Nov 7',
+				}, {
+					read: false,
+					addr: 'Instagram',
+					subject: 'Subject hmmmmmmmmmmmmm',
+					content: 'Sooooooo oconton asldk falksdjfla jsdl jalskdjf laksjdfl kajsdlkf jasldkj',
+					date: 'Dec 28',
+				}, {
+					read: false,
+					addr: 'long long long long long long long',
+					subject: 'Today i willl hmm hmmm hmmmmmmm hmmmmmmmm hmmmmmmm htmmmm',
+					content: 'COnntetnn',
+					date: '10/10/2010',
+				},
+			],
+		};
+		this.sent = {
+			// pagesCount: 1,
+			// page: 1,
+			messages: [],
+		};
 	}
 
 	dropRenderState = () => {
@@ -29,9 +68,14 @@ export default class MessagesModel {
 		this.dropRenderState();
 
 		this.userInfo = {};
-		this.pagesCount = undefined;
-		this.page = undefined;
-		this.messages = undefined;
+	};
+
+	onInbox = inbox => {
+		this.inbox = inbox;
+	};
+
+	onSent = sent => {
+		this.sent = sent;
 	};
 
 	onComposeSendButtonClicked = ({to, subject, content}) => {
@@ -75,6 +119,4 @@ export default class MessagesModel {
 			}
 		}).catch(consoleError);
 	};
-
-
 }

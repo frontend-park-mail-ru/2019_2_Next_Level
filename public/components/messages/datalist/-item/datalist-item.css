@@ -1,0 +1,24 @@
+@import '__addr/datalist-item__addr.css';
+@import '__addr-wrap/datalist-item__addr-wrap.css';
+@import '__checkbox/datalist-item__checkbox.css';
+@import '__checkbox-wrap/datalist-item__checkbox-wrap.css';
+@import '__content/datalist-item__content.css';
+@import '__date/datalist-item__date.css';
+@import '__date-wrap/datalist-item__date-wrap.css';
+@import '__icon/datalist-item__icon.css';
+@import '__icon-wrap/datalist-item__icon-wrap.css';
+@import '__message-wrap/datalist-item__message-wrap.css';
+@import '__status/datalist-item__status.css';
+@import '__status-wrap/datalist-item__status-wrap.css';
+@import '__subject/datalist-item__subject.css';
+
+.datalist-item {
+	display: flex;
+	height: 36px;
+	border-bottom: 1px solid rgb(210, 210, 210);
+	font-size: 15px;
+}
+
+.datalist-item:first-of-type {
+	border-top: 1px solid rgb(210, 210, 210);
+}

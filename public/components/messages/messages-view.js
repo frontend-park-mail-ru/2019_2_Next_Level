@@ -5,6 +5,8 @@ import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 
 import './compose/compose.tmpl.js';
+import './datalist/datalist.tmpl.js';
+import './datalist/-item/datalist-item.tmpl.js';
 
 export default class MessagesView {
 	/**
@@ -95,18 +97,21 @@ export default class MessagesView {
 	};
 
 	renderInbox = () => {
+		console.log(this.messagesModel.inbox);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
-			'components/messages/inbox/inbox.tmpl',
+			'components/messages/datalist/datalist.tmpl',
+			{page: 'inbox', messages: this.messagesModel.inbox.messages},
 		);
 	};
 
 	renderSent = () => {
-		renderFest(
-			ReplaceInnerRenderer,
-			'.layout__right_messages-wrap',
-			'components/messages/sent/sent.tmpl',
-		);
+		// renderFest(
+		// 	ReplaceInnerRenderer,
+		// 	'.layout__right_messages-wrap',
+		// 	'components/messages/datalist/datalist.tmpl',
+		// 	{page: 'sent', messages: this.messagesModel.sent},
+		// );
 	};
 }

@@ -1,0 +1,10 @@
+.datalist-item__message-wrap {
+	/*flex-grow: 1;*/
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 36px;
+	width: 475px;
+	margin-right: 10px;
+}
+

@@ -1,0 +1,8 @@
+.datalist-item__subject {
+	color: black;
+}
+
+.datalist-item__subject::after {
+	content: "    ";
+	white-space: pre;
+}
