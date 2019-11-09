@@ -6,10 +6,10 @@
 		<div class="datalist-item__status-wrap">
 			<fest:choose>
 				<fest:when test="args.read">
-					<button class="datalist-item__status datalist-item__status_read">&#9675;</button>
+					<button class="datalist-item__status datalist-item__status_read"/>
 				</fest:when>
 				<fest:otherwise>
-					<button class="datalist-item__status datalist-item__status_unread">&#9679;</button>
+					<button class="datalist-item__status datalist-item__status_unread"/>
 				</fest:otherwise>
 			</fest:choose>
 		</div>

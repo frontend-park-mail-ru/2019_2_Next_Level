@@ -97,7 +97,6 @@ export default class MessagesView {
 	};
 
 	renderInbox = () => {
-		console.log(this.messagesModel.inbox);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
@@ -125,6 +124,12 @@ export default class MessagesView {
 			} else if (!this.anyChecked(checkboxes)) {
 				selectAll.checked = false;
 			}
+		}));
+
+		document.querySelectorAll('.datalist-item__status').forEach(button => button.addEventListener('click', event => {
+			event.preventDefault();
+			button.classList.toggle('datalist-item__status_read');
+			button.classList.toggle('datalist-item__status_unread');
 		}));
 	};
 

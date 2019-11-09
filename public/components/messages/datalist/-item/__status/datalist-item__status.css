@@ -1,3 +1,6 @@
+@import 'datalist-item__status_read.css';
+@import 'datalist-item__status_unread.css';
+
 .datalist-item__status {
 	color: rgb(99, 161, 238);
 	background-color: white;
@@ -12,4 +15,8 @@
 
 .datalist-item__status:hover {
 	color: rgb(50, 50, 255);
+}
+
+.datalist-item__status:focus {
+	outline: none;
 }
