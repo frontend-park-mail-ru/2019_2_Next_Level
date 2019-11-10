@@ -1,0 +1,4 @@
+.layout__right_header {
+	display: flex;
+	justify-content: space-between;
+}

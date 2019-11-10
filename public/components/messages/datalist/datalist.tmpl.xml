@@ -1,5 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<form class="form_{args.page}">
+	<div class="form_{args.page}">
 		<div class="actions">
 			<button class="actions__button actions__button_select"><input type="checkbox"/></button>
 			<button class="actions__button actions__button_delete">Delete</button>
@@ -23,5 +23,5 @@
 				</fest:choose>
 			</div>
 		</div>
-	</form>
+	</div>
 </fest:template>
