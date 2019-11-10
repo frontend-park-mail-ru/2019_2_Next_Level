@@ -1,15 +1,15 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<div class="datalist-item">
+	<div class="datalist-item datalist-item_id{args.id}">
 		<div class="datalist-item__checkbox-wrap">
 			<input class="datalist-item__checkbox" type="checkbox"/>
 		</div>
 		<div class="datalist-item__status-wrap">
 			<fest:choose>
 				<fest:when test="args.read">
-					<button class="datalist-item__status datalist-item__status_read"/>
+					<button class="datalist-item__status datalist-item__status_read datalist-item__status_id{args.id}"/>
 				</fest:when>
 				<fest:otherwise>
-					<button class="datalist-item__status datalist-item__status_unread"/>
+					<button class="datalist-item__status datalist-item__status_unread datalist-item__status_id{args.id}"/>
 				</fest:otherwise>
 			</fest:choose>
 		</div>
@@ -17,7 +17,16 @@
 			<img class="datalist-item__icon" src="/images/icons/no-avatar.svg"/>
 		</div>
 		<div class="datalist-item__addr-wrap">
-			<div class="datalist-item__addr"><fest:value>args.addr</fest:value></div>
+			<div class="datalist-item__addr">
+				<fest:choose>
+					<fest:when test="args.from.name">
+						<fest:value>args.from.name</fest:value>
+					</fest:when>
+					<fest:otherwise>
+						<fest:value>args.from.email</fest:value>
+					</fest:otherwise>
+				</fest:choose>
+			</div>
 		</div>
 		<div class="datalist-item__message-wrap">
 			<span class="datalist-item__subject"><fest:value>args.subject</fest:value></span>

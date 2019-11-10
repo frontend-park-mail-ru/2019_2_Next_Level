@@ -1,81 +1,82 @@
 import {MessagesRenderState} from './messages-utility.js';
 import {Errors} from '../../modules/errors.es6.inc.js';
 import eventBus from '../../modules/event-bus.js';
+import {jsonize, fetchGetWithParams, fetchPost, consoleError} from '../../modules/fetch.js';
+import {partial} from '../../modules/partial.js';
 import {checkEmail} from '../../modules/validate.es6.inc.js';
-import {jsonize, fetchPost, consoleError} from '../../modules/fetch.js';
 
 export default class MessagesModel {
 	/**
 	 * @constructor
 	 */
 	constructor() {
-		this.dropRenderState();
+		this.onNotAuthorized();
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
-		eventBus.addEventListener('application:inbox', this.onInbox);
-		eventBus.addEventListener('application:sent', this.onSent);
 
 		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked);
-
-		this.inbox = {
-			// pagesCount: 1,
-			// page: 1,
-			messages: [
-				{
-					read: false,
-					addr: 'Google',
-					subject: 'Subject',
-					content: 'Content content content Content content content Content content content Content content content...',
-					date: '13:05',
-				}, {
-					read: false,
-					addr: 'Google',
-					subject: 'Subject a bit longer',
-					content: 'Content content content Content content content Content content content Content content content...',
-					date: 'Nov 7',
-				}, {
-					read: false,
-					addr: 'Instagram',
-					subject: 'Subject hmmmmmmmmmmmmm',
-					content: 'Sooooooo oconton asldk falksdjfla jsdl jalskdjf laksjdfl kajsdlkf jasldkj',
-					date: 'Dec 28',
-				}, {
-					read: false,
-					addr: 'long long long long long long long',
-					subject: 'Today i willl hmm hmmm hmmmmmmm hmmmmmmmm hmmmmmmm htmmmm',
-					content: 'COnntetnn',
-					date: '10/10/2010',
-				},
-			],
-		};
-		this.sent = {
-			// pagesCount: 1,
-			// page: 1,
-			messages: [],
-		};
 	}
 
 	dropRenderState = () => {
 		this.renderState = MessagesRenderState.NotRendered;
 	};
 
+	loadFolder = folder => {
+		jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage: 25, page: 1, folder})).then(response => {
+			if (response.status === 'ok') {
+				this.folders[folder].messages = response.messages;
+				const now = new Date();
+				this.folders[folder].messages.forEach(message => {
+					const d = new Date(message.date);
+					if (d.getFullYear() === now.getFullYear()) {
+						if (d.getMonth() === now.getMonth() && d.getDate() === now.getDate()) {
+							message.date = `${d.getHours()}:${d.getMinutes()}`;
+						} else {
+							const dateString = d.toDateString().split(' ');
+							message.date = `${dateString[1]} ${dateString[2]}`;
+						}
+					} else {
+						message.date = d.toLocaleDateString('ru-RU');
+					}
+				});
+				eventBus.emitEvent(`messages:${folder}-loaded`);
+				return;
+			}
+			console.error(response);
+		}).catch(consoleError);
+	};
+
+	loadInbox = partial(this.loadFolder, 'inbox');
+	loadSent = partial(this.loadFolder, 'sent');
+
 	onAuthorized = userInfo => {
 		this.userInfo = userInfo;
+
+		this.loadInbox();
+		this.loadSent();
 	};
 
 	onNotAuthorized = () => {
 		this.dropRenderState();
 
 		this.userInfo = {};
+		this.folders = {
+			inbox: {
+				messages: [],
+			},
+			sent: {
+				messages: [],
+			},
+		};
 	};
 
 	onInbox = inbox => {
-		this.inbox = inbox;
+		this.folders.inbox = inbox;
 	};
 
 	onSent = sent => {
-		this.sent = sent;
+		this.folders.sent = sent;
 	};
 
 	onComposeSendButtonClicked = ({to, subject, content}) => {

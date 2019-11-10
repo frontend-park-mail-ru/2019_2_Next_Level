@@ -17,7 +17,7 @@ app.use(cookie());
 
 const HttpStatus = require('./http_status');
 const {Errors} = require('./errors.commonjs.inc');
-const {checkName, checkNickName, checkDate, checkSex, checkLogin, checkPassword, checkEmail} = require('./validate.commonjs.inc');
+const {checkName, checkNickName, checkDate, checkSex, checkLogin, checkPassword, checkEmail, checkFolder} = require('./validate.commonjs.inc');
 
 const users = {
 	'user': {
@@ -135,18 +135,26 @@ app.get('/api/auth/signOut', (req, res) => {
 	return response(res, {status: 'ok'});
 });
 
-app.get('/api/profile/get', (req, res) => {
-	console.log('/api/profile/get');
-
+const auth = req => {
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
-		console.log(Errors.NotAuthorized.msg);
-		return response(res, jsonizeError(Errors.NotAuthorized));
+		return false;
 	}
 
 	// for now it's impossible
 	const login = ids[session_id];
 	if (!login || !(login in users)) {
+		return false;
+	}
+
+	return login;
+};
+
+app.get('/api/profile/get', (req, res) => {
+	console.log('/api/profile/get');
+
+	const login = auth(req);
+	if (!login) {
 		console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
@@ -168,15 +176,8 @@ app.get('/api/profile/get', (req, res) => {
 app.post('/api/profile/editUserInfo', (req, res) => {
 	console.log('/api/profile/editUserInfo');
 
-	const {session_id} = req.cookies;
-	if (!(session_id in ids)) {
-		console.log(Errors.NotAuthorized.msg);
-		return response(res, jsonizeError(Errors.NotAuthorized));
-	}
-
-	// for now it's impossible
-	const login = ids[session_id];
-	if (!login || !(login in users)) {
+	const login = auth(req);
+	if (!login) {
 		console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
@@ -211,15 +212,8 @@ app.post('/api/profile/editUserInfo', (req, res) => {
 app.post('/api/profile/editPassword', (req, res) => {
 	console.log('/api/profile/editPassword');
 
-	const {session_id} = req.cookies;
-	if (!(session_id in ids)) {
-		console.log(Errors.NotAuthorized.msg);
-		return response(res, jsonizeError(Errors.NotAuthorized));
-	}
-
-	// for now it's impossible
-	const login = ids[session_id];
-	if (!login || !(login in users)) {
+	const login = auth(req);
+	if (!login) {
 		console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
@@ -244,18 +238,146 @@ app.post('/api/profile/editPassword', (req, res) => {
 	return response(res, {status: 'ok'});
 });
 
-app.post('/api/messages/send',(req, res) => {
-	console.log('/api/messages/send');
+const messages = {
+	'user': [
+		{
+			id: 1,
+			folder: 'inbox',
+			read: false,
+			from: {
+				name: 'long long long long long long long',
+				email: 'pop@pop.ru',
+			},
+			subject: 'Today i willl hmm hmmm hmmmmmmm hmmmmmmmm hmmmmmmm htmmmm',
+			content: 'COnntetnn',
+			date: (new Date(2010, 9, 10, 10, 10, 12)).toISOString(),
+			deleted: false,
+		}, {
+			id: 2,
+			folder: 'inbox',
+			read: false,
+			from: {
+				name: 'Instagram',
+				email: 'i@nstagra.m',
+			},
+			subject: 'Subject hmmmmmmmmmmmmm',
+			content: 'Sooooooo oconton asldk falksdjfla jsdl jalskdjf laksjdfl kajsdlkf jasldkj',
+			date: (new Date(2019, 9, 28, 11, 12, 12)).toISOString(),
+			deleted: false,
+		}, {
+			id: 3,
+			folder: 'inbox',
+			read: false,
+			from: {
+				name: 'Google',
+				email: 'google@gmail.com',
+			},
+			subject: 'Subject a bit longer',
+			content: 'Content content content Content content content Content content content Content content content...',
+			date: (new Date(2019, 10, 7, 16,23, 12)).toISOString(),
+			deleted: false,
+		}, {
+			id: 4,
+			folder: 'inbox',
+			read: false,
+			from: {
+				name: 'Google',
+				email: 'google@gmail.com',
+			},
+			subject: 'Subject',
+			content: 'Content content content Content content content Content content content Content content content...',
+			date: (new Date()).toISOString(),
+			deleted: false,
+		}, {
+			id: 5,
+			folder: 'sent',
+			read: true,
+			to: [
+				'pop@mail.ru',
+				'kek@kek.ek',
+			],
+			from: {
+				email: 'user@nlmail.ru',
+			},
+			subject: 'git stash',
+			content: 'git stash pop',
+			date: (new Date()).toISOString(),
+			deleted: false,
+		},
+	],
+};
 
-	const {session_id} = req.cookies;
-	if (!(session_id in ids)) {
+var SERIAL = 6;
+
+app.get('/api/messages/getUnreadCount', (req, res) => {
+	console.log('/api/messages/getUnreadCount');
+
+	const login = auth(req);
+	if (!login) {
 		console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
-	// for now it's impossible
-	const login = ids[session_id];
-	if (!login || !(login in users)) {
+	const {folder} = req.body;
+
+	if (!checkFolder(folder)) {
+		console.log(Errors.InvalidFolder.msg);
+		return response(res, jsonizeError(Errors.InvalidFolder));
+	}
+
+	const msgs = messages[login] || (messages[login] = []);
+	const count = msgs.filter(msg => msg.folder === folder && !msg.read && !msg.deleted).length;
+	return response(res, {status: 'ok', count});
+});
+
+app.get('/api/messages/get', (req, res) => {
+	console.log('/api/messages/get');
+
+	const login = auth(req);
+	if (!login) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	const {id} = req.body;
+
+	const msgs = messages[login] || (messages[login] = []);
+	const msg = msgs.filter(msg => msg.id === id);
+	if (!msg.length) {
+		console.error(Errors.WrongMessage.msg);
+		return response(res, jsonizeError(Errors.WrongMessage));
+	}
+	const message = msg[0];
+	return response(res, {status: 'ok', message});
+});
+
+app.get('/api/messages/getByPage', (req, res) => {
+	console.log('/api/messages/getByPage');
+
+	const login = auth(req);
+	if (!login) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	// const {perPage, page, folder} = req.body;
+	const {folder} = req.query;
+	if (!checkFolder(folder)) {
+		console.log(Errors.InvalidFolder.msg);
+		return response(res, jsonizeError(Errors.InvalidFolder));
+	}
+
+	const msgs = messages[login] || (messages[login] = []);
+	const mf = msgs.filter(msg => msg.folder === folder);
+	mf.reverse();
+	return response(res, {status: 'ok', 'messages': mf, page: 1, pageCount: 1});
+});
+
+app.post('/api/messages/send', (req, res) => {
+	console.log('/api/messages/send');
+
+	const login = auth(req);
+	if (!login) {
 		console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
@@ -280,5 +402,51 @@ app.post('/api/messages/send',(req, res) => {
 		return response(res, jsonizeError(Errors.ContentTooLarge));
 	}
 
+	messages[login].push({
+		id: SERIAL,
+		folder: 'sent',
+		read: true,
+		to,
+		from: {
+			name: users[login].nickName,
+			email: `${login}@nlmail.ru`,
+		},
+		subject,
+		content,
+		date: (new Date()).toISOString(),
+		deleted: false,
+	});
+
+	++SERIAL;
+
 	return response(res, {status: 'ok'});
 });
+
+const abstractReadUnreadRemoveCallback = (field, value, req, res) => {
+	console.log('abstractReadUnreadRemoveCallback', field, value);
+
+	const login = auth(req);
+	if (!login) {
+		console.log(Errors.NotAuthorized.msg);
+		return response(res, jsonizeError(Errors.NotAuthorized));
+	}
+
+	const ids = req.body.messages;
+	messages[login].forEach(msg => {
+		if (ids.includes(msg.id)) {
+			msg[field] = value;
+		}
+	});
+
+	return response(res, {status: 'ok'});
+};
+
+function partial(func, ...argsBound) {
+	return function(...args) {
+		return func.call(this, ...argsBound, ...args);
+	};
+}
+
+app.post('/api/messages/read', partial(abstractReadUnreadRemoveCallback, 'read', true));
+app.post('/api/messages/unread', partial(abstractReadUnreadRemoveCallback, 'read', false));
+app.post('/api/messages/remove', partial(abstractReadUnreadRemoveCallback, 'deleted', true));

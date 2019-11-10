@@ -1,4 +1,4 @@
-const backend = '';
+const backend = 'http://localhost:3000';
 
 /**
  * Fetch POST
@@ -27,6 +27,24 @@ export const fetchPost = (url, body) => {
 export const fetchGet = url => {
 	console.log('fetchGet', url);
 	return fetch(backend + url, {
+		method: 'GET',
+		credentials: 'include',
+	});
+};
+
+/**
+ * Fetch GET with params
+ * @param   {string} url
+ * @param   {Object} params
+ * @returns {Promise<Response>}
+ */
+export const fetchGetWithParams = (url, params) => {
+	console.log('fetchGetWithParams', url, params);
+
+	let fullUrl = new URL(backend + url);
+	fullUrl.search = new URLSearchParams(params).toString();
+
+	return fetch(fullUrl, {
 		method: 'GET',
 		credentials: 'include',
 	});

@@ -28,34 +28,29 @@ export default class MessagesView {
 			eventBus.addEventListener(`render:${page}`, this.messagesModel.dropRenderState);
 		});
 
-		[
-			{
-				page: 'compose',
-				renderer: this.renderCompose,
-				toRenderState: MessagesRenderState.RenderedCompose,
-			}, {
-				page: 'inbox',
-				renderer: this.renderInbox,
-				toRenderState: MessagesRenderState.RenderedInbox,
-			}, {
-				page: 'sent',
-				renderer: this.renderSent,
-				toRenderState: MessagesRenderState.RenderedSent,
-			},
-		].forEach(({page, renderer, toRenderState}) => {
-			eventBus.addEventListener(`render:/messages/${page}`, partial(this.prerender, renderer, toRenderState));
-		});
+		eventBus.addEventListener('render:/messages/compose', this.prerenderCompose);
+		eventBus.addEventListener('render:/messages/inbox', this.prerenderInbox);
+		eventBus.addEventListener('render:/messages/sent', this.prerenderSent);
 
 		eventBus.addEventListener('rerender:/messages/compose', this.renderCompose);
 		eventBus.addEventListener('messages:compose-validate', this.composeMessage);
 
 		eventBus.addEventListener('messages:compose-send', this.onComposeSend);
+
+		eventBus.addEventListener('messages:inbox-loaded', this.prerenderInboxOnLoaded);
+		eventBus.addEventListener('messages:sent-loaded', this.prerederSentOnLoaded);
 	}
 
 	prerender = (renderer, toRenderState) => {
 		if (this.messagesModel.renderState !== toRenderState) {
 			renderer();
 			this.messagesModel.renderState = toRenderState;
+		}
+	};
+
+	prerenderOnLoaded = (renderer, toRenderState) => {
+		if (this.messagesModel.renderState === toRenderState) {
+			renderer();
 		}
 	};
 
@@ -92,16 +87,29 @@ export default class MessagesView {
 
 	onComposeSend = () => {
 		alert('Message sent!');
-		eventBus.emitEvent('rerender:/messages/compose');
-		// eventBus.emitEvent('render:/messages/inbox');
+		// eventBus.emitEvent('rerender:/messages/compose');
+		eventBus.emitEvent('render:/messages/sent');
 	};
 
-	renderInbox = () => {
+	checkAll = (checkboxes, checked) => {
+		checkboxes.forEach(checkbox => checkbox.checked = checked);
+	};
+
+	anyChecked = checkboxes => {
+		for (let checkbox of checkboxes) {
+			if (checkbox.checked) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	renderFolder = folder => {
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
 			'components/messages/datalist/datalist.tmpl',
-			{page: 'inbox', messages: this.messagesModel.inbox.messages},
+			{page: folder, messages: this.messagesModel.folders[folder].messages},
 		);
 
 		const checkboxes = document.querySelectorAll('.datalist-item__checkbox');
@@ -130,28 +138,23 @@ export default class MessagesView {
 			event.preventDefault();
 			button.classList.toggle('datalist-item__status_read');
 			button.classList.toggle('datalist-item__status_unread');
+			const msg = this.messagesModel.folders[folder].messages.filter(message => message.id === +button.className.match(/id(\d+)/)[1])[0];
+			msg.read = !msg.read;
 		}));
+
+		document.querySelector('.actions__button_read').addEventListener('click', event => {
+			event.preventDefault();
+			// this.messagesModel[folder].messages.forEach(message => message.read = true);
+		});
 	};
 
-	checkAll = (checkboxes, checked) => {
-		checkboxes.forEach(checkbox => checkbox.checked = checked);
-	};
+	renderInbox = partial(this.renderFolder, 'inbox');
+	renderSent = partial(this.renderFolder, 'sent');
 
-	anyChecked = checkboxes => {
-		for (let checkbox of checkboxes) {
-			if (checkbox.checked) {
-				return true;
-			}
-		}
-		return false;
-	};
+	prerenderCompose = partial(this.prerender, this.renderCompose, MessagesRenderState.RenderedCompose);
+	prerenderInbox = partial(this.prerender, this.renderInbox, MessagesRenderState.RenderedInbox);
+	prerenderSent = partial(this.prerender, this.renderSent, MessagesRenderState.RenderedSent);
 
-	renderSent = () => {
-		// renderFest(
-		// 	ReplaceInnerRenderer,
-		// 	'.layout__right_messages-wrap',
-		// 	'components/messages/datalist/datalist.tmpl',
-		// 	{page: 'sent', messages: this.messagesModel.sent},
-		// );
-	};
+	prerenderInboxOnLoaded = partial(this.prerenderOnLoaded, this.renderInbox, MessagesRenderState.RenderedInbox);
+	prerederSentOnLoaded = partial(this.prerenderOnLoaded, this.renderSent, MessagesRenderState.RenderedSent);
 }
