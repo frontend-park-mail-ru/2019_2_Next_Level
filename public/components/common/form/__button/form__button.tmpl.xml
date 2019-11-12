@@ -1,3 +1,11 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<button class="form__button {args.cls}" type="{args.type}"><fest:value>args.text</fest:value></button>
+	<fest:choose>
+		<fest:when test="args.type">
+			<button class="form__button {args.cls}" type="{args.type}"><fest:value>args.text</fest:value></button>
+		</fest:when>
+		<fest:else>
+			<button class="form__button {args.cls}"><fest:value>args.text</fest:value></button>
+		</fest:else>
+	</fest:choose>
+
 </fest:template>

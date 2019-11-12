@@ -41,9 +41,6 @@ export default class SettingsView {
 			eventBus.addEventListener(`render:/settings/${page}`, partial(this.prerender, renderer, renderState));
 		});
 
-		eventBus.addEventListener('settings:user-info-cancel-button-clicked', this.renderUserInfo);
-		eventBus.addEventListener('settings:security-cancel-button-clicked', this.renderSecurity);
-
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 
@@ -77,6 +74,13 @@ export default class SettingsView {
 
 			eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
 		});
+
+		document.querySelector('.form__button_cancel').addEventListener('click', event => {
+			event.preventDefault();
+			if (confirm('Changes will be lost')) {
+				this.renderUserInfo();
+			}
+		});
 	};
 
 	renderSecurity = () => {
@@ -96,6 +100,13 @@ export default class SettingsView {
 			const newPasswordAgain = form.elements.newPasswordAgain.value;
 
 			eventBus.emitEvent('settings:security-save-button-clicked', {currentPassword, newPassword, newPasswordAgain});
+		});
+
+		document.querySelector('.form__button_cancel').addEventListener('click', event => {
+			event.preventDefault();
+			if (confirm('Changes will be lost')) {
+				this.renderSecurity();
+			}
 		});
 	};
 
