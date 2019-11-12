@@ -3,6 +3,7 @@ import {addStyleSheet,addStyleSheetUnsafe, renderFest} from '../../modules/view-
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
+import router from '../../modules/router.js';
 
 import './compose/compose.tmpl.js';
 import './datalist/datalist.tmpl.js';
@@ -87,7 +88,7 @@ export default class MessagesView {
 
 	onComposeSend = () => {
 		alert('Message sent!');
-		eventBus.emitEvent('render:/messages/sent');
+		router.routeNew({}, '', '/messages/sent');
 	};
 
 	checkAll = (checkboxes, checked) => {

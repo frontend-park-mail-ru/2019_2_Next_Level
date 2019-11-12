@@ -17,7 +17,9 @@ export default class MessagesModel {
 
 		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked);
 		eventBus.addEventListener('messages:inbox-read-button-clicked', this.onInboxReadButtonClicked);
+		eventBus.addEventListener('messages:inbox-unread-button-clicked', this.onInboxUnReadButtonClicked);
 		eventBus.addEventListener('messages:sent-read-button-clicked', this.onSentReadButtonClicked);
+		eventBus.addEventListener('messages:sent-unread-button-clicked', this.onSentUnReadButtonClicked);
 	}
 
 	dropRenderState = () => {
@@ -82,7 +84,11 @@ export default class MessagesModel {
 	};
 
 	onComposeSendButtonClicked = ({to, subject, content}) => {
-		to = to.trim().split(/,\s*/);
+		if (/,/.test(to)) {
+			to = to.trim().split(/,\s*/);
+		} else {
+			to = to.trim().split(/\s+/);
+		}
 		for (let email of to) {
 			if (!checkEmail(email)) {
 				eventBus.emitEvent('messages:compose-validate', `Wrong email: ${email}`);
@@ -104,6 +110,7 @@ export default class MessagesModel {
 			if (response.status === 'ok') {
 				eventBus.emitEvent('messages:compose-validate', '');
 				eventBus.emitEvent('messages:compose-send');
+				this.loadSent();
 				return;
 			}
 
@@ -146,5 +153,7 @@ export default class MessagesModel {
 	};
 
 	onInboxReadButtonClicked = partial(this.onStatusButtonClicked, 'read', 'inbox');
+	onInboxUnReadButtonClicked = partial(this.onStatusButtonClicked, 'unread', 'inbox');
 	onSentReadButtonClicked = partial(this.onStatusButtonClicked, 'read', 'sent');
+	onSentUnReadButtonClicked = partial(this.onStatusButtonClicked, 'unread', 'sent');
 }

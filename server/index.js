@@ -248,6 +248,9 @@ const messages = {
 				name: 'long long long long long long long',
 				email: 'pop@pop.ru',
 			},
+			to: [
+				'user@nlmail.ru',
+			],
 			subject: 'Today i willl hmm hmmm hmmmmmmm hmmmmmmmm hmmmmmmm htmmmm',
 			content: 'COnntetnn',
 			date: (new Date(2010, 9, 10, 10, 10, 12)).toISOString(),
@@ -260,6 +263,9 @@ const messages = {
 				name: 'Instagram',
 				email: 'i@nstagra.m',
 			},
+			to: [
+				'user@nlmail.ru',
+			],
 			subject: 'Subject hmmmmmmmmmmmmm',
 			content: 'Sooooooo oconton asldk falksdjfla jsdl jalskdjf laksjdfl kajsdlkf jasldkj',
 			date: (new Date(2019, 9, 28, 11, 12, 12)).toISOString(),
@@ -272,6 +278,9 @@ const messages = {
 				name: 'Google',
 				email: 'google@gmail.com',
 			},
+			to: [
+				'user@nlmail.ru',
+			],
 			subject: 'Subject a bit longer',
 			content: 'Content content content Content content content Content content content Content content content...',
 			date: (new Date(2019, 10, 7, 16,23, 12)).toISOString(),
@@ -284,6 +293,9 @@ const messages = {
 				name: 'Google',
 				email: 'google@gmail.com',
 			},
+			to: [
+				'user@nlmail.ru',
+			],
 			subject: 'Subject',
 			content: 'Content content content Content content content Content content content Content content content...',
 			date: (new Date()).toISOString(),

@@ -1,7 +1,12 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
 	<fest:script><![CDATA[
 		var modifier = args.read ? 'read' : 'unread';
-		var addr = args.from.name ? args.from.name : args.from.email;
+		if (args.folder === 'inbox') {
+			var addr = args.from.name ? args.from.name : args.from.email;
+		} else if (args.folder === 'sent') {
+			var addr = '';
+			args.to.forEach(to => addr += `${to} `);
+		}
 	]]></fest:script>
 	<div class="datalist-item datalist-item_id{args.id} datalist-item_{modifier}">
 		<div class="datalist-item__checkbox-wrap">
