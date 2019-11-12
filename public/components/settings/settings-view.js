@@ -46,6 +46,8 @@ export default class SettingsView {
 
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
+
+		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
 	}
 
 	prerender = (renderer, toRenderState) => {
@@ -110,4 +112,9 @@ export default class SettingsView {
 		'newPassword',
 		'newPasswordAgain',
 	]);
+
+	onUserInfoEdited = () => {
+		this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		alert('User info edited successful');
+	}
 }
