@@ -3,4 +3,5 @@ export const MessagesRenderState = {
 	RenderedCompose: 1,
 	RenderedInbox: 2,
 	RenderedSent: 3,
+	RenderedMessage: 4,
 };

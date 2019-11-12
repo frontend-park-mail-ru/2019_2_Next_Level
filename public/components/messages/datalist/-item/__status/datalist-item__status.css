@@ -1,6 +1,3 @@
-@import 'datalist-item__status_read.css';
-@import 'datalist-item__status_unread.css';
-
 .datalist-item__status {
 	color: rgb(99, 161, 238);
 	background-color: white;
@@ -19,4 +16,12 @@
 
 .datalist-item__status:focus {
 	outline: none;
+}
+
+.datalist-item_read .datalist-item__status::after {
+	content: '\25cb';
+}
+
+.datalist-item_unread .datalist-item__status::after {
+	content: '\25cf';
 }

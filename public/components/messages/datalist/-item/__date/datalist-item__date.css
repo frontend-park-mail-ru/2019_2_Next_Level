@@ -1,5 +1,5 @@
 .datalist-item__date {
 	margin: auto 0;
-	font-weight: normal;
+	font-weight: inherit;
 	color: black;
 }

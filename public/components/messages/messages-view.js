@@ -87,7 +87,6 @@ export default class MessagesView {
 
 	onComposeSend = () => {
 		alert('Message sent!');
-		// eventBus.emitEvent('rerender:/messages/compose');
 		eventBus.emitEvent('render:/messages/sent');
 	};
 
@@ -104,6 +103,33 @@ export default class MessagesView {
 		return false;
 	};
 
+	markMessageAsRead = id => {
+		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
+		datalistItem.classList.remove('datalist-item_unread');
+		datalistItem.classList.add('datalist-item_read');
+	};
+
+	markMessageAsUnread = id => {
+		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
+		datalistItem.classList.remove('datalist-item_read');
+		datalistItem.classList.add('datalist-item_unread');
+	};
+
+	setMessageStatus = (status, id) => {
+		if (status === 'read') {
+			this.markMessageAsRead(id);
+		} else {
+			this.markMessageAsUnread(id);
+		}
+	};
+
+	toggleMessageReadStatus = id => {
+		console.log('id', id);
+		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
+		datalistItem.classList.toggle('datalist-item_read');
+		datalistItem.classList.toggle('datalist-item_unread');
+	};
+
 	renderFolder = folder => {
 		renderFest(
 			ReplaceInnerRenderer,
@@ -112,7 +138,7 @@ export default class MessagesView {
 			{page: folder, messages: this.messagesModel.folders[folder].messages},
 		);
 
-		const checkboxes = document.querySelectorAll('.datalist-item__checkbox');
+		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
 
 		const selectAll = document.querySelector('.actions__button_select input');
 		selectAll.addEventListener('click', event => {
@@ -136,16 +162,23 @@ export default class MessagesView {
 
 		document.querySelectorAll('.datalist-item__status').forEach(button => button.addEventListener('click', event => {
 			event.preventDefault();
-			button.classList.toggle('datalist-item__status_read');
-			button.classList.toggle('datalist-item__status_unread');
-			const msg = this.messagesModel.folders[folder].messages.filter(message => message.id === +button.className.match(/id(\d+)/)[1])[0];
-			msg.read = !msg.read;
+			const id = +button.className.match(/id(\d+)/)[1];
+			eventBus.emitEvent(`messages:${folder}-read-button-clicked`, [id]);
+			this.toggleMessageReadStatus(id);
 		}));
 
-		document.querySelector('.actions__button_read').addEventListener('click', event => {
+		const statusCallback = (status, event) => {
 			event.preventDefault();
-			// this.messagesModel[folder].messages.forEach(message => message.read = true);
-		});
+			let ids = [];
+			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
+			});
+			eventBus.emitEvent(`messages:${folder}-${status}-button-clicked`, ids);
+			ids.forEach(id => this.setMessageStatus(status, id));
+		};
+
+		document.querySelector('.actions__button_read').addEventListener('click', partial(statusCallback, 'read'));
+		document.querySelector('.actions__button_unread').addEventListener('click', partial(statusCallback, 'unread'));
 	};
 
 	renderInbox = partial(this.renderFolder, 'inbox');

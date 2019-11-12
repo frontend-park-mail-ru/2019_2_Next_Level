@@ -16,6 +16,8 @@ export default class MessagesModel {
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 
 		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked);
+		eventBus.addEventListener('messages:inbox-read-button-clicked', this.onInboxReadButtonClicked);
+		eventBus.addEventListener('messages:sent-read-button-clicked', this.onSentReadButtonClicked);
 	}
 
 	dropRenderState = () => {
@@ -120,4 +122,29 @@ export default class MessagesModel {
 			}
 		}).catch(consoleError);
 	};
+
+	onStatusButtonClicked = (status, folder, ids) => {
+		jsonize(fetchPost(`/api/messages/${status}`, {messages: ids})).then(response => {
+			if (response.status === 'ok') {
+				this.folders[folder].messages.forEach(message => {
+					if (ids.includes(message.id)) {
+						message.read = status === 'read';
+					}
+				});
+				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+				console.log(`${status} successful`);
+				return;
+			}
+
+			if (response.error.code === Errors.NotAuthorized.code) {
+				eventBus.emitEvent('application:sign-out');
+				return;
+			}
+
+			consoleError('Unknown response:', response);
+		}).catch(consoleError);
+	};
+
+	onInboxReadButtonClicked = partial(this.onStatusButtonClicked, 'read', 'inbox');
+	onSentReadButtonClicked = partial(this.onStatusButtonClicked, 'read', 'sent');
 }
