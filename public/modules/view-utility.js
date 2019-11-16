@@ -26,6 +26,18 @@ export const renderFest = (renderer, selector, templatePath, templateData={}) =>
 	renderer.render(document.querySelector(selector), window.fest[templatePath](templateData));
 };
 
+
+/**
+ *
+ * @param {Renderer} renderer
+ * @param {string} selector
+ * @param {function} template
+ * @param {Object} templateData
+ */
+export const renderFestTemplate = (renderer, selector, template, templateData={}) => {
+	renderer.render(document.querySelector(selector), template(templateData));
+};
+
 /**
  * Adds style sheet to html without duplication check
  * @param {string} href

@@ -36,8 +36,9 @@ export default class ApplicationController {
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(path => {
-			router.register(path, () => eventBus.emitEvent(`prerender:${path}`));
+			router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
 		});
 	}
 

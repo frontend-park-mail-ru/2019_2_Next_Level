@@ -1,0 +1,49 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<fest:script><![CDATA[
+		var to = args.to.map(to => `<${to}>`).join(', ');
+		args.from.email = `<${args.from.email}>`;
+	]]></fest:script>
+	<div class="messages" id="compose">
+		<div class="actions">
+			<button class="actions__button actions__button_reply">Reply</button>
+		</div>
+
+		<div class="box box_messages">
+			<div class="message">
+				<div class="message-head">
+					<a class="message-head__avatar-wrap">
+						<img class="message-head__avatar" src="/static/images/icons/no-avatar.svg"/>
+					</a>
+
+					<div class="message-head__content">
+						<div class="message-head__subject-wrap">
+							<fest:value>args.subject</fest:value>
+						</div>
+						<div class="message-head__row">
+							<div class="message-head__label">From</div>
+							<div class="message-head__input">
+								<fest:if test="args.from.name">
+									<span class="message-head__name"><fest:value>args.from.name</fest:value></span>
+									<!-- TODO: add whitespace -->
+								</fest:if>
+								<span class="message-head__email"><fest:value>args.from.email</fest:value></span>
+							</div>
+						</div>
+						<div class="message-head__row">
+							<div class="message-head__label">To</div>
+							<span class="message-head__email"><fest:value>to</fest:value></span>
+						</div>
+						<div class="message-head__row">
+							<div class="message-head__label">Date</div>
+							<div class="message-head__input"><fest:value>args.date</fest:value></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="message-content">
+					<fest:value>args.content</fest:value>
+				</div>
+			</div>
+		</div>
+	</div>
+</fest:template>

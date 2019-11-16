@@ -1,4 +1,4 @@
-const backend = 'http://localhost:3000';
+const backend = 'https://next-level-mail.kerimovdev.now.sh/';
 
 /**
  * Fetch POST

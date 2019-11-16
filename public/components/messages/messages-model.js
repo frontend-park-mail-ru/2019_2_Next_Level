@@ -26,24 +26,26 @@ export default class MessagesModel {
 		this.renderState = MessagesRenderState.NotRendered;
 	};
 
+	transformDate = (message, now) => {
+		const d = new Date(message.date);
+		if (d.getFullYear() === now.getFullYear()) {
+			if (d.getMonth() === now.getMonth() && d.getDate() === now.getDate()) {
+				message.date = `${d.getHours()}:${d.getMinutes()}`;
+			} else {
+				const dateString = d.toDateString().split(' ');
+				message.date = `${dateString[1]} ${dateString[2]}`;
+			}
+		} else {
+			message.date = d.toLocaleDateString('ru-RU');
+		}
+	};
+
 	loadFolder = folder => {
 		jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage: 25, page: 1, folder})).then(response => {
 			if (response.status === 'ok') {
 				this.folders[folder].messages = response.messages;
 				const now = new Date();
-				this.folders[folder].messages.forEach(message => {
-					const d = new Date(message.date);
-					if (d.getFullYear() === now.getFullYear()) {
-						if (d.getMonth() === now.getMonth() && d.getDate() === now.getDate()) {
-							message.date = `${d.getHours()}:${d.getMinutes()}`;
-						} else {
-							const dateString = d.toDateString().split(' ');
-							message.date = `${dateString[1]} ${dateString[2]}`;
-						}
-					} else {
-						message.date = d.toLocaleDateString('ru-RU');
-					}
-				});
+				this.folders[folder].messages.forEach(message => this.transformDate(message, now));
 				eventBus.emitEvent(`messages:${folder}-loaded`);
 				return;
 			}
@@ -156,4 +158,22 @@ export default class MessagesModel {
 	onInboxUnReadButtonClicked = partial(this.onStatusButtonClicked, 'unread', 'inbox');
 	onSentReadButtonClicked = partial(this.onStatusButtonClicked, 'read', 'sent');
 	onSentUnReadButtonClicked = partial(this.onStatusButtonClicked, 'unread', 'sent');
+
+	getMessage = id => {
+		console.log('HERE', id);
+		jsonize(fetchGetWithParams('/api/messages/get', {id})).then(response => {
+			if (response.status === 'ok') {
+				this.transformDate(response.message, new Date());
+				eventBus.emitEvent('messages:render-message', response.message);
+				return;
+			}
+
+			if (response.error.code === Errors.NotAuthorized.code) {
+				eventBus.emitEvent('application:sign-out');
+				return;
+			}
+
+			consoleError('Unknown response:', response);
+		}).catch(consoleError);
+	};
 }

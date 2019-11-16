@@ -6,11 +6,13 @@ const cookie = require('cookie-parser');
 const morgan = require('morgan');
 const uuid = require('uuid/v4');
 const path = require('path');
+const fallback = require('express-history-api-fallback');
 
 const app = express();
 
 app.use(morgan('dev'));
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
+app.use(express.static(path.resolve(__dirname, '..', 'dist')));
+// app.use(fallback('index.html', { root: 'dist' }));
 app.use(body.urlencoded({extended: true}));
 app.use(body.json());
 app.use(cookie());
@@ -52,8 +54,9 @@ const response = (res, json) => res.status(HttpStatus.OK).json(json);
 	'/messages/compose',
 	'/messages/inbox',
 	'/messages/sent',
+	'/messages/message',
 ].forEach(pathname => app.get(pathname, (req, res) => {
-	res.sendFile(path.join(__dirname, '../public', 'index.html'));
+	res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 }));
 
 app.get('/api/auth/isAuthorized', (req, res) => {
@@ -351,10 +354,10 @@ app.get('/api/messages/get', (req, res) => {
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
-	const {id} = req.body;
+	const {id} = req.query;
 
 	const msgs = messages[login] || (messages[login] = []);
-	const msg = msgs.filter(msg => msg.id === id);
+	const msg = msgs.filter(msg => msg.id === +id);
 	if (!msg.length) {
 		console.error(Errors.WrongMessage.msg);
 		return response(res, jsonizeError(Errors.WrongMessage));

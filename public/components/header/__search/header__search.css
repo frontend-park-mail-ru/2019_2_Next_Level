@@ -8,7 +8,7 @@
 	box-sizing: border-box;
 	height: 28px;
 	line-height: 16px;
-	background: #00000022 url('/images/icons/loupe.svg') no-repeat left 8px;
+	background: #00000022 url('/static/images/icons/loupe.svg') no-repeat left 8px;
 	border-radius: 14px;
 	border: none;
 	border-left: 8px solid transparent;

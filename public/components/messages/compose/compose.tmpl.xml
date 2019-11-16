@@ -9,7 +9,7 @@
 			<div class="compose">
 				<div class="compose-head">
 					<a class="compose-head__avatar-wrap">
-						<img class="compose-head__avatar" src="/images/icons/no-avatar.svg"/>
+						<img class="compose-head__avatar" src="/static/images/icons/no-avatar.svg"/>
 					</a>
 
 					<div class="compose-head__content">

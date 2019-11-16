@@ -5,11 +5,12 @@
   "builds": [
     { "src": "package.json", "use": "@now/static-build" },
     { "src": "server/index.js", "use": "@now/node-server" },
+    { "src": "dist/**", "use": "@now/static" },
     { "src": "public/**", "use": "@now/static" }
   ],
   "routes": [
-    { "src": "/", "dest": "public/index.html" },
+    { "src": "/", "dest": "dist/index.html" },
     { "src": "/api/(.*)", "dest": "server/index.js" },
-    { "src": "/(.*)", "dest": "public/$1" }
+    { "src": "/(.*)", "dest": "dist/$1" }
   ]
 }

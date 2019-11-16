@@ -2,7 +2,7 @@ import {SettingsRenderState} from './settings-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {renderFest, addStyleSheet, abstractDisplayMessage} from '../../modules/view-utility.js';
+import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
 
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
@@ -15,14 +15,13 @@ export default class SettingsView {
 	constructor(settingsModel) {
 		this.settingsModel = settingsModel;
 
-		addStyleSheet('/components/common/form/form.css');
-
 		[
 			'/auth/sign-in',
 			'/auth/sign-up',
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.settingsModel.dropRenderState);
 		});

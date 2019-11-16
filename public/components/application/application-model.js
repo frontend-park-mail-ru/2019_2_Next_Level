@@ -22,6 +22,7 @@ export default class ApplicationModel {
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(page => {
 			eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		});
@@ -30,9 +31,9 @@ export default class ApplicationModel {
 	/**
 	 * Tries to GET /api/profile/get
 	 */
-	prerender = toRender => {
+	prerender = (toRender, data) => {
 		if (this.authorized === !/auth/.test(toRender)) {
-			eventBus.emitEvent(`render:${toRender}`);
+			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
 		}
 		jsonize(fetchGet('/api/profile/get')).then(response => {
@@ -53,7 +54,7 @@ export default class ApplicationModel {
 				consoleError('Unknown response', response);
 				return;
 			}
-			eventBus.emitEvent(`render:${toRender}`);
+			eventBus.emitEvent(`render:${toRender}`, data);
 		}).catch(consoleError);
 	};
 

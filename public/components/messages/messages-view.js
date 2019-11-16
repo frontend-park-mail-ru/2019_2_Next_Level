@@ -1,13 +1,15 @@
 import {MessagesRenderState} from './messages-utility.js';
-import {addStyleSheet,addStyleSheetUnsafe, renderFest} from '../../modules/view-utility.js';
+import {renderFest} from '../../modules/view-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import router from '../../modules/router.js';
 
+import './messages.css';
 import './compose/compose.tmpl.js';
 import './datalist/datalist.tmpl.js';
 import './datalist/-item/datalist-item.tmpl.js';
+import './message/message.tmpl.js';
 
 export default class MessagesView {
 	/**
@@ -16,9 +18,6 @@ export default class MessagesView {
 	 */
 	constructor(messagesModel) {
 		this.messagesModel = messagesModel;
-
-		addStyleSheet('/components/common/form/form.css');
-		addStyleSheetUnsafe('/components/messages/messages.css');
 
 		[
 			'/auth/sign-in',
@@ -32,6 +31,7 @@ export default class MessagesView {
 		eventBus.addEventListener('render:/messages/compose', this.prerenderCompose);
 		eventBus.addEventListener('render:/messages/inbox', this.prerenderInbox);
 		eventBus.addEventListener('render:/messages/sent', this.prerenderSent);
+		eventBus.addEventListener('render:/messages/message', this.prerenderMessage);
 
 		eventBus.addEventListener('rerender:/messages/compose', this.renderCompose);
 		eventBus.addEventListener('messages:compose-validate', this.composeMessage);
@@ -40,6 +40,8 @@ export default class MessagesView {
 
 		eventBus.addEventListener('messages:inbox-loaded', this.prerenderInboxOnLoaded);
 		eventBus.addEventListener('messages:sent-loaded', this.prerederSentOnLoaded);
+
+		eventBus.addEventListener('messages:render-message', this.renderMessage);
 	}
 
 	prerender = (renderer, toRenderState) => {
@@ -54,6 +56,20 @@ export default class MessagesView {
 			renderer();
 		}
 	};
+
+	prerenderMessage = ({pathname, search}) => {
+		this.messagesModel.getMessage(search.id);
+	};
+
+	renderMessage = message => {
+		renderFest(
+			ReplaceInnerRenderer,
+			'.layout__right_messages-wrap',
+			'components/messages/message/message.tmpl',
+			message,
+		);
+	};
+
 
 	renderCompose = () => {
 		renderFest(
