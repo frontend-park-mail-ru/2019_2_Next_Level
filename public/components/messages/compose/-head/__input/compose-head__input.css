@@ -1,7 +1,8 @@
 .compose-head__input {
 	border: 0;
 	border-bottom: 2px solid lightgrey;
-	width: 560px;
+	box-sizing: border-box;
+	width: 590px;
 }
 
 .compose-head__input:focus {

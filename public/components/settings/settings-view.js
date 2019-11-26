@@ -2,7 +2,7 @@ import {SettingsRenderState} from './settings-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {renderFest, addStyleSheet, abstractDisplayMessage} from '../../modules/view-utility.js';
+import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
 
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
@@ -15,14 +15,13 @@ export default class SettingsView {
 	constructor(settingsModel) {
 		this.settingsModel = settingsModel;
 
-		addStyleSheet('/components/common/form/form.css');
-
 		[
 			'/auth/sign-in',
 			'/auth/sign-up',
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.settingsModel.dropRenderState);
 		});
@@ -41,11 +40,10 @@ export default class SettingsView {
 			eventBus.addEventListener(`render:/settings/${page}`, partial(this.prerender, renderer, renderState));
 		});
 
-		eventBus.addEventListener('settings:user-info-cancel-button-clicked', this.renderUserInfo);
-		eventBus.addEventListener('settings:security-cancel-button-clicked', this.renderSecurity);
-
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
+
+		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
 	}
 
 	prerender = (renderer, toRenderState) => {
@@ -75,6 +73,13 @@ export default class SettingsView {
 
 			eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
 		});
+
+		document.querySelector('.form__button_cancel').addEventListener('click', event => {
+			event.preventDefault();
+			if (confirm('Changes will be lost')) {
+				this.renderUserInfo();
+			}
+		});
 	};
 
 	renderSecurity = () => {
@@ -95,6 +100,13 @@ export default class SettingsView {
 
 			eventBus.emitEvent('settings:security-save-button-clicked', {currentPassword, newPassword, newPasswordAgain});
 		});
+
+		document.querySelector('.form__button_cancel').addEventListener('click', event => {
+			event.preventDefault();
+			if (confirm('Changes will be lost')) {
+				this.renderSecurity();
+			}
+		});
 	};
 
 	userInfoDisplayMessage = partial(abstractDisplayMessage, [
@@ -110,4 +122,9 @@ export default class SettingsView {
 		'newPassword',
 		'newPasswordAgain',
 	]);
+
+	onUserInfoEdited = () => {
+		this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		alert('User info edited successful');
+	}
 }

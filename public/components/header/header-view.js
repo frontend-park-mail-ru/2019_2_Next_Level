@@ -2,8 +2,9 @@ import {HeaderRenderState} from './header-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {addStyleSheetUnsafe, renderFest} from '../../modules/view-utility.js';
+import {renderFest} from '../../modules/view-utility.js';
 
+import './header.css';
 import './header.tmpl.js';
 
 export default class HeaderView {
@@ -14,8 +15,6 @@ export default class HeaderView {
 	constructor(headerModel) {
 		this.headerModel = headerModel;
 
-		addStyleSheetUnsafe('/components/header/header.css');
-
 		[
 			{
 				func: partial(this.prerender, HeaderRenderState.RenderedAuthorized),
@@ -25,6 +24,7 @@ export default class HeaderView {
 					'/messages/compose',
 					'/messages/inbox',
 					'/messages/sent',
+					'/messages/message',
 				],
 			}, {
 				func: partial(this.prerender, HeaderRenderState.RenderedNotAuthorized),

@@ -7,7 +7,7 @@ const Errors = {
 	NotAuthorized: {code: 4, msg: 'User is not authorized'},
 	AccessDenied: {code: 5, msg: 'Access denied'},
 
-	WrongLogin: {code: 10, msg: 'Such login does not exists'},
+	WrongLogin: {code: 10, msg: 'Such login does not exist'},
 	WrongPassword: {code: 11, msg: 'Wrong password'},
 	InvalidFirstName: {code: 12, msg: 'Invalid first name'},
 	InvalidSecondName: {code: 13, msg: 'Invalid second name'},
@@ -23,6 +23,8 @@ const Errors = {
 	EmptySubject: {code: 31, msg: 'Empty subject'},
 	EmptyContent: {code: 32, msg: 'Empty content'},
 	ContentTooLarge: {code: 33, msg: 'Content too large'},
+	InvalidFolder: {code: 34, msg: 'Invalid folder'},
+	WrongMessage: {code: 35, msg: 'Such message does not exist'},
 };
 
 inc('errors', [{declaration: 'Errors', definition: JSON.stringify(Errors)}]);

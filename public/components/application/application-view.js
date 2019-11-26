@@ -1,8 +1,10 @@
 import {ApplicationRenderState} from './application-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {InsertAfterBeginRenderer} from '../../modules/renderer.js';
-import {addStyleSheetUnsafe, renderFest} from '../../modules/view-utility.js';
+import {renderFest} from '../../modules/view-utility.js';
 
+import '../common/common-style';
+import './application.css';
 import './application.tmpl.js';
 
 export default class ApplicationView {
@@ -13,8 +15,6 @@ export default class ApplicationView {
 	constructor(applicationModel) {
 		this.applicationModel = applicationModel;
 
-		addStyleSheetUnsafe('/components/application/application.css');
-
 		[
 			'/auth/sign-in',
 			'/auth/sign-up',
@@ -23,6 +23,7 @@ export default class ApplicationView {
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.render);
 		});

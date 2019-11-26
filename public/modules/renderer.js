@@ -4,7 +4,7 @@ class Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {};
+	static render(element, html) {}
 }
 
 export class ReplaceInnerRenderer extends Renderer {
@@ -13,9 +13,9 @@ export class ReplaceInnerRenderer extends Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {
+	static render(element, html) {
 		element.innerHTML = html;
-	};
+	}
 }
 
 export class DummyAppendRenderer extends Renderer {
@@ -24,9 +24,9 @@ export class DummyAppendRenderer extends Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {
+	static render(element, html) {
 		element.innerHTML += html;
-	};
+	}
 }
 
 export class InsertAfterBeginRenderer extends Renderer {
@@ -35,9 +35,9 @@ export class InsertAfterBeginRenderer extends Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {
+	static render(element, html) {
 		element.insertAdjacentHTML('afterBegin', html);
-	};
+	}
 }
 
 export class InsertBeforeEndRenderer extends Renderer {
@@ -46,9 +46,9 @@ export class InsertBeforeEndRenderer extends Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {
+	static render(element, html) {
 		element.insertAdjacentHTML('beforeEnd', html);
-	};
+	}
 }
 
 export class InplaceRenderer extends Renderer {
@@ -57,10 +57,10 @@ export class InplaceRenderer extends Renderer {
 	 * @param {HTMLElement} element
 	 * @param {string} html
 	 */
-	static render = (element, html) => {
+	static render (element, html) {
 		const template = document.createElement('template');
 		template.innerHTML = html.trim();
 		const newElement = template.content.firstChild;
 		element.parentNode.replaceChild(newElement, element);
-	};
+	}
 }

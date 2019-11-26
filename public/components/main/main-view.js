@@ -2,8 +2,9 @@ import {MainRenderState} from './main-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {addStyleSheetUnsafe, renderFest} from '../../modules/view-utility.js';
+import {renderFest} from '../../modules/view-utility.js';
 
+import './main.css';
 import './main.tmpl.js';
 
 export default class MainView {
@@ -13,10 +14,6 @@ export default class MainView {
 	 */
 	constructor(mainModel) {
 		this.mainModel = mainModel;
-
-		addStyleSheetUnsafe('/components/common/box/box.css');
-		addStyleSheetUnsafe('/components/common/layout/layout.css');
-		addStyleSheetUnsafe('/components/main/main.css');
 
 		[
 			{
@@ -37,6 +34,7 @@ export default class MainView {
 					'/messages/compose',
 					'/messages/inbox',
 					'/messages/sent',
+					'/messages/message',
 				],
 			},
 		].forEach(({func, pages}) => pages.forEach(page => {

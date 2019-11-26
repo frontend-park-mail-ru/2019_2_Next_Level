@@ -3,10 +3,10 @@ import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import router from '../../modules/router.js';
-import {addStyleSheetUnsafe, addStyleSheet, renderFest} from '../../modules/view-utility.js';
+import {renderFest} from '../../modules/view-utility.js';
 
+import './nav.css';
 import './nav.tmpl.js';
-
 
 export default class NavView {
 	/**
@@ -15,10 +15,6 @@ export default class NavView {
 	 */
 	constructor(navModel) {
 		this.navModel = navModel;
-
-		addStyleSheet('/components/common/actions/actions.css');
-		addStyleSheet('/components/common/box/box.css');
-		addStyleSheetUnsafe('/components/nav/nav.css');
 
 		[
 			{
@@ -39,6 +35,7 @@ export default class NavView {
 					'/messages/compose',
 					'/messages/inbox',
 					'/messages/sent',
+					'/messages/message',
 				],
 			},
 		].forEach(({func, pages}) => pages.forEach(page => {

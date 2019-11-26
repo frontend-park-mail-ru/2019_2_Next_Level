@@ -1,5 +1,7 @@
 .compose-content__textarea {
-	width: 705px;
+	box-sizing: border-box;
+	width: 100%;
 	height: 375px;
 	resize: none;
+	border-radius: 5px;
 }

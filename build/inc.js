@@ -18,5 +18,4 @@ module.exports = (moduleName, exports) => {
 	});
 	fs.writeFileSync(`public/modules/${moduleName}.es6.inc.js`, data_es6, callback);
 	fs.writeFileSync(`server/${moduleName}.commonjs.inc.js`, data_commonjs, callback);
-
 };

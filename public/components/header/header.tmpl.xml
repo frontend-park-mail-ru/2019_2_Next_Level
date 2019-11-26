@@ -3,7 +3,7 @@
 		<div class="layout">
 			<div class="layout__left layout__left_header">
 				<a class="header__logo-wrap" href="#">
-					<img class="header__logo" src="/images/logo/nlmail.svg" alt="logo"/>
+					<img class="header__logo" src="/static/images/logo/nlmail.svg" alt="logo"/>
 				</a>
 			</div>
 			<fest:if test="args.authorized === true">
@@ -15,13 +15,13 @@
 						<div class="header__profile-name"><fest:value>args.nickName</fest:value></div>
 						<fest:choose>
 							<fest:when test="[null, undefined].includes(args.avatar)">
-								<img class="header__profile-avatar" src="/images/icons/no-avatar.svg" alt="avatar"/>
+								<img class="header__profile-avatar" src="/static/images/icons/no-avatar.svg" alt="avatar"/>
 							</fest:when>
 							<fest:otherwise>
 								<img class="header__profile-avatar" src="{args.avatar}" alt="avatar"/>
 							</fest:otherwise>
 						</fest:choose>
-						<img class="header__profile-arrow" src="/images/icons/arrow.svg" alt="arrow"/>
+						<img class="header__profile-arrow" src="/static/images/icons/arrow.svg" alt="arrow"/>
 						<div class="header__profile-menu"/>
 					</a>
 				</div>

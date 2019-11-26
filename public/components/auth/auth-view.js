@@ -2,7 +2,7 @@ import {AuthRenderState} from './auth-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {renderFest, addStyleSheet, abstractDisplayMessage} from '../../modules/view-utility.js';
+import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
 
 import '../../modules/string.js';
 import './__sign-in/auth__sign-in.tmpl.js';
@@ -15,9 +15,7 @@ export default class AuthView {
 	 * @param {AuthModel} authModel
 	 */
 	constructor(authModel) {
-		this.authModel = authModel; // maybe to store form's data (hmm)
-
-		addStyleSheet('/components/common/form/form.css');
+		this.authModel = authModel;
 
 		[
 			'/settings/user-info',
@@ -25,6 +23,7 @@ export default class AuthView {
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
 		});

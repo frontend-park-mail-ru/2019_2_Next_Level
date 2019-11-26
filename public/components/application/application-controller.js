@@ -13,7 +13,15 @@ export default class ApplicationController {
 		this.applicationModel = new ApplicationModel();
 		this.applicationView = new ApplicationView(this.applicationModel);
 
-		eventBus.addEventListener('auth:authorized', () => router.routeNew({}, '', '/settings/user-info'));
+		eventBus.addEventListener('application:sign-out', () => router.routeNew({}, '', '/auth/sigh-in')); // popup ?
+		eventBus.addEventListener('auth:authorized', () => router.routeNew({}, '', '/messages/inbox'));
+
+		// // Проверим, что эта технология доступна в браузере
+		// if ('serviceWorker' in navigator) {
+		// 	navigator.serviceWorker.register('./dist/sw.js')
+		// 		.then(res => console.log('Registration succeeded. Scope is ' + res.scope))
+		// 		.catch(error => console.log('Registration failed with ' + error));
+		// }
 
 		this.headerController = new HeaderController();
 		this.mainController = new MainController();
@@ -28,8 +36,9 @@ export default class ApplicationController {
 			'/messages/compose',
 			'/messages/inbox',
 			'/messages/sent',
+			'/messages/message',
 		].forEach(path => {
-			router.register(path, () => eventBus.emitEvent(`prerender:${path}`));
+			router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
 		});
 	}
 

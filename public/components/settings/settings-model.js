@@ -50,8 +50,8 @@ export default class SettingsModel {
 
 		jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
 			if (response.status === 'ok') {
-				eventBus.emitEvent('settings:user-info-validate', {inputName: 'sex', message: ''});
-				eventBus.emitEvent('settings:edit-user-info');
+				this.userInfo = userInfo;
+				eventBus.emitEvent('settings:user-info-edited');
 				return;
 			}
 

@@ -1,0 +1,7 @@
+.message-content {
+	font-weight: normal;
+	box-sizing: border-box;
+	border: 1px solid lightgray;
+	padding: 10px;
+	border-radius: 5px;
+}
