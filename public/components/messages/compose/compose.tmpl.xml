@@ -1,0 +1,29 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<form class="messages" id="compose">
+		<div class="actions">
+			<button class="actions__button actions__button_send" type="submit">Send</button>
+			<button class="actions__button actions__button_cancel">Cancel</button>
+		</div>
+
+		<div class="box box_messages">
+			<div class="compose">
+				<div class="compose-head">
+					<a class="compose-head__avatar-wrap">
+						<img class="compose-head__avatar" src="/static/images/icons/no-avatar.svg"/>
+					</a>
+
+					<div class="compose-head__content">
+						<fest:include context="{label: 'To', input: {id: 'to', name: 'to', value: ''}}" src="-head/__row/compose-head__row.tmpl.xml"/>
+						<fest:include context="{label: 'Subject', input: {id: 'subject', name: 'subject', value: ''}}" src="-head/__row/compose-head__row.tmpl.xml"/>
+					</div>
+				</div>
+
+				<div class="compose-message"/>
+
+				<div class="compose-content">
+					<textarea class="compose-content__textarea" form="compose" name="content" id="content"/>
+				</div>
+			</div>
+		</div>
+	</form>
+</fest:template>

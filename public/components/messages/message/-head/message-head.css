@@ -1,0 +1,10 @@
+@import '__avatar/message-head__avatar.css';
+@import '__row/message-head__row.css';
+@import '__input/message-head__input.css';
+@import '__label/message-head__label.css';
+@import '__subject-wrap/message-head__subject-wrap.css';
+
+.message-head {
+	display: flex;
+	margin-bottom: 35px;
+}

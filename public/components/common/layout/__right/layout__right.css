@@ -1,0 +1,6 @@
+@import 'layout__right_header.css';
+
+.layout__right {
+	box-sizing: border-box;
+	width: 825px;
+}

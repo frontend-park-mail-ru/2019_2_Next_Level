@@ -1,0 +1,21 @@
+.header__search-wrap {
+	width: 230px;
+}
+
+.header__search {
+	margin: 7px 0;
+	width: 230px;
+	box-sizing: border-box;
+	height: 28px;
+	line-height: 16px;
+	background: #00000022 url('/static/images/icons/loupe.svg') no-repeat left 8px;
+	border-radius: 14px;
+	border: none;
+	border-left: 8px solid transparent;
+	padding-left: 19px;
+}
+
+.header__search:focus {
+	background-color: #00000011;
+	outline: none;
+}

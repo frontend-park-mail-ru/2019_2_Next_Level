@@ -1,0 +1,5 @@
+.message-head__row {
+	display: flex;
+	font-size: 15px;
+	font-weight: normal;
+}

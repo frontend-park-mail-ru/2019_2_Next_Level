@@ -1,0 +1,8 @@
+/* ikr this file wrong-placed */
+@import 'form__footer-link.css';
+
+.form__footer {
+	text-align: center;
+	font-size: 15px;
+	font-weight: lighter;
+}

@@ -1,0 +1,27 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<div class="form_{args.page}">
+		<div class="actions">
+			<button class="actions__button actions__button_select"><input type="checkbox"/></button>
+			<button class="actions__button actions__button_delete">Delete</button>
+			<button class="actions__button actions__button_read">Read</button>
+			<button class="actions__button actions__button_unread">Unread</button>
+		</div>
+		<div class="box box_datalist">
+			<div class="datalist datalist_{args.page}">
+				<fest:script>console.log(args.messages.length, args.messages);</fest:script>
+				<fest:choose>
+					<fest:when test="args.messages.length">
+						<fest:for iterate="args.messages" index="i">
+							<fest:include context="args.messages[i]" src="-item/datalist-item.tmpl.xml"/>
+						</fest:for>
+					</fest:when>
+					<fest:otherwise>
+						<div class="datalist-empty">
+							<div class="datalist-empty__message">Empty</div>
+						</div>
+					</fest:otherwise>
+				</fest:choose>
+			</div>
+		</div>
+	</div>
+</fest:template>

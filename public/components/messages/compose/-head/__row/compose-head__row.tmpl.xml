@@ -1,0 +1,10 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<div class="compose-head__row">
+		<div class="compose-head__label-wrap">
+			<label class="compose-head__label" for="{args.input.id}"><fest:value>args.label</fest:value></label>
+		</div>
+		<div class="compose-head__input-wrap">
+			<input class="compose-head__input" type="text" id="{args.input.id}" name="{args.input.name}" value="{args.input.value}" required=""/>
+		</div>
+	</div>
+</fest:template>

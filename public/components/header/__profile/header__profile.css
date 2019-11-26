@@ -1,0 +1,25 @@
+.header__profile-wrap {
+	display: flex;
+}
+
+/* for no reason doesn't work */
+.header__profile_wrap:hover {
+	background-color: #00000011;
+}
+
+.header__profile-avatar {
+	height: 34px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.header__profile-name {
+	vertical-align: middle;
+	line-height: 42px;
+	padding: 0 10px;
+}
+
+.header__profile-arrow {
+	height: 4px;
+	margin: 20px 8px 0 7px;
+}

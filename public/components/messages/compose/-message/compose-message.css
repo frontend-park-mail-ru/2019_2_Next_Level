@@ -1,0 +1,7 @@
+.compose-message {
+	color: darkred;
+	font-weight: lighter;
+	font-size: 15px;
+	min-height: 25px;
+	margin: 10px 0;
+}

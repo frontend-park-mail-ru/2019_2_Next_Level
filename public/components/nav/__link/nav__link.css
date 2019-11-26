@@ -1,0 +1,8 @@
+.nav__link {
+	display: block;
+}
+
+.nav__link:hover {
+	transition-duration: 0.4s;
+	text-decoration: underline;
+}

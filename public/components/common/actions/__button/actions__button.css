@@ -1,0 +1,15 @@
+@import 'actions__button_accent.css';
+
+.actions__button {
+	background-color: white;
+	border: 1px solid gray;
+	border-radius: 5px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	font:inherit;
+	color:inherit;
+}
+
+.actions__button:hover {
+	background-color: #cccccc;
+}

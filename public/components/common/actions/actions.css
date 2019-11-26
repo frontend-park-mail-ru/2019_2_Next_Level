@@ -1,0 +1,6 @@
+@import '__button/actions__button.css';
+
+.actions {
+	margin-bottom: 15px;
+	font-size: 18px;
+}
