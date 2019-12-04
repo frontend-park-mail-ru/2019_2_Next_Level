@@ -132,6 +132,11 @@ export default class MessagesView {
 		datalistItem.classList.add('datalist-item_unread');
 	};
 
+	messageIsRead = id => {
+		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
+		return datalistItem.classList.contains('datalist-item_read')
+	}
+
 	setMessageStatus = (status, id) => {
 		if (status === 'read') {
 			this.markMessageAsRead(id);
@@ -159,7 +164,7 @@ export default class MessagesView {
 
 		const selectAll = document.querySelector('.actions__button_select input');
 		selectAll.addEventListener('click', event => {
-			event.stopPropagation();
+			event.stopPropagation();	// останавливаем всплытие события
 			this.checkAll(checkboxes, selectAll.checked);
 		});
 
@@ -169,18 +174,20 @@ export default class MessagesView {
 			this.checkAll(checkboxes, selectAll.checked);
 		});
 
+		this.messagesUncheckedCount = checkboxes.length
 		checkboxes.forEach(checkbox => checkbox.addEventListener('click', event => {
-			if (checkbox.checked) {
-				selectAll.checked = true;
-			} else if (!this.anyChecked(checkboxes)) {
-				selectAll.checked = false;
-			}
+			this.messagesUncheckedCount += checkbox.checked ? -1 : 1;
+			selectAll.checked = this.messagesUncheckedCount===0
 		}));
 
-		document.querySelectorAll('.datalist-item__status').forEach(button => button.addEventListener('click', event => {
+		document.querySelectorAll('.datalist-item__status').forEach(toggler => toggler.addEventListener('click', event => {
 			event.preventDefault();
-			const id = +button.className.match(/id(\d+)/)[1];
-			eventBus.emitEvent(`messages:${folder}-read-button-clicked`, [id]);
+			const id = +toggler.className.match(/id(\d+)/)[1];
+			let targetState = 'read';
+			if (this.messageIsRead(id)){
+				targetState = 'unread'
+			}
+			eventBus.emitEvent(`messages:${folder}-${targetState}-button-clicked`, [id]);
 			this.toggleMessageReadStatus(id);
 		}));
 
