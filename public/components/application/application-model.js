@@ -4,6 +4,7 @@ import eventBus from '../../modules/event-bus.js';
 import {jsonize, fetchGet, consoleError} from '../../modules/fetch.js';
 import {partial} from '../../modules/partial.js';
 import router from '../../modules/router.js';
+import routes from '../../modules/routes.js';
 
 export default class ApplicationModel {
 	/**
@@ -14,16 +15,7 @@ export default class ApplicationModel {
 
 		this.renderState = ApplicationRenderState.NotRendered;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/settings/user-info',
-			'/settings/security',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
+		routes.forEach(page => {
 			eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		});
 	}

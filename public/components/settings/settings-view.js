@@ -3,9 +3,11 @@ import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
+import routes from '../../modules/routes.js';
 
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
+import './__user_folders/settings__user-folder.tmpl.js';
 
 export default class SettingsView {
 	/**
@@ -15,14 +17,7 @@ export default class SettingsView {
 	constructor(settingsModel) {
 		this.settingsModel = settingsModel;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
+		routes.GetModuleRoutes('auth', 'messages').forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.settingsModel.dropRenderState);
 		});
 
@@ -35,6 +30,10 @@ export default class SettingsView {
 				page: 'security',
 				renderer: this.renderSecurity,
 				renderState: SettingsRenderState.RenderedSecurity,
+			}, {
+				page: 'folders',
+				renderer: this.renderFolders,
+				renderState: SettingsRenderState.RenderFolders,
 			},
 		].forEach(({page, renderer, renderState}) => {
 			eventBus.addEventListener(`render:/settings/${page}`, partial(this.prerender, renderer, renderState));
@@ -108,6 +107,22 @@ export default class SettingsView {
 			}
 		});
 	};
+
+	renderFolders = () => {
+		renderFest(
+			ReplaceInnerRenderer,
+			'.layout__right_settings-wrap',
+			'components/settings/__user_folders/settings__user-folder.tmpl',
+			this.settingsModel.userInfo,
+		)
+
+		// document.querySelector('.form__button_cancel').addEventListener('click', event => {
+		// 	event.preventDefault();
+		// 	if (confirm('Changes will be lost')) {
+		// 		this.renderSecurity();
+		// 	}
+		// });
+	}
 
 	userInfoDisplayMessage = partial(abstractDisplayMessage, [
 		'firstName',

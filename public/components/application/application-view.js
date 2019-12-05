@@ -6,6 +6,7 @@ import {renderFest} from '../../modules/view-utility.js';
 import '../common/common-style';
 import './application.css';
 import './application.tmpl.js';
+import routes from '../../modules/routes.js';
 
 export default class ApplicationView {
 	/**
@@ -13,18 +14,11 @@ export default class ApplicationView {
 	 * @param {ApplicationModel} applicationModel
 	 */
 	constructor(applicationModel) {
+		// debugger;
 		this.applicationModel = applicationModel;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/settings/user-info',
-			'/settings/security',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
+		routes.forEach(page => {
+			// debugger;
 			eventBus.addEventListener(`render:${page}`, this.render);
 		});
 	}

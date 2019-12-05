@@ -21,6 +21,7 @@
 						<ul class="nav__list nav__list_2">
 							<li class="nav__list-item"><a class="nav__link" href="/settings/user-info" name="userInfo">User info</a></li>
 							<li class="nav__list-item"><a class="nav__link" href="/settings/security" name="security">Security</a></li>
+							<li class="nav__list-item"><a class="nav__link" href="/settings/folders" name="security">Folders</a></li>
 						</ul>
 					</fest:if>
 				</li>

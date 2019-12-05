@@ -4,12 +4,21 @@ import HeaderController from '../header/header-controller.js';
 import MainController from '../main/main-controller.js';
 import eventBus from '../../modules/event-bus.js';
 import router from '../../modules/router.js';
+import routes from '../../modules/routes.js';
+
+import {SettingsPages} from '../settings/routes.js';
+import {AuthPages} from '../auth/routes.js';
+import {MessagesPages} from '../messages/routes.js';
 
 export default class ApplicationController {
 	/**
 	 * @constructor
 	 */
 	constructor() {
+		routes.AddRoutes(new Map([['settings', SettingsPages],
+										 ['auth', AuthPages],
+										 ['messages', MessagesPages]]));
+
 		this.applicationModel = new ApplicationModel();
 		this.applicationView = new ApplicationView(this.applicationModel);
 
@@ -28,16 +37,7 @@ export default class ApplicationController {
 
 		router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/settings/user-info',
-			'/settings/security',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(path => {
+		routes.forEach(path => {
 			router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
 		});
 	}

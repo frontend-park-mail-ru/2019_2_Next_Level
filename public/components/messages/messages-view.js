@@ -4,6 +4,7 @@ import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import router from '../../modules/router.js';
+import routes from '../../modules/routes.js';
 
 import './messages.css';
 import './compose/compose.tmpl.js';
@@ -19,12 +20,7 @@ export default class MessagesView {
 	constructor(messagesModel) {
 		this.messagesModel = messagesModel;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/settings/user-info',
-			'/settings/security',
-		].forEach(page => {
+		routes.GetModuleRoutes('auth', 'settings').forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.messagesModel.dropRenderState);
 		});
 

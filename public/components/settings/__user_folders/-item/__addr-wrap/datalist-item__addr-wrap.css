@@ -1,0 +1,10 @@
+.datalist-item__addr-wrap {
+	margin: 0 10px;
+	display: flex;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 36px;
+	width: 90px;
+	box-sizing: border-box;
+}

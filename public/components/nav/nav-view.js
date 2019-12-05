@@ -4,6 +4,7 @@ import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import router from '../../modules/router.js';
 import {renderFest} from '../../modules/view-utility.js';
+import routes from '../../modules/routes.js';
 
 import './nav.css';
 import './nav.tmpl.js';
@@ -19,24 +20,13 @@ export default class NavView {
 		[
 			{
 				func: this.navModel.dropRenderState,
-				pages: [
-					'/auth/sign-in',
-					'/auth/sign-up',
-				],
+				pages: routes.GetModuleRoutes('auth'),
 			}, {
 				func: partial(this.prerender, 'settings', NavRenderSate.RenderedSettings),
-				pages: [
-					'/settings/user-info',
-					'/settings/security',
-				],
+				pages: routes.GetModuleRoutes('settings'),
 			}, {
 				func: partial(this.prerender, 'messages', NavRenderSate.RenderedMessages),
-				pages: [
-					'/messages/compose',
-					'/messages/inbox',
-					'/messages/sent',
-					'/messages/message',
-				],
+				pages: routes.GetModuleRoutes('messages'),
 			},
 		].forEach(({func, pages}) => pages.forEach(page => {
 			eventBus.addEventListener(`render:${page}`, func);

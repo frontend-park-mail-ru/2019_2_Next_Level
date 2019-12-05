@@ -1,0 +1,14 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+    <div class="actions">
+			<button class="actions__button actions__button_delete">Delete</button>
+            <button class="actions__button actions__button_create">Add</button>
+            <input type="text" class="actions__button actions__input_name actions__input_name_invisible" placeholder="Folder name" />
+    </div>
+    <div class="box box_datalist">
+        <div class="datalist datalist_folders">
+            <fest:for iterate="args.folders" index="i">
+                <fest:include context="args.folders[i]" src="-item/datalist-item.tmpl.xml"/>
+            </fest:for>          
+        </div>
+    </div>
+</fest:template>

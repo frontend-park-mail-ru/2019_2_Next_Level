@@ -8,6 +8,8 @@
 	transition-duration: 0.4s;
 	font:inherit;
 	color:inherit;
+	margin: 0px 2px;
+	padding: 2px 4px;
 }
 
 .actions__button:hover {

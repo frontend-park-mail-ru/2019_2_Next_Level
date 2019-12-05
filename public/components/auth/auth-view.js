@@ -3,6 +3,7 @@ import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
+import routes from '../../modules/routes.js';
 
 import '../../modules/string.js';
 import './__sign-in/auth__sign-in.tmpl.js';
@@ -17,16 +18,19 @@ export default class AuthView {
 	constructor(authModel) {
 		this.authModel = authModel;
 
-		[
-			'/settings/user-info',
-			'/settings/security',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
-			eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
-		});
+		// [
+		// 	'/settings/user-info',
+		// 	'/settings/security',
+		// 	'/messages/compose',
+		// 	'/messages/inbox',
+		// 	'/messages/sent',
+		// 	'/messages/message',
+		// ].forEach(page => {
+		// 	eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
+		// });
+		routes.GetModuleRoutes('settings', 'messages').forEach(page => {
+				eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
+			});
 
 		[
 			{
