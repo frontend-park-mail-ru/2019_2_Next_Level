@@ -7,10 +7,11 @@
     "start": "node server",
     "build": "echo Hello",
     "build0": "npm run fest && npm run inc && webpack",
+    "build1": "npm run fest && webpack",
     "fest": "fest-build --dir=public",
     "inc": "node build/errors.js && node build/validate.js",
     "lint": "eslint --ignore-path .gitignore .",
-    "bs": "npm run build0 && xcopy /Y/E dist %userprofile%\\nginx\\html\\dist\\"
+    "bs": "npm run build1 && xcopy /Y/E dist %userprofile%\\nginx\\html\\dist\\"
 
   },
   "repository": {

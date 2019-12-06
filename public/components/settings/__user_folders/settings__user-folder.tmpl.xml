@@ -6,9 +6,9 @@
     </div>
     <div class="box box_datalist">
         <div class="datalist datalist_folders">
-            <fest:for iterate="args.folders" index="i">
-                <fest:include context="args.folders[i]" src="-item/datalist-item.tmpl.xml"/>
-            </fest:for>          
+            <fest:for iterate="args" index="i">
+                <fest:include context="args[i]" src="-item/datalist-item.tmpl.xml"/>
+            </fest:for>
         </div>
     </div>
 </fest:template>

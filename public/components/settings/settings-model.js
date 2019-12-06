@@ -1,8 +1,12 @@
-import {SettingsRenderState} from './states.js';
+import {SettingsRenderState} from './consts.js';
 import {Errors} from '../../modules/errors.es6.inc.js';
 import eventBus from '../../modules/event-bus.js';
 import {jsonize, fetchPost, consoleError} from '../../modules/fetch.js';
 import {checkName, checkNickName, checkDate, checkSex, checkPassword} from '../../modules/validate.es6.inc.js';
+import {Events} from './consts';
+import {partial} from '../../modules/partial';
+import {fetchGet} from '../../modules/fetch';
+import router from '../../modules/router';
 
 export default class SettingsModel {
 	/**
@@ -16,7 +20,14 @@ export default class SettingsModel {
 
 		eventBus.addEventListener('settings:user-info-save-button-clicked', this.onUserInfoSaveButtonClicked);
 		eventBus.addEventListener('settings:security-save-button-clicked', this.onSecuritySaveButtonClicked);
+		eventBus.addEventListener(Events.DeleteFolderButtonClicked, this.onDeleteFolderButtonClicked);
+		eventBus.addEventListener(Events.AddFolderButtonCLicked, this.onAddFolderButtonClicked);
 	}
+
+	getFolders = () => {
+		console.log("Folders", this.userInfo.folders);
+		return this.userInfo.folders;
+	};
 
 	dropRenderState = () => {
 		this.renderState = SettingsRenderState.NotRendered;
@@ -123,6 +134,54 @@ export default class SettingsModel {
 				return;
 			}
 			eventBus.emitEvent('settings:security-validate', {inputName, message: response.error.msg});
+		}).catch(consoleError);
+	};
+
+	onAddFolderButtonClicked = ({newFolderName}) => {
+		jsonize(fetchPost(`/api/messages/addFolder/${newFolderName}`, {})).then(response => {
+			if (response.status === 'ok') {
+				this.userInfo.folders.push({name: newFolderName, capacity: 0});
+				debugger;
+				eventBus.emitEvent('prerender:/settings/folders', {});
+				eventBus.emitEvent('settings:folder-added', {newFolderName});
+				return;
+			}
+			switch (response.error.code) {
+			case Errors.NotAuthorized:
+				eventBus.emitEvent('application:sign-out');
+				break;
+			case Errors.AlreadyExists:
+				eventBus.emitEvent('settings:security-validate', {inputName: 'folder name', message: 'Folder already exists'});
+				break;
+			default:
+				console.error('Unknown response:', response);
+				return;
+			}
+
+		}).catch(consoleError);
+	};
+
+	onDeleteFolderButtonClicked = ({folderName}) => {
+		jsonize(fetchPost(`api/profile/deleteFolder/${folderName}`, {})).then(response => {
+			if (response.status === 'ok') {
+				const index = this.folderList.findIndex(folderName);
+				this.folderList.splice(index, 1);
+				eventBus.emitEvent('prerender:/settings/folders', {});
+				eventBus.emitEvent('settings:folder-removed', {folderName});
+				return;
+			}
+			switch (response.error.code) {
+			case Errors.NotAuthorized:
+				eventBus.emitEvent('application:sign-out');
+				break;
+			case Errors.NotExist:
+				eventBus.emitEvent('settings:security-validate', {inputName: 'folder name', message: 'Folder does not exist'});
+				break;
+			default:
+				console.error('Unknown response:', response);
+				return;
+			}
+
 		}).catch(consoleError);
 	};
 }

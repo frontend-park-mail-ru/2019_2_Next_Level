@@ -1,4 +1,4 @@
-import {SettingsRenderState} from './states.js';
+import {SettingsRenderState, Events} from './consts.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
@@ -46,10 +46,12 @@ export default class SettingsView {
 	}
 
 	prerender = (renderer, toRenderState) => {
-		if (this.settingsModel.renderState !== toRenderState) {
-			renderer();
-			this.settingsModel.renderState = toRenderState;
-		}
+		console.log("prerenderer");
+		// if (this.settingsModel.renderState !== toRenderState) {
+		// 	renderer();
+		// 	this.settingsModel.renderState = toRenderState;
+		// }
+		renderer();
 	};
 
 	renderUserInfo = () => {
@@ -109,11 +111,13 @@ export default class SettingsView {
 	};
 
 	renderFolders = () => {
+		console.log("Dsd");
+		console.log(this.settingsModel.getFolders());
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__user_folders/settings__user-folder.tmpl',
-			this.settingsModel.userInfo,
+			this.settingsModel.getFolders(),
 		);
 
 		const folderNameInput = document.querySelector('.actions__input_name');
@@ -121,7 +125,7 @@ export default class SettingsView {
 			event.preventDefault();
 			const newFolderName = folderNameInput.value;
 			eventBus.emitEvent(
-				'settings:folders-add-button-clicked',
+				Events.AddFolderButtonCLicked,
 				{newFolderName},
 			);
 		});
@@ -133,9 +137,11 @@ export default class SettingsView {
 			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
 				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
 			});
-			eventBus.emitEvent('messages:folder-delete-button-clicked', ids);
+			eventBus.emitEvent(Events.DeleteFolderButtonClicked, ids);
 		});
+
 	};
+
 
 	deleteElement = (elem) => {
 		elem.parent.removeChild(elem);
