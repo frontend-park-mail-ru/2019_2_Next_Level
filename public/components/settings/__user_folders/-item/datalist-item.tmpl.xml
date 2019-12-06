@@ -1,33 +1,11 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<fest:script><![CDATA[
-		var modifier = args.read ? 'read' : 'unread';
-		if (args.folder === 'inbox') {
-			var addr = args.from.name ? args.from.name : args.from.email;
-		} else if (args.folder === 'sent') {
-			var addr = '';
-			args.to.forEach(to => addr += `${to} `);
-		}
-	]]></fest:script>
 	<div class="datalist-item datalist-item_id{args.id} datalist-item_{modifier}">
 		<div class="datalist-item__checkbox-wrap">
 			<input class="datalist-item__checkbox datalist-item__checkbox_id{args.id}" type="checkbox"/>
 		</div>
-		<div class="datalist-item__status-wrap">
-			<button class="datalist-item__status datalist-item__status_id{args.id}"/>
-		</div>
 		<a class="datalist-item__message-wrap" href="/messages/message?id={args.id}">
-			<div class="datalist-item__icon-wrap">
-				<img class="datalist-item__icon" src="/static/images/icons/no-avatar.svg"/>
-			</div>
-			<div class="datalist-item__addr-wrap">
-				<div class="datalist-item__addr"><fest:value>addr</fest:value></div>
-			</div>
 			<div class="datalist-item__subject-wrap">
-				<span class="datalist-item__subject"><fest:value>args.subject</fest:value></span>
-				<span class="datalist-item__subject-snippet"><fest:value>args.content</fest:value></span>
-			</div>
-			<div class="datalist-item__date-wrap">
-				<div class="datalist-item__date"><fest:value>args.date</fest:value></div>
+				<span class="datalist-item__subject"><fest:value>args.name</fest:value></span>
 			</div>
 		</a>
 	</div>

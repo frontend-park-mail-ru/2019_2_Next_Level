@@ -1,5 +1,8 @@
 // const backend = 'https://next-level-mail.kerimovdev.now.sh/';
-const backend = 'https://nextlevel.hldns.ru';
+import {Config} from '../config';
+
+// const backend = 'https://nextlevel.hldns.ru';
+const backend = Config.backend;
 
 /**
  * Fetch POST

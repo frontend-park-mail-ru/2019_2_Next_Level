@@ -9,7 +9,9 @@
     "build0": "npm run fest && npm run inc && webpack",
     "fest": "fest-build --dir=public",
     "inc": "node build/errors.js && node build/validate.js",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "bs": "npm run build0 && xcopy /Y/E dist %userprofile%\\nginx\\html\\dist\\"
+
   },
   "repository": {
     "type": "git",

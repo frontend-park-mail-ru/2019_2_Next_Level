@@ -1,4 +1,4 @@
-import {SettingsRenderState} from './settings-utility.js';
+import {SettingsRenderState} from './states.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
@@ -114,15 +114,32 @@ export default class SettingsView {
 			'.layout__right_settings-wrap',
 			'components/settings/__user_folders/settings__user-folder.tmpl',
 			this.settingsModel.userInfo,
-		)
+		);
 
-		// document.querySelector('.form__button_cancel').addEventListener('click', event => {
-		// 	event.preventDefault();
-		// 	if (confirm('Changes will be lost')) {
-		// 		this.renderSecurity();
-		// 	}
-		// });
-	}
+		const folderNameInput = document.querySelector('.actions__input_name');
+		document.querySelector('.actions__button_create').addEventListener('click', event => {
+			event.preventDefault();
+			const newFolderName = folderNameInput.value;
+			eventBus.emitEvent(
+				'settings:folders-add-button-clicked',
+				{newFolderName},
+			);
+		});
+		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
+
+		document.querySelector('.actions__button_delete').addEventListener('click', event => {
+			event.preventDefault();
+			let ids = [];
+			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
+			});
+			eventBus.emitEvent('messages:folder-delete-button-clicked', ids);
+		});
+	};
+
+	deleteElement = (elem) => {
+		elem.parent.removeChild(elem);
+	};
 
 	userInfoDisplayMessage = partial(abstractDisplayMessage, [
 		'firstName',

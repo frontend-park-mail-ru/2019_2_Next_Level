@@ -39,6 +39,7 @@ class Router {
 	 */
 	start = () => {
 		window.addEventListener('popstate', () => {
+			console.log('popstate');
 			this.routeCurrent();
 		});
 
@@ -49,10 +50,9 @@ class Router {
 			}
 
 			event.preventDefault();
-
+			// window.history.pushState({}, link.href.split('/').pop(), link.href);
 			window.history.pushState({}, '', link.href);
 			return this.routeCurrent();
-
 		});
 
 		return this.routeCurrent();
@@ -101,6 +101,7 @@ class Router {
 	 * @returns {Router}
 	 */
 	routeCurrent = () => {
+		console.log(window.location.pathname);
 		return this.route(window.location.pathname, window.location.search);
 	};
 

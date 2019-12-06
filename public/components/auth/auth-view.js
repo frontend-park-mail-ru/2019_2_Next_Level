@@ -17,17 +17,6 @@ export default class AuthView {
 	 */
 	constructor(authModel) {
 		this.authModel = authModel;
-
-		// [
-		// 	'/settings/user-info',
-		// 	'/settings/security',
-		// 	'/messages/compose',
-		// 	'/messages/inbox',
-		// 	'/messages/sent',
-		// 	'/messages/message',
-		// ].forEach(page => {
-		// 	eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
-		// });
 		routes.GetModuleRoutes('settings', 'messages').forEach(page => {
 				eventBus.addEventListener(`render:${page}`, this.authModel.dropRenderState);
 			});

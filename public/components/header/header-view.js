@@ -3,6 +3,7 @@ import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import {renderFest} from '../../modules/view-utility.js';
+import routes from '../../modules/routes.js';
 
 import './header.css';
 import './header.tmpl.js';
@@ -18,20 +19,10 @@ export default class HeaderView {
 		[
 			{
 				func: partial(this.prerender, HeaderRenderState.RenderedAuthorized),
-				pages: [
-					'/settings/user-info',
-					'/settings/security',
-					'/messages/compose',
-					'/messages/inbox',
-					'/messages/sent',
-					'/messages/message',
-				],
+				pages: routes.GetModuleRoutes('messages', 'settings'),
 			}, {
 				func: partial(this.prerender, HeaderRenderState.RenderedNotAuthorized),
-				pages: [
-					'/auth/sign-in',
-					'/auth/sign-up',
-				],
+				pages: routes.GetModuleRoutes('auth'),
 			},
 		].forEach(({func, pages}) => pages.forEach(page => {
 			eventBus.addEventListener(`render:${page}`, func);

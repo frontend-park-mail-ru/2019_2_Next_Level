@@ -1,4 +1,4 @@
-import {SettingsRenderState} from './settings-utility.js';
+import {SettingsRenderState} from './states.js';
 import {Errors} from '../../modules/errors.es6.inc.js';
 import eventBus from '../../modules/event-bus.js';
 import {jsonize, fetchPost, consoleError} from '../../modules/fetch.js';
