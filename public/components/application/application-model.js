@@ -44,9 +44,13 @@ export default class ApplicationModel {
 	prerender = (toRender, data) => {
 		if (this.authorized === !/auth/.test(toRender)) {
 			console.log('AUTHORIZED');
+			storage.addData('currentPage', toRender);
 			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
 		}
+
+		// авторизован и пошел на /auth/...
+		// неавторизован и идешь в приватную часть
 		jsonize(fetchGet('/api/profile/get')).then(response => {
 			console.log("GET PROFILE ", toRender);
 			if (response.status === 'ok') {
@@ -58,8 +62,13 @@ export default class ApplicationModel {
 				storage.addData('userInfo', this.userInfo);
 				eventBus.emitEvent('application:authorized', this.userInfo);
 				if (/auth/.test(toRender)) {
-					// return router.routeNew({}, '', '/messages/inbox');
-					return router.routeNew({}, '', storage.get('currentPage'));
+					let path = storage.get('currentPage');
+					if (/auth/.test(path)) {
+						path = '/messages/inbox';
+						storage.addData('currentPage', path);
+					}
+					return router.routeNew({}, '', path);
+					// return router.routeNew({}, '', storage.get('currentPage'));
 				}
 			} else if (response.error.code === Errors.NotAuthorized.code) {
 				this.authorized = false;

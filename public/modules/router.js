@@ -117,6 +117,7 @@ class Router {
 	 * @returns {Router}
 	 */
 	route = (pathname, search) => {
+		// debugger;
 		console.log('route', pathname, search);
 		if (!this.routes.has(pathname)) {
 			console.log(`Unknown pathname: ${pathname}`);

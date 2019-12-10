@@ -19,7 +19,11 @@ export default class ApplicationController {
 		// Global data are stored in AppModel
 		// which is created just once a session.
 		this.applicationModel = new ApplicationModel();
-		storage.addData('currentPage', router.getCurrentPage());
+		let currentPage = router.getCurrentPage();
+		if (currentPage==='/') {
+			currentPage = '/messages/inbox';
+		}
+		storage.addData('currentPage', currentPage);
 		console.log("Start: ", storage.get('currentPage'));
 		this.init();
 	}
