@@ -6,6 +6,7 @@ import {partial} from '../../modules/partial.js';
 import router from '../../modules/router.js';
 import routes from '../../modules/routes.js';
 import storage from '../../modules/storage';
+import {UserInfo} from '../../modules/userInfo';
 
 export default class ApplicationModel {
 	/**
@@ -13,7 +14,8 @@ export default class ApplicationModel {
 	 */
 	constructor() {
 		this.authorized = undefined;
-		this.userInfo = undefined;
+		this.userInfo = new UserInfo();
+		storage.addData('userInfo', this.userInfo);
 
 		// this.renderState = ApplicationRenderState.NotRendered;
 		//
@@ -29,25 +31,31 @@ export default class ApplicationModel {
 		routes.forEach(page => {
 			eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		});
+		// clear
+		eventBus.addEventListener('application:not-authorized', () => {
+			storage.addData('userInfo', new UserInfo());
+		});
 	};
 
 	/**
 	 * Tries to GET /api/profile/get
 	 */
 	prerender = (toRender, data) => {
-		// debugger;
 		if (this.authorized === !/auth/.test(toRender)) {
+			console.log('AUTHORIZED');
 			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
 		}
 		jsonize(fetchGet('/api/profile/get')).then(response => {
+			console.log("GET PROFILE ", toRender);
 			if (response.status === 'ok') {
 
 				this.authorized = true;
 				const {userInfo} = response;
-				this.userInfo = userInfo;
-				storage.addData('userInfo', userInfo);
-				eventBus.emitEvent('application:authorized', userInfo);
+				// debugger;
+				this.userInfo = new UserInfo(userInfo);
+				storage.addData('userInfo', this.userInfo);
+				eventBus.emitEvent('application:authorized', this.userInfo);
 				if (/auth/.test(toRender)) {
 					return router.routeNew({}, '', '/messages/inbox');
 				}

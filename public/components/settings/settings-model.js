@@ -9,6 +9,7 @@ import {fetchGet} from '../../modules/fetch';
 import router from '../../modules/router';
 import {SettingsPages} from './routes';
 import storage from '../../modules/storage';
+import {UserInfo} from '../../modules/userInfo';
 
 export default class SettingsModel {
 	/**
@@ -77,7 +78,7 @@ export default class SettingsModel {
 
 		jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
 			if (response.status === 'ok') {
-				storage.addData('userInfo', userInfo);
+				storage.addData('userInfo', new UserInfo(userInfo));
 				eventBus.emitEvent('settings:user-info-edited');
 				return;
 			}
@@ -158,7 +159,7 @@ export default class SettingsModel {
 		jsonize(fetchPost(`/api/messages/addFolder/${newFolderName}`, {})).then(response => {
 			if (response.status === 'ok') {
 				let localUserInfo = storage.get('userInfo');
-				localUserInfo.folders.push({name: newFolderName, capacity: 0});
+				localUserInfo.addFolder({name: newFolderName, capacity: 0});
 				storage.addData('userInfo', localUserInfo);
 
 				eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
@@ -189,10 +190,11 @@ export default class SettingsModel {
  			jsonize(fetchPost(`/api/messages/deleteFolder/${name}`, {})).then(response => {
 				if (response.status === 'ok') {
 					let localUserInfo = storage.get('userInfo');
-					const index =localUserInfo.folders.findIndex((element) => element.name===name);
-					if (index>=0){
-						localUserInfo.folders.splice(index, 1);
-					}
+					// const index =localUserInfo.folders.findIndex((element) => element.name===name);
+					// if (index>=0){
+					// 	localUserInfo.folders.splice(index, 1);
+					// }
+					localUserInfo.deleteFolderByName(name);
 					storage.addData('userInfo', localUserInfo);
 
 					eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);

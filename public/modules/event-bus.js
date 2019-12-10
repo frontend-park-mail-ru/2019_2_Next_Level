@@ -17,13 +17,11 @@ class EventBus {
 	 * @param   {EventBusCallback} callback
 	 * @returns {EventBus}
 	 */
-	addEventListener = (event, callback) => {
-		if (this.listeners[event] && this.listeners[event].indexOf(callback) != -1) {
-			console.log(`Dublicate event: ${event}`);
-			return;
-		}
-		(this.listeners[event] || (this.listeners[event] = [])).push(callback);
-		// console.log('Add event listener: ', event, callback);
+	addEventListener = (event, callback, priority=0) => {
+		(this.listeners[event] || (this.listeners[event] = [])).push({callback, priority});
+		this.listeners[event].sort((a,b) => {
+			return b.priority - a.priority; // по убыванию
+		});
 		return this;
 	};
 
@@ -42,7 +40,7 @@ class EventBus {
 	 * @returns {EventBus}
 	 */
 	removeEventListener = (event, callback) => {
-		this.listeners[event] = (this.listeners[event] || []).filter(c => c !== callback);
+		this.listeners[event] = (this.listeners[event] || []).filter(c => c.callback !== callback);
 		return this;
 	};
 
@@ -54,7 +52,7 @@ class EventBus {
 	 */
 	emitEvent = (event, data={}) => {
 		console.log('emit', event, data);
-		(this.listeners[event] || (this.listeners[event] = [])).forEach(callback => callback(data));
+		(this.listeners[event] || (this.listeners[event] = [])).forEach(elem => elem.callback(data));
 		return this;
 	};
 }

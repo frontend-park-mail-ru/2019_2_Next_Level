@@ -31,7 +31,7 @@ export default class MessagesView {
 
 		const userInfo = storage.get('userInfo');
 		if (userInfo) {
-			for (let folder of userInfo.folders) {
+			for (let folder of userInfo.getFolders()) {
 				eventBus.addEventListener(`render:/messages/${folder.name}`, partial(this.renderFolder, folder.name));
 			}
 		}
@@ -156,13 +156,13 @@ export default class MessagesView {
 		datalistItem.classList.toggle('datalist-item_unread');
 	};
 
-	renderFolder = (folder) => {
-		console.log('Render folder: ', folder);
+	renderFolder = (folderName) => {
+		console.log('Render folder: ', folderName);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
 			'components/messages/datalist/datalist.tmpl',
-			{page: folder, messages: this.messagesModel.folders[folder].messages},
+			{page: folderName, messages: storage.get('userInfo').getMessages().get(folderName) || []},
 		);
 
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
@@ -192,7 +192,7 @@ export default class MessagesView {
 			if (this.messageIsRead(id)){
 				targetState = 'unread';
 			}
-			eventBus.emitEvent(`messages:${folder}-${targetState}-button-clicked`, [id]);
+			eventBus.emitEvent(`messages:${folderName}-${targetState}-button-clicked`, [id]);
 			this.toggleMessageReadStatus(id);
 		}));
 
@@ -202,7 +202,7 @@ export default class MessagesView {
 			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
 				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
 			});
-			eventBus.emitEvent(`messages:${folder}-${status}-button-clicked`, ids);
+			eventBus.emitEvent(`messages:${folderName}-${status}-button-clicked`, ids);
 			ids.forEach(id => this.setMessageStatus(status, id));
 		};
 

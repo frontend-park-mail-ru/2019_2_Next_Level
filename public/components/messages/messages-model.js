@@ -23,6 +23,15 @@ export default class MessagesModel {
 		eventBus.addEventListener('messages:inbox-unread-button-clicked', this.onInboxUnReadButtonClicked);
 		eventBus.addEventListener('messages:sent-read-button-clicked', this.onSentReadButtonClicked);
 		eventBus.addEventListener('messages:sent-unread-button-clicked', this.onSentUnReadButtonClicked);
+
+		// слушатели для получения сообщений при переходе на соответствующую страницу
+		for (let link of MessagesPages.slice(2)) {
+			const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
+			// при запросе на переход к странице папки запрашиваем список писем, затем требуем перерисовки страницы.
+			eventBus.addEventListener(`folder.onload/${name}`, () => eventBus.emitEvent(`render:${link}`));
+			eventBus.addEventListener(`prerender:${link}`, partial(this.loadFolder, name), 10);
+			console.log('LoadMessage ', name);
+		}
 	}
 
 	dropRenderState = () => {
@@ -44,19 +53,20 @@ export default class MessagesModel {
 	};
 
 	loadFolder = folder => {
-		let userInfo = storage.get('userInfo');
 		jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage: 25, page: 1, folder})).then(response => {
 			if (response.status === 'ok') {
-				const index = userInfo.folders.findIndex(element => element.name===folder);
-				if (index===-1) {
-					console.log('No such a folder to load: ', folder);
-					return;
+				let userInfo = storage.get('userInfo');
+				if (!response.messages) {
+					response.messages = [];
 				}
-
-				userInfo.folders[index].messages = response.messages;
+				userInfo.getMessages().delete(folder);
+				userInfo.addMessageList(folder, response.messages);
 				const now = new Date();
-				userInfo.folders[index].messages.forEach(message => this.transformDate(message, now));
+				if (userInfo.getMessages().has(folder)) {
+					userInfo.getMessages().get(folder).forEach(message => this.transformDate(message, now));
+				}
 				storage.addData('userInfo', userInfo);
+				eventBus.emitEvent(`folder.onload/${folder}`);
 				return;
 			}
 			console.error(response);
@@ -146,10 +156,11 @@ export default class MessagesModel {
 		}).catch(consoleError);
 	};
 
+	//TODO: change storage
 	onStatusButtonClicked = (status, folder, ids) => {
 		jsonize(fetchPost(`/api/messages/${status}`, {messages: ids})).then(response => {
 			if (response.status === 'ok') {
-				this.folders[folder].messages.forEach(message => {
+				storage.get('userInfo').getMessages().get('folder').forEach(message => {
 					if (ids.includes(message.id)) {
 						message.read = status === 'read';
 					}

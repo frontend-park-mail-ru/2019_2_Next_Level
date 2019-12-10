@@ -130,7 +130,7 @@ export default class SettingsView {
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__user_folders/settings__user-folder.tmpl',
-			storage.get('userInfo').folders,
+			storage.get('userInfo').getFolders(),
 		);
 
 		const folderNameInput = document.querySelector('.actions__input_name');

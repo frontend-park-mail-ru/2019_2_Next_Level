@@ -23,6 +23,7 @@ export default class ApplicationController {
 
 	// Creates and recreates whole the application except Model
 	init = () => {
+		// debugger;
 		console.log('REINIT');
 		eventBus.Clear();
 		this.reloadRouter();
@@ -46,7 +47,7 @@ export default class ApplicationController {
 		});
 		this.headerController = new HeaderController();
 		this.mainController = new MainController();
-		router.routeCurrent();
+		// debugger;
 	};
 
 	reloadRouter = () => {

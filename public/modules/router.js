@@ -124,6 +124,7 @@ class Router {
 			return this;
 		}
 
+		console.log('route(): ', pathname);
 		this.routes.get(pathname)(pathname, parseSearch(search));
 		return this;
 	};
