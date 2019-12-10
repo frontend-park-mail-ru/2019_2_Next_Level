@@ -5,6 +5,7 @@ import MainController from '../main/main-controller.js';
 import eventBus from '../../modules/event-bus.js';
 import router from '../../modules/router.js';
 import routes from '../../modules/routes.js';
+import storage from '../../modules/storage';
 
 import {SettingsPages} from '../settings/routes.js';
 import {AuthPages} from '../auth/routes.js';
@@ -18,6 +19,8 @@ export default class ApplicationController {
 		// Global data are stored in AppModel
 		// which is created just once a session.
 		this.applicationModel = new ApplicationModel();
+		storage.addData('currentPage', router.getCurrentPage());
+		console.log("Start: ", storage.get('currentPage'));
 		this.init();
 	}
 
@@ -25,6 +28,8 @@ export default class ApplicationController {
 	init = () => {
 		// debugger;
 		console.log('REINIT');
+		const currentPage = router.getCurrentPage();
+		console.log("Remembered page: ", storage.get('currentPage'));
 		eventBus.Clear();
 		this.reloadRouter();
 		this.applicationModel.init();
@@ -44,10 +49,15 @@ export default class ApplicationController {
 
 			// this.reloadRouter();
 			this.init();
+			eventBus.emitEvent('render:update');
 		});
 		this.headerController = new HeaderController();
 		this.mainController = new MainController();
 		// debugger;
+
+		eventBus.addEventListener('render:update', () => router.routeNew({}, '', storage.get('currentPage')));
+		// eventBus.addEventListener('render:update', () => router.routeNew({}, '', currentPage));
+		// eventBus.addEventListener('render:update', router.routeCurrent);
 	};
 
 	reloadRouter = () => {

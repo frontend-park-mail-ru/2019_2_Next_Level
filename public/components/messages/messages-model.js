@@ -24,12 +24,20 @@ export default class MessagesModel {
 		eventBus.addEventListener('messages:sent-read-button-clicked', this.onSentReadButtonClicked);
 		eventBus.addEventListener('messages:sent-unread-button-clicked', this.onSentUnReadButtonClicked);
 
+		eventBus.addEventListener('messages:read-button-clicked', partial(this.toggleMessageState, 'read'));
+		eventBus.addEventListener('messages:unread-button-clicked', partial(this.toggleMessageState, 'unread'));
+		eventBus.addEventListener('messages:delete-button-clicked', this.deleteMessage);
+
 		// слушатели для получения сообщений при переходе на соответствующую страницу
 		for (let link of MessagesPages.slice(2)) {
 			const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
 			// при запросе на переход к странице папки запрашиваем список писем, затем требуем перерисовки страницы.
-			eventBus.addEventListener(`folder.onload/${name}`, () => eventBus.emitEvent(`render:${link}`));
-			eventBus.addEventListener(`prerender:${link}`, partial(this.loadFolder, name), 10);
+
+			eventBus.addEventListener(`prerender:${link}`, () => {
+				console.log('MessagesModel');
+				eventBus.addSporadicEventListener(`folder.onload/${name}`, () => eventBus.emitEvent(`render:${link}`));
+				this.loadFolder(name);
+			}, 10);
 			console.log('LoadMessage ', name);
 		}
 	}
@@ -66,6 +74,7 @@ export default class MessagesModel {
 					userInfo.getMessages().get(folder).forEach(message => this.transformDate(message, now));
 				}
 				storage.addData('userInfo', userInfo);
+				// debugger;
 				eventBus.emitEvent(`folder.onload/${folder}`);
 				return;
 			}
@@ -80,11 +89,11 @@ export default class MessagesModel {
 		this.userInfo = userInfo;
 		console.log('Add userinfo to MessageModel ', userInfo);
 
-		for (let link of MessagesPages.slice(2)) {
-			const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
-			console.log('LoadMessage ', name);
-			this.loadFolder(name);
-		}
+		// for (let link of MessagesPages.slice(2)) {
+		// 	const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
+		// 	console.log('LoadMessage ', name);
+		// 	this.loadFolder(name);
+		// }
 	};
 
 	onNotAuthorized = () => {
@@ -200,5 +209,38 @@ export default class MessagesModel {
 
 			consoleError('Unknown response:', response);
 		}).catch(consoleError);
+	};
+
+	toggleMessageState = (status, {folder, ids}) => {
+		jsonize(fetchPost(`/api/messages/${status}`, {messages: ids})).then(response => {
+			if (response.status === 'ok') {
+				console.log(storage.get('userInfo').getMessages(), folder);
+				storage.get('userInfo').getMessages().get(folder).forEach(message => {
+					if (ids.includes(message.id)) {
+						message.read = status === 'read';
+					}
+				});
+				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+				eventBus.emitEvent('render:update');
+				console.log(`${status} successful`);
+				return;
+			}
+
+			if (response.error.code === Errors.NotAuthorized.code) {
+				eventBus.emitEvent('application:sign-out');
+				return;
+			}
+
+			consoleError('Unknown response:', response);
+		}).catch(consoleError);
+	};
+
+	deleteMessage = ({folder, ids}) => {
+		let localUserInfo = storage.get('userInfo');
+		for (let id of ids) {
+			localUserInfo.deleteMessage(folder, id);
+		}
+		storage.addData('userInfo', localUserInfo);
+		this.toggleMessageState('remove', {folder, ids});
 	};
 }

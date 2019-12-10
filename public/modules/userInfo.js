@@ -63,4 +63,8 @@ export class UserInfo {
 		}
 	}
 
+	deleteMessage = (folder, id) => {
+		this.messages.set(folder, this.messages.get(folder).filter(elem => elem.id !== id));
+	}
+
 }

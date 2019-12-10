@@ -133,6 +133,10 @@ class Router {
 		this.routes.clear();
 		console.log('Router: clear');
 	}
+
+	getCurrentPage = () => {
+		return window.location.pathname;
+	}
 }
 
 export default new Router();

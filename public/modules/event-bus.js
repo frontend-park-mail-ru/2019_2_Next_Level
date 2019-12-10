@@ -4,6 +4,7 @@ class EventBus {
 	 */
 	constructor() {
 		this.listeners = {};
+		this.sporadic = {};
 	}
 
 	/**
@@ -18,7 +19,15 @@ class EventBus {
 	 * @returns {EventBus}
 	 */
 	addEventListener = (event, callback, priority=0) => {
-		(this.listeners[event] || (this.listeners[event] = [])).push({callback, priority});
+		(this.listeners[event] || (this.listeners[event] = [])).push({callback, priority, lifetime: undefined});
+		this.listeners[event].sort((a,b) => {
+			return b.priority - a.priority; // по убыванию
+		});
+		return this;
+	};
+
+	addSporadicEventListener = (event, callback, lifetime=1, priority=0) => {
+		(this.listeners[event] || (this.listeners[event] = [])).push({callback, priority, lifetime});
 		this.listeners[event].sort((a,b) => {
 			return b.priority - a.priority; // по убыванию
 		});
@@ -52,7 +61,17 @@ class EventBus {
 	 */
 	emitEvent = (event, data={}) => {
 		console.log('emit', event, data);
-		(this.listeners[event] || (this.listeners[event] = [])).forEach(elem => elem.callback(data));
+		if (!this.listeners[event]) {
+			return this;
+		}
+		this.listeners[event].forEach(elem => elem.callback(data));
+		if (this.listeners[event].lifetime) {
+			this.listeners[event].lifetime--;
+			if (this.listeners[event].lifetime===0) {
+				console.log('Remove event ', event);
+				this.listeners[event] = undefined;
+			}
+		}
 		return this;
 	};
 }

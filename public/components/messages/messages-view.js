@@ -21,6 +21,7 @@ export default class MessagesView {
 	constructor(messagesModel) {
 		console.log('Messages-view create');
 		this.messagesModel = messagesModel;
+		this.currentFolder = 'inbox';
 
 		routes.GetModuleRoutes('auth', 'settings').forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.messagesModel.dropRenderState);
@@ -157,6 +158,7 @@ export default class MessagesView {
 	};
 
 	renderFolder = (folderName) => {
+		this.currentFolder = folderName;
 		console.log('Render folder: ', folderName);
 		renderFest(
 			ReplaceInnerRenderer,
@@ -192,7 +194,7 @@ export default class MessagesView {
 			if (this.messageIsRead(id)){
 				targetState = 'unread';
 			}
-			eventBus.emitEvent(`messages:${folderName}-${targetState}-button-clicked`, [id]);
+			eventBus.emitEvent(`messages:${targetState}-button-clicked`, [id]);
 			this.toggleMessageReadStatus(id);
 		}));
 
@@ -202,13 +204,14 @@ export default class MessagesView {
 			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
 				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
 			});
-			eventBus.emitEvent(`messages:${folderName}-${status}-button-clicked`, ids);
-			ids.forEach(id => this.setMessageStatus(status, id));
+			eventBus.emitEvent(`messages:${status}-button-clicked`, {folder: folderName, ids});
 		};
 
 		document.querySelector('.actions__button_read').addEventListener('click', partial(statusCallback, 'read'));
 		document.querySelector('.actions__button_unread').addEventListener('click', partial(statusCallback, 'unread'));
+		document.querySelector('.actions__button_delete').addEventListener('click', partial(statusCallback, 'delete'));
 	};
+
 
 	renderInbox = partial(this.renderFolder, 'inbox');
 	renderSent = partial(this.renderFolder, 'sent');

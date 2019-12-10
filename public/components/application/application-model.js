@@ -16,6 +16,7 @@ export default class ApplicationModel {
 		this.authorized = undefined;
 		this.userInfo = new UserInfo();
 		storage.addData('userInfo', this.userInfo);
+		storage.addData('currentPage', '/messages/inbox');
 
 		// this.renderState = ApplicationRenderState.NotRendered;
 		//
@@ -57,7 +58,8 @@ export default class ApplicationModel {
 				storage.addData('userInfo', this.userInfo);
 				eventBus.emitEvent('application:authorized', this.userInfo);
 				if (/auth/.test(toRender)) {
-					return router.routeNew({}, '', '/messages/inbox');
+					// return router.routeNew({}, '', '/messages/inbox');
+					return router.routeNew({}, '', storage.get('currentPage'));
 				}
 			} else if (response.error.code === Errors.NotAuthorized.code) {
 				this.authorized = false;
