@@ -32,6 +32,7 @@ export default class HeaderView {
 	prerender = toRenderState => {
 		if (this.headerModel.renderState !== toRenderState) {
 			this.render();
+			console.log("Render: header")
 			this.headerModel.renderState = toRenderState;
 		}
 	};

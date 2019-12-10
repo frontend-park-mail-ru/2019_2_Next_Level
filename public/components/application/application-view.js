@@ -7,6 +7,7 @@ import '../common/common-style';
 import './application.css';
 import './application.tmpl.js';
 import routes from '../../modules/routes.js';
+import {ReplaceInnerRenderer} from '../../modules/renderer';
 
 export default class ApplicationView {
 	/**
@@ -14,13 +15,12 @@ export default class ApplicationView {
 	 * @param {ApplicationModel} applicationModel
 	 */
 	constructor(applicationModel) {
-		// debugger;
 		this.applicationModel = applicationModel;
 
 		routes.forEach(page => {
-			// debugger;
 			eventBus.addEventListener(`render:${page}`, this.render);
 		});
+		console.log('Init application-view');
 	}
 
 	render = () => {
@@ -28,7 +28,9 @@ export default class ApplicationView {
 			return;
 		}
 
-		renderFest(InsertAfterBeginRenderer, 'body', 'components/application/application.tmpl');
+		// renderFest(InsertAfterBeginRenderer, 'body', 'components/application/application.tmpl');
+		renderFest(ReplaceInnerRenderer, 'body', 'components/application/application.tmpl');
 		this.applicationModel.renderState = ApplicationRenderState.Rendered;
+		console.log("Render: application");
 	};
 }

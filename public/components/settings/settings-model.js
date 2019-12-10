@@ -7,26 +7,37 @@ import {Events} from './consts';
 import {partial} from '../../modules/partial';
 import {fetchGet} from '../../modules/fetch';
 import router from '../../modules/router';
+import {SettingsPages} from './routes';
+import storage from '../../modules/storage';
 
 export default class SettingsModel {
 	/**
 	 * @constructor
 	 */
 	constructor() {
+		console.log('Settings-model create');
 		this.dropRenderState();
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 
+		// debugger;
 		eventBus.addEventListener('settings:user-info-save-button-clicked', this.onUserInfoSaveButtonClicked);
 		eventBus.addEventListener('settings:security-save-button-clicked', this.onSecuritySaveButtonClicked);
 		eventBus.addEventListener(Events.DeleteFolderButtonClicked, this.onDeleteFolderButtonClicked);
 		eventBus.addEventListener(Events.AddFolderButtonCLicked, this.onAddFolderButtonClicked);
+		// console.log('Init settings-model');
 	}
 
 	getFolders = () => {
-		console.log("Folders", this.userInfo.folders);
-		return this.userInfo.folders;
+		return storage.get('userInfo').folders;
+		// if (!this.userInfo) {
+		// 	//debugger;
+		// 	console.log("Empty folders")
+		// 	return SettingsPages;
+		// }
+		// console.log("Folders", storage.get('userInfo').folders);
+		// return this.userInfo.folders;
 	};
 
 	dropRenderState = () => {
@@ -35,6 +46,11 @@ export default class SettingsModel {
 
 	onAuthorized = userInfo => {
 		this.userInfo = userInfo;
+		console.log('Add userinfo to Settings.model', userInfo);
+		// запрос на перезапись маршрутов в Messages
+		eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
+		// eventBus.emitEvent('settings:folders-added', storage.get('userInfo').folders);
+		// eventBus.emitEvent('router:reload');
 	};
 
 	onNotAuthorized = () => {
@@ -61,7 +77,7 @@ export default class SettingsModel {
 
 		jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
 			if (response.status === 'ok') {
-				this.userInfo = userInfo;
+				storage.addData('userInfo', userInfo);
 				eventBus.emitEvent('settings:user-info-edited');
 				return;
 			}
@@ -138,12 +154,14 @@ export default class SettingsModel {
 	};
 
 	onAddFolderButtonClicked = ({newFolderName}) => {
+		console.log('Add');
 		jsonize(fetchPost(`/api/messages/addFolder/${newFolderName}`, {})).then(response => {
 			if (response.status === 'ok') {
-				this.userInfo.folders.push({name: newFolderName, capacity: 0});
-				debugger;
-				eventBus.emitEvent('prerender:/settings/folders', {});
-				eventBus.emitEvent('settings:folder-added', {newFolderName});
+				let localUserInfo = storage.get('userInfo');
+				localUserInfo.folders.push({name: newFolderName, capacity: 0});
+				storage.addData('userInfo', localUserInfo);
+
+				eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
 				return;
 			}
 			switch (response.error.code) {
@@ -161,27 +179,40 @@ export default class SettingsModel {
 		}).catch(consoleError);
 	};
 
-	onDeleteFolderButtonClicked = ({folderName}) => {
-		jsonize(fetchPost(`api/profile/deleteFolder/${folderName}`, {})).then(response => {
-			if (response.status === 'ok') {
-				const index = this.folderList.findIndex(folderName);
-				this.folderList.splice(index, 1);
-				eventBus.emitEvent('prerender:/settings/folders', {});
-				eventBus.emitEvent('settings:folder-removed', {folderName});
+	onDeleteFolderButtonClicked = (folderName) => {
+		const folderExceptions = ['sent', 'inbox', 'spam', 'proceed', 'trash'];
+		folderName.forEach(name => {
+			if (folderExceptions.includes(name)) {
+				console.log('Folder exception');
 				return;
 			}
-			switch (response.error.code) {
-			case Errors.NotAuthorized:
-				eventBus.emitEvent('application:sign-out');
-				break;
-			case Errors.NotExist:
-				eventBus.emitEvent('settings:security-validate', {inputName: 'folder name', message: 'Folder does not exist'});
-				break;
-			default:
-				console.error('Unknown response:', response);
-				return;
-			}
+ 			jsonize(fetchPost(`/api/messages/deleteFolder/${name}`, {})).then(response => {
+				if (response.status === 'ok') {
+					let localUserInfo = storage.get('userInfo');
+					const index =localUserInfo.folders.findIndex((element) => element.name===name);
+					if (index>=0){
+						localUserInfo.folders.splice(index, 1);
+					}
+					storage.addData('userInfo', localUserInfo);
 
-		}).catch(consoleError);
+					eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
+				} else {
+					switch (response.error.code) {
+					case Errors.NotAuthorized:
+						eventBus.emitEvent('application:sign-out');
+						break;
+					case Errors.NotExist:
+						eventBus.emitEvent('settings:security-validate', {
+							inputName: 'folder name',
+							message: 'Folder does not exist',
+						});
+						break;
+					default:
+						console.error('Unknown response:', response);
+						return;
+					}
+				}
+			}).catch(consoleError);
+		});
 	};
 }

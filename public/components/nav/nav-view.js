@@ -16,6 +16,7 @@ export default class NavView {
 	 */
 	constructor(navModel) {
 		this.navModel = navModel;
+		this.currentPage = '/messages/inbox';
 
 		[
 			{
@@ -31,17 +32,27 @@ export default class NavView {
 		].forEach(({func, pages}) => pages.forEach(page => {
 			eventBus.addEventListener(`render:${page}`, func);
 		}));
+		// eventBus.addEventListener('router:reload', this.render);
+		console.log('Init nav-view');
 	}
 
 	prerender = (page, toRenderState) => {
-		if (this.navModel.renderState !== toRenderState) {
-			this.render(page);
+		// if (this.navModel.renderState !== toRenderState) {
+			this.currentPage = page;
+			this.render();
+		console.log("preRender: nav")
 			this.navModel.renderState = toRenderState;
-		}
+		// }
 	};
 
-	render = page => {
-		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page});
+	render = () => {
+		console.log("Render: nav")
+		let page = this.currentPage;
+		let messages = [];
+		routes.GetModuleRoutes('messages').slice(2).forEach(route => {
+			messages.push(route.split('/').slice(-1)[0]);
+		});
+		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page, messages});
 
 		if (page === 'auth') {
 			return;

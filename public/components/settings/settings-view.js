@@ -8,6 +8,8 @@ import routes from '../../modules/routes.js';
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
 import './__user_folders/settings__user-folder.tmpl.js';
+import {SettingsPages} from './routes.js';
+import storage from '../../modules/storage';
 
 export default class SettingsView {
 	/**
@@ -15,6 +17,7 @@ export default class SettingsView {
 	 * @param {SettingsModel} settingsModel
 	 */
 	constructor(settingsModel) {
+		console.log('Settings-view create');
 		this.settingsModel = settingsModel;
 
 		routes.GetModuleRoutes('auth', 'messages').forEach(page => {
@@ -41,16 +44,26 @@ export default class SettingsView {
 
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
-
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
+		// eventBus.addEventListener('settings:folders-changed', () => {
+		// 	console.log(SettingsPages);
+		// 	SettingsPages.length = 0;
+		// 	console.log(this.settingsModel.userInfo);
+		// 	this.settingsModel.userInfo.folders.forEach(folder => {
+		// 		SettingsPages.push(`/settings/${folder.name}`);
+		// 	});
+		// 	eventBus.emitEvent('router:reload');
+		// });
+		console.log('Init settings-view');
 	}
 
 	prerender = (renderer, toRenderState) => {
-		console.log("prerenderer");
+		console.log("SettingsView prerenderer");
 		// if (this.settingsModel.renderState !== toRenderState) {
 		// 	renderer();
 		// 	this.settingsModel.renderState = toRenderState;
 		// }
+		console.log("preRender: settings")
 		renderer();
 	};
 
@@ -59,7 +72,7 @@ export default class SettingsView {
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__user-info/settings__user-info.tmpl',
-			this.settingsModel.userInfo,
+			storage.get('userInfo'),
 		);
 
 		const form = document.querySelector('.form_user-info');
@@ -88,7 +101,7 @@ export default class SettingsView {
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__security/settings__security.tmpl',
-			this.settingsModel.userInfo,
+			storage.get('userInfo'),
 		);
 
 		const form = document.querySelector('.form_security');
@@ -111,13 +124,13 @@ export default class SettingsView {
 	};
 
 	renderFolders = () => {
-		console.log("Dsd");
-		console.log(this.settingsModel.getFolders());
+		console.log("RenderFolders");
+		// console.log("Folders: ", this.settingsModel.getFolders());
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__user_folders/settings__user-folder.tmpl',
-			this.settingsModel.getFolders(),
+			storage.get('userInfo').folders,
 		);
 
 		const folderNameInput = document.querySelector('.actions__input_name');
@@ -135,7 +148,7 @@ export default class SettingsView {
 			event.preventDefault();
 			let ids = [];
 			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
-				ids.push(+checkbox.className.match(/id(\d+)/)[1]);
+				ids.push(checkbox.className.match(/id-(\w+)/)[1]);
 			});
 			eventBus.emitEvent(Events.DeleteFolderButtonClicked, ids);
 		});

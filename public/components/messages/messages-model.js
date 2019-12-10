@@ -4,12 +4,15 @@ import eventBus from '../../modules/event-bus.js';
 import {jsonize, fetchGetWithParams, fetchPost, consoleError} from '../../modules/fetch.js';
 import {partial} from '../../modules/partial.js';
 import {checkEmail} from '../../modules/validate.es6.inc.js';
+import {MessagesPages} from './routes';
+import storage from '../../modules/storage';
 
 export default class MessagesModel {
 	/**
 	 * @constructor
 	 */
 	constructor() {
+		console.log('Messages-model create');
 		this.onNotAuthorized();
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
@@ -41,12 +44,19 @@ export default class MessagesModel {
 	};
 
 	loadFolder = folder => {
+		let userInfo = storage.get('userInfo');
 		jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage: 25, page: 1, folder})).then(response => {
 			if (response.status === 'ok') {
-				this.folders[folder].messages = response.messages;
+				const index = userInfo.folders.findIndex(element => element.name===folder);
+				if (index===-1) {
+					console.log('No such a folder to load: ', folder);
+					return;
+				}
+
+				userInfo.folders[index].messages = response.messages;
 				const now = new Date();
-				this.folders[folder].messages.forEach(message => this.transformDate(message, now));
-				eventBus.emitEvent(`messages:${folder}-loaded`);
+				userInfo.folders[index].messages.forEach(message => this.transformDate(message, now));
+				storage.addData('userInfo', userInfo);
 				return;
 			}
 			console.error(response);
@@ -58,9 +68,13 @@ export default class MessagesModel {
 
 	onAuthorized = userInfo => {
 		this.userInfo = userInfo;
+		console.log('Add userinfo to MessageModel ', userInfo);
 
-		this.loadInbox();
-		this.loadSent();
+		for (let link of MessagesPages.slice(2)) {
+			const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
+			console.log('LoadMessage ', name);
+			this.loadFolder(name);
+		}
 	};
 
 	onNotAuthorized = () => {

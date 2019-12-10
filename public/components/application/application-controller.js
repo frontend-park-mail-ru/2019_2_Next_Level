@@ -15,32 +15,51 @@ export default class ApplicationController {
 	 * @constructor
 	 */
 	constructor() {
-		routes.AddRoutes(new Map([['settings', SettingsPages],
-										 ['auth', AuthPages],
-										 ['messages', MessagesPages]]));
-
+		// Global data are stored in AppModel
+		// which is created just once a session.
 		this.applicationModel = new ApplicationModel();
+		this.init();
+	}
+
+	// Creates and recreates whole the application except Model
+	init = () => {
+		console.log('REINIT');
+		eventBus.Clear();
+		this.reloadRouter();
+		this.applicationModel.init();
 		this.applicationView = new ApplicationView(this.applicationModel);
 
 		eventBus.addEventListener('application:sign-out', () => router.routeNew({}, '', '/auth/sigh-in')); // popup ?
 		eventBus.addEventListener('auth:authorized', () => router.routeNew({}, '', '/messages/inbox'));
 
-		// // Проверим, что эта технология доступна в браузере
-		// if ('serviceWorker' in navigator) {
-		// 	navigator.serviceWorker.register('./dist/sw.js')
-		// 		.then(res => console.log('Registration succeeded. Scope is ' + res.scope))
-		// 		.catch(error => console.log('Registration failed with ' + error));
-		// }
+		eventBus.addEventListener('router:reload', () => {
+			// debugger;
+			// router.clearRoutes();
+			// router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
+			//
+			// routes.forEach(path => {
+			// 	router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
+			// });
 
+			// this.reloadRouter();
+			this.init();
+		});
 		this.headerController = new HeaderController();
 		this.mainController = new MainController();
+		router.routeCurrent();
+	};
+
+	reloadRouter = () => {
+		router.clearRoutes();
+		routes.AddRoutes(new Map([['settings', SettingsPages],
+			['auth', AuthPages],
+			['messages', MessagesPages]]));
 
 		router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
-
 		routes.forEach(path => {
 			router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
 		});
-	}
+	};
 
 	/**
 	 * Starts application

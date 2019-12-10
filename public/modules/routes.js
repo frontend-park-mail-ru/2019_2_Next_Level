@@ -7,6 +7,10 @@ class Routes {
         this.routes = new Map([...this.routes, ...routes]);
     };
 
+	Clear = () => {
+		this.routes.clear();
+	};
+
     GetRoutes = () => {
     	let list = [];
     	for (let route of this.routes.values()) {

@@ -11,6 +11,7 @@ import './compose/compose.tmpl.js';
 import './datalist/datalist.tmpl.js';
 import './datalist/-item/datalist-item.tmpl.js';
 import './message/message.tmpl.js';
+import storage from '../../modules/storage';
 
 export default class MessagesView {
 	/**
@@ -18,6 +19,7 @@ export default class MessagesView {
 	 * @param {MessagesModel} messagesModel
 	 */
 	constructor(messagesModel) {
+		console.log('Messages-view create');
 		this.messagesModel = messagesModel;
 
 		routes.GetModuleRoutes('auth', 'settings').forEach(page => {
@@ -25,9 +27,14 @@ export default class MessagesView {
 		});
 
 		eventBus.addEventListener('render:/messages/compose', this.prerenderCompose);
-		eventBus.addEventListener('render:/messages/inbox', this.prerenderInbox);
-		eventBus.addEventListener('render:/messages/sent', this.prerenderSent);
 		eventBus.addEventListener('render:/messages/message', this.prerenderMessage);
+
+		const userInfo = storage.get('userInfo');
+		if (userInfo) {
+			for (let folder of userInfo.folders) {
+				eventBus.addEventListener(`render:/messages/${folder.name}`, partial(this.renderFolder, folder.name));
+			}
+		}
 
 		eventBus.addEventListener('rerender:/messages/compose', this.renderCompose);
 		eventBus.addEventListener('messages:compose-validate', this.composeMessage);
@@ -41,10 +48,11 @@ export default class MessagesView {
 	}
 
 	prerender = (renderer, toRenderState) => {
-		if (this.messagesModel.renderState !== toRenderState) {
+		// if (this.messagesModel.renderState !== toRenderState) {
 			renderer();
+			console.log('Render: messages');
 			this.messagesModel.renderState = toRenderState;
-		}
+		// }
 	};
 
 	prerenderOnLoaded = (renderer, toRenderState) => {
@@ -130,8 +138,8 @@ export default class MessagesView {
 
 	messageIsRead = id => {
 		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
-		return datalistItem.classList.contains('datalist-item_read')
-	}
+		return datalistItem.classList.contains('datalist-item_read');
+	};
 
 	setMessageStatus = (status, id) => {
 		if (status === 'read') {
@@ -148,7 +156,8 @@ export default class MessagesView {
 		datalistItem.classList.toggle('datalist-item_unread');
 	};
 
-	renderFolder = folder => {
+	renderFolder = (folder) => {
+		console.log('Render folder: ', folder);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
@@ -181,7 +190,7 @@ export default class MessagesView {
 			const id = +toggler.className.match(/id(\d+)/)[1];
 			let targetState = 'read';
 			if (this.messageIsRead(id)){
-				targetState = 'unread'
+				targetState = 'unread';
 			}
 			eventBus.emitEvent(`messages:${folder}-${targetState}-button-clicked`, [id]);
 			this.toggleMessageReadStatus(id);

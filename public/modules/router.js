@@ -9,6 +9,7 @@ class Router {
 		this.root = root;
 		this.routes = new Map();
 		this.currentPath = null;
+		this.defaultPath = '/auth/sign-in';
 	}
 
 	/**
@@ -28,10 +29,14 @@ class Router {
 			console.error('Path already registered');
 			return this;
 		}
-
 		this.routes.set(path, callback);
+		console.log(`Register: ${path}`)
 		return this;
 	};
+
+	setDefault = (path) => {
+		this.defaultPath = path;
+	}
 
 	/**
 	 * Starts routing
@@ -101,7 +106,7 @@ class Router {
 	 * @returns {Router}
 	 */
 	routeCurrent = () => {
-		console.log(window.location.pathname);
+		console.log('RouteCurrent: ', window.location.pathname);
 		return this.route(window.location.pathname, window.location.search);
 	};
 
@@ -114,13 +119,19 @@ class Router {
 	route = (pathname, search) => {
 		console.log('route', pathname, search);
 		if (!this.routes.has(pathname)) {
-			console.error(`Unknown pathname: ${pathname}`);
+			console.log(`Unknown pathname: ${pathname}`);
+			this.routeNew({}, '', this.defaultPath);
 			return this;
 		}
 
 		this.routes.get(pathname)(pathname, parseSearch(search));
 		return this;
 	};
+
+	clearRoutes = () => {
+		this.routes.clear();
+		console.log('Router: clear');
+	}
 }
 
 export default new Router();

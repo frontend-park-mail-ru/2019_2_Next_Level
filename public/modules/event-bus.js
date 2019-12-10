@@ -18,8 +18,21 @@ class EventBus {
 	 * @returns {EventBus}
 	 */
 	addEventListener = (event, callback) => {
+		if (this.listeners[event] && this.listeners[event].indexOf(callback) != -1) {
+			console.log(`Dublicate event: ${event}`);
+			return;
+		}
 		(this.listeners[event] || (this.listeners[event] = [])).push(callback);
+		// console.log('Add event listener: ', event, callback);
 		return this;
+	};
+
+	removeEvent = (name) => {
+		this.listeners[name] = [];
+	};
+
+	Clear = () => {
+		this.listeners = [];
 	};
 
 	/**
