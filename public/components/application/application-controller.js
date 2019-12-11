@@ -43,15 +43,6 @@ export default class ApplicationController {
 		eventBus.addEventListener('auth:authorized', () => router.routeNew({}, '', '/messages/inbox'));
 
 		eventBus.addEventListener('router:reload', () => {
-			// debugger;
-			// router.clearRoutes();
-			// router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
-			//
-			// routes.forEach(path => {
-			// 	router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
-			// });
-
-			// this.reloadRouter();
 			this.init();
 			eventBus.emitEvent('render:update');
 		});

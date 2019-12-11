@@ -36,6 +36,7 @@ export default class ApplicationModel {
 		eventBus.addEventListener('application:not-authorized', () => {
 			storage.addData('userInfo', new UserInfo());
 		});
+		eventBus.addEventListener('auth:authorized', () => this.loadUserData(), 10);
 	};
 
 	/**
@@ -83,6 +84,21 @@ export default class ApplicationModel {
 			eventBus.emitEvent(`render:${toRender}`, data);
 		}).catch(consoleError);
 	};
+
+	loadUserData = () => {
+		jsonize(fetchGet('/api/profile/get')).then(response => {
+			console.log("GET PROFILE ");
+			if (response.status === 'ok') {
+
+				this.authorized = true;
+				const {userInfo} = response;
+				// debugger;
+				this.userInfo = new UserInfo(userInfo);
+				storage.addData('userInfo', this.userInfo);
+				eventBus.emitEvent('application:authorized', this.userInfo);
+			}
+		}).catch(consoleError);
+	}
 
 
 }

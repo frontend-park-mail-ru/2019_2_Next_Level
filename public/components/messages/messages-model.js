@@ -40,6 +40,8 @@ export default class MessagesModel {
 			}, 10);
 			console.log('LoadMessage ', name);
 		}
+
+		eventBus.addEventListener('messages:move_messages', this.moveMessage);
 	}
 
 	dropRenderState = () => {
@@ -243,4 +245,28 @@ export default class MessagesModel {
 		storage.addData('userInfo', localUserInfo);
 		this.toggleMessageState('remove', {folder, ids});
 	};
+
+	moveMessage = ({from, to, list}) => {
+		for (let id of list) {
+			jsonize(fetchPost(`/api/messages/changeFolder/${id}/${to}`, {})).then(response => {
+				if (response.status === 'ok') {
+					let localUserInfo = storage.get('userInfo');
+					localUserInfo.moveMessage(from, to, id);
+					storage.addData('userInfo', localUserInfo);
+					// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+					eventBus.emitEvent('render:update');
+					console.log(`${status} successful`);
+					return;
+				}
+
+				if (response.error.code === Errors.NotAuthorized.code) {
+					eventBus.emitEvent('application:sign-out');
+					return;
+				}
+
+				consoleError('Unknown response:', response);
+			}).catch(consoleError);
+
+		}
+	}
 }

@@ -1,0 +1,53 @@
+$border-width: 1px;
+.select {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 2px;
+}
+
+.select_active {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.select__list {
+    position: absolute; /* для появления над версткой, не сдвигая её */
+    display: none;
+    z-index: 99;
+    border: $border-width solid gray;
+    border-radius: 0 0 5px 5px;
+    background-color: white;
+    padding: $border-width;
+    padding-right: 0;
+    margin-top: -$border-width;
+    padding-left:-0.5px;
+}
+.select__list_visible {
+    display: block;
+}
+
+.select__header {
+    border: $border-width solid gray;
+    border-radius: 5px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.2s;
+    padding: 2px 4px;
+}
+
+.select__list__item {
+    background-color: white;
+    border: 0;
+    border-radius: 5px;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    font:inherit;
+    color:inherit;
+    clear: both;
+    width:100%;
+}
+
+.select__list__item:hover {
+    background-color: #cccccc;
+    border-radius: 0;
+}

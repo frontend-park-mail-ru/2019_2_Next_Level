@@ -67,4 +67,10 @@ export class UserInfo {
 		this.messages.set(folder, this.messages.get(folder).filter(elem => elem.id !== id));
 	}
 
+	moveMessage = (from, to, id) => {
+		const msg = this.messages.get(from).find(elem => elem.id===id);
+		this.deleteMessage(from, id);
+		this.addMessage(to, msg);
+	}
+
 }

@@ -45,15 +45,8 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
-		// eventBus.addEventListener('settings:folders-changed', () => {
-		// 	console.log(SettingsPages);
-		// 	SettingsPages.length = 0;
-		// 	console.log(this.settingsModel.userInfo);
-		// 	this.settingsModel.userInfo.folders.forEach(folder => {
-		// 		SettingsPages.push(`/settings/${folder.name}`);
-		// 	});
-		// 	eventBus.emitEvent('router:reload');
-		// });
+		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
+		
 		console.log('Init settings-view');
 	}
 

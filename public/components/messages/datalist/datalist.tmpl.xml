@@ -5,6 +5,7 @@
 			<button class="actions__button actions__button_delete">Delete</button>
 			<button class="actions__button actions__button_read">Read</button>
 			<button class="actions__button actions__button_unread">Unread</button>
+			<fest:include context="args.folders" src="../../common/select/select.tmpl.xml" />
 		</div>
 		<div class="box box_datalist">
 			<div class="datalist datalist_{args.page}">

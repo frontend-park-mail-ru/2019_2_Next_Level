@@ -1,4 +1,5 @@
 import {MessagesRenderState} from './messages-utility.js';
+import Select from 'common/select/select.js';
 import {renderFest} from '../../modules/view-utility.js';
 import eventBus from '../../modules/event-bus.js';
 import {partial} from '../../modules/partial.js';
@@ -164,7 +165,10 @@ export default class MessagesView {
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
 			'components/messages/datalist/datalist.tmpl',
-			{page: folderName, messages: storage.get('userInfo').getMessages().get(folderName) || []},
+			{page: folderName,
+						messages: storage.get('userInfo').getMessages().get(folderName) || [],
+						folders: storage.get('userInfo').getFolders(),
+						},
 		);
 
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
@@ -181,10 +185,10 @@ export default class MessagesView {
 			this.checkAll(checkboxes, selectAll.checked);
 		});
 
-		this.messagesUncheckedCount = checkboxes.length
+		this.messagesUncheckedCount = checkboxes.length;
 		checkboxes.forEach(checkbox => checkbox.addEventListener('click', event => {
 			this.messagesUncheckedCount += checkbox.checked ? -1 : 1;
-			selectAll.checked = this.messagesUncheckedCount===0
+			selectAll.checked = this.messagesUncheckedCount===0;
 		}));
 
 		document.querySelectorAll('.datalist-item__status').forEach(toggler => toggler.addEventListener('click', event => {
@@ -194,7 +198,7 @@ export default class MessagesView {
 			if (this.messageIsRead(id)){
 				targetState = 'unread';
 			}
-			eventBus.emitEvent(`messages:${targetState}-button-clicked`, [id]);
+			eventBus.emitEvent(`messages:${targetState}-button-clicked`, {folder: folderName, ids: [id]});
 			this.toggleMessageReadStatus(id);
 		}));
 
@@ -207,10 +211,25 @@ export default class MessagesView {
 			eventBus.emitEvent(`messages:${status}-button-clicked`, {folder: folderName, ids});
 		};
 
+
+		let select = new Select();
+		select.render(newFolderName => {
+			let ids = this.getSelected(checkboxes, data => +data);
+			eventBus.emitEvent('messages:move_messages', {from: folderName, to: newFolderName, list: ids});
+		});
+
 		document.querySelector('.actions__button_read').addEventListener('click', partial(statusCallback, 'read'));
 		document.querySelector('.actions__button_unread').addEventListener('click', partial(statusCallback, 'unread'));
 		document.querySelector('.actions__button_delete').addEventListener('click', partial(statusCallback, 'delete'));
 	};
+
+	getSelected = (checkboxes, converter) => {
+		let ids = [];
+		checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+			ids.push(converter(checkbox.className.match(/id(\d+)/)[1]));
+		});
+		return ids;
+	}
 
 
 	renderInbox = partial(this.renderFolder, 'inbox');

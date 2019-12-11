@@ -34,12 +34,14 @@ module.exports = {
 				use: [
 					'style-loader',
 					'css-loader',
-				],
-			}, {
+				]
+			},
+			{
 				// Для включения в css файлов шрифтов и картинок
 				test: /\.(jp?g|png|woff|woff2|eot|ttf|svg)$/,
 				loader: 'url-loader?limit=100000',
-			}, {
+			},
+			{
 				test: /\.tmpl\.xml$/,
 				loader: 'fest-webpack-loader',
 			}, {
@@ -76,6 +78,12 @@ module.exports = {
 					},
 				],
 			},
+		],
+	},
+	resolve: {
+		modules: [
+			path.resolve(__dirname+'/public/components'),
+			path.resolve(__dirname+'/public/modules'),
 		],
 	},
 };
