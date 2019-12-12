@@ -4,6 +4,7 @@ import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import {renderFest} from '../../modules/view-utility.js';
 import routes from '../../modules/routes.js';
+import storage from '../../modules/storage';
 
 import './header.css';
 import './header.tmpl.js';
@@ -38,11 +39,14 @@ export default class HeaderView {
 	};
 
 	render = () => {
+		const userData = storage.get('userInfo');
+		console.log("Header: ", storage.get('authState'));
 		renderFest(
 			ReplaceInnerRenderer,
 			'.application__header-wrap',
 			'components/header/header.tmpl',
-			this.headerModel.userInfo,
+			{nickname: userData.nickName, avatar: userData.avatar, authorized: storage.get('authState')},
+			// this.headerModel.userInfo,
 		);
 	};
 }

@@ -23,7 +23,7 @@ export default class ApplicationController {
 		if (currentPage==='/') {
 			currentPage = '/messages/inbox';
 		}
-		storage.addData('currentPage', currentPage);
+		storage.set('currentPage', currentPage);
 		console.log("Start: ", storage.get('currentPage'));
 		this.init();
 	}

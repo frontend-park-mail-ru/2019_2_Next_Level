@@ -15,8 +15,8 @@ export default class ApplicationModel {
 	constructor() {
 		this.authorized = undefined;
 		this.userInfo = new UserInfo();
-		storage.addData('userInfo', this.userInfo);
-		storage.addData('currentPage', '/messages/inbox');
+		storage.set('userInfo', this.userInfo);
+		storage.set('currentPage', '/messages/inbox');
 
 		// this.renderState = ApplicationRenderState.NotRendered;
 		//
@@ -34,7 +34,7 @@ export default class ApplicationModel {
 		});
 		// clear
 		eventBus.addEventListener('application:not-authorized', () => {
-			storage.addData('userInfo', new UserInfo());
+			storage.set('userInfo', new UserInfo());
 		});
 		eventBus.addEventListener('auth:authorized', () => this.loadUserData(), 10);
 	};
@@ -45,7 +45,7 @@ export default class ApplicationModel {
 	prerender = (toRender, data) => {
 		if (this.authorized === !/auth/.test(toRender)) {
 			console.log('AUTHORIZED');
-			storage.addData('currentPage', toRender);
+			storage.set('currentPage', toRender);
 			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
 		}
@@ -57,22 +57,24 @@ export default class ApplicationModel {
 			if (response.status === 'ok') {
 
 				this.authorized = true;
+				storage.set('authState', true);
 				const {userInfo} = response;
 				// debugger;
 				this.userInfo = new UserInfo(userInfo);
-				storage.addData('userInfo', this.userInfo);
+				storage.set('userInfo', this.userInfo);
 				eventBus.emitEvent('application:authorized', this.userInfo);
 				if (/auth/.test(toRender)) {
 					let path = storage.get('currentPage');
 					if (/auth/.test(path)) {
 						path = '/messages/inbox';
-						storage.addData('currentPage', path);
+						storage.set('currentPage', path);
 					}
 					return router.routeNew({}, '', path);
 					// return router.routeNew({}, '', storage.get('currentPage'));
 				}
 			} else if (response.error.code === Errors.NotAuthorized.code) {
 				this.authorized = false;
+				storage.set('authState', false);
 				eventBus.emitEvent('application:not-authorized');
 				if (!/auth/.test(toRender)) {
 					return router.routeNew({}, '', '/auth/sign-in');
@@ -94,7 +96,7 @@ export default class ApplicationModel {
 				const {userInfo} = response;
 				// debugger;
 				this.userInfo = new UserInfo(userInfo);
-				storage.addData('userInfo', this.userInfo);
+				storage.set('userInfo', this.userInfo);
 				eventBus.emitEvent('application:authorized', this.userInfo);
 			}
 		}).catch(consoleError);

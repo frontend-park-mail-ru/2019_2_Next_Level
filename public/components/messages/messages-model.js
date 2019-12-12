@@ -6,6 +6,7 @@ import {partial} from '../../modules/partial.js';
 import {checkEmail} from '../../modules/validate.es6.inc.js';
 import {MessagesPages} from './routes';
 import storage from '../../modules/storage';
+import {Config} from 'config.js';
 
 export default class MessagesModel {
 	/**
@@ -63,25 +64,7 @@ export default class MessagesModel {
 	};
 
 	loadFolder = folder => {
-		jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage: 25, page: 1, folder})).then(response => {
-			if (response.status === 'ok') {
-				let userInfo = storage.get('userInfo');
-				if (!response.messages) {
-					response.messages = [];
-				}
-				userInfo.getMessages().delete(folder);
-				userInfo.addMessageList(folder, response.messages);
-				const now = new Date();
-				if (userInfo.getMessages().has(folder)) {
-					userInfo.getMessages().get(folder).forEach(message => this.transformDate(message, now));
-				}
-				storage.addData('userInfo', userInfo);
-				// debugger;
-				eventBus.emitEvent(`folder.onload/${folder}`);
-				return;
-			}
-			console.error(response);
-		}).catch(consoleError);
+		this.updateFolderMessages(folder, 1, Config.messagesPerPage);
 	};
 
 	loadInbox = partial(this.loadFolder, 'inbox');
@@ -242,7 +225,7 @@ export default class MessagesModel {
 		for (let id of ids) {
 			localUserInfo.deleteMessage(folder, id);
 		}
-		storage.addData('userInfo', localUserInfo);
+		storage.set('userInfo', localUserInfo);
 		this.toggleMessageState('remove', {folder, ids});
 	};
 
@@ -252,7 +235,7 @@ export default class MessagesModel {
 				if (response.status === 'ok') {
 					let localUserInfo = storage.get('userInfo');
 					localUserInfo.moveMessage(from, to, id);
-					storage.addData('userInfo', localUserInfo);
+					storage.set('userInfo', localUserInfo);
 					// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
 					eventBus.emitEvent('render:update');
 					console.log(`${status} successful`);
@@ -268,5 +251,29 @@ export default class MessagesModel {
 			}).catch(consoleError);
 
 		}
+	}
+
+	updateFolderMessages = (folder, page, perPage) => {
+		return jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage, page, folder})).then(response => {
+			if (response.status === 'ok') {
+				let userInfo = storage.get('userInfo');
+				if (!response.messages) {
+					response.messages = [];
+				}
+				if (page===1) {
+					userInfo.getMessages().delete(folder);
+				}
+				userInfo.addMessageList(folder, response.messages);
+				const now = new Date();
+				if (userInfo.getMessages().has(folder)) {
+					userInfo.getMessages().get(folder).forEach(message => this.transformDate(message, now));
+				}
+				storage.set('userInfo', userInfo);
+				// debugger;
+				eventBus.emitEvent(`folder.onload/${folder}`);
+				return;
+			}
+			console.error(response);
+		}).catch(consoleError);
 	}
 }

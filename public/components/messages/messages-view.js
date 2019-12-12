@@ -171,6 +171,15 @@ export default class MessagesView {
 						},
 		);
 
+		document.getElementsByClassName('box box_datalist')[0].addEventListener('onscroll', event => {
+			event.preventDefault();
+			let element = event.target;
+			var scroll = element.scrollTop;
+			var height = element.scrollHeight - element.clientHeight;
+			if ( height - scroll === 0 ) alert('ok!');
+
+		});
+
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
 
 		const selectAll = document.querySelector('.actions__button_select input');

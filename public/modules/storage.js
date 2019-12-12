@@ -3,7 +3,7 @@ class Storage {
 		this.storage = new Map();
 	}
 
-	addData = (name, data) => {
+	set = (name, data) => {
 		this.storage[name] = data;
 	};
 

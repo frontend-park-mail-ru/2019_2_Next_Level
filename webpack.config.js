@@ -84,6 +84,7 @@ module.exports = {
 		modules: [
 			path.resolve(__dirname+'/public/components'),
 			path.resolve(__dirname+'/public/modules'),
+			path.resolve(__dirname+'/public'),
 		],
 	},
 };

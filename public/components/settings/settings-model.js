@@ -78,7 +78,7 @@ export default class SettingsModel {
 
 		jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
 			if (response.status === 'ok') {
-				storage.addData('userInfo', new UserInfo(userInfo));
+				storage.set('userInfo', new UserInfo(userInfo));
 				eventBus.emitEvent('settings:user-info-edited');
 				return;
 			}
@@ -160,7 +160,7 @@ export default class SettingsModel {
 			if (response.status === 'ok') {
 				let localUserInfo = storage.get('userInfo');
 				localUserInfo.addFolder({name: newFolderName, capacity: 0});
-				storage.addData('userInfo', localUserInfo);
+				storage.set('userInfo', localUserInfo);
 
 				eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
 				return;
@@ -195,7 +195,7 @@ export default class SettingsModel {
 					// 	localUserInfo.folders.splice(index, 1);
 					// }
 					localUserInfo.deleteFolderByName(name);
-					storage.addData('userInfo', localUserInfo);
+					storage.set('userInfo', localUserInfo);
 
 					eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
 				} else {
