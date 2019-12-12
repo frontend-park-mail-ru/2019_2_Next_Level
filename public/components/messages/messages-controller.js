@@ -13,7 +13,7 @@ export default class MessagesController {
 		this.messagesView = new MessagesView(this.messagesModel);
 		eventBus.addEventListener('settings:folders-changed', (folders) => {
 			console.log(MessagesPages);
-			const temp = MessagesPages.slice(0, 2);
+			const temp = MessagesPages.slice(0, 3);
 			MessagesPages.length=0;
 			MessagesPages.push(...temp);
 			folders.forEach(folder => {

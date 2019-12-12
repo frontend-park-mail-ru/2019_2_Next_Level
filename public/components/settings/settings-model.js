@@ -61,20 +61,20 @@ export default class SettingsModel {
 
 	// onUserInfoSaveButtonClicked = ({firstName, secondName, nickName, birthDate, sex}) => {
 	onUserInfoSaveButtonClicked = (formData) => {
-		// const checks = [
-		// 	{check: checkName, variable: firstName, name: 'firstName', msg: 'Wrong first name!'},
-		// 	{check: checkName, variable: secondName, name: 'secondName', msg: 'Wrong second name!'},
-		// 	{check: checkNickName, variable: nickName, name: 'nickName', msg: 'Wrong nick name!'},
-		// 	{check: checkDate, variable: birthDate, name: 'birthDate', msg: 'Wrong birth date!'},
-		// 	{check: checkSex, variable: sex, name: 'sex', msg: 'Wrong sex!'},
-		// ];
+		const checks = [
+			{check: checkName, variable: formData.get('firstName'), name: 'firstName', msg: 'Wrong first name!'},
+			{check: checkName, variable: formData.get('secondName'), name: 'secondName', msg: 'Wrong second name!'},
+			{check: checkNickName, variable: formData.get('nickName'), name: 'nickName', msg: 'Wrong nick name!'},
+			{check: checkDate, variable: formData.get('birthDate'), name: 'birthDate', msg: 'Wrong birth date!'},
+			{check: checkSex, variable: formData.get('sex'), name: 'sex', msg: 'Wrong sex!'},
+		];
 
-		// for (let c of checks) {
-		// 	if (!c.check(c.variable)) {
-		// 		eventBus.emitEvent('settings:user-info-validate', {inputName: c.name, message: c.msg});
-		// 		return;
-		// 	}
-		// }
+		for (let c of checks) {
+			if (!c.check(c.variable)) {
+				eventBus.emitEvent('settings:user-info-validate', {inputName: c.name, message: c.msg});
+				return;
+			}
+		}
 
 		// const userInfo = {firstName, secondName, nickName, avatar: null, birthDate, sex};
 		jsonize(fetchFile('/api/profile/editUserInfo', formData)).then(response => {

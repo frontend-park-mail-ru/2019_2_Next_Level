@@ -74,7 +74,7 @@ export default class SettingsView {
 
 			const firstName = form.elements.firstName.value;
 			const secondName = form.elements.secondName.value;
-			const nickName = form.elements.nickName.value;
+			// const nickName = form.elements.nickName.value;
 			const birthDate = form.elements.birthDate.value;
 			const sex = form.elements.sex.value;
 

@@ -49,7 +49,7 @@ export default class NavView {
 		console.log("Render: nav")
 		let page = this.currentPage;
 		let messages = [];
-		routes.GetModuleRoutes('messages').slice(2).forEach(route => {
+		routes.GetModuleRoutes('messages').slice(3).forEach(route => {
 			messages.push(route.split('/').slice(-1)[0]);
 		});
 		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page, messages});

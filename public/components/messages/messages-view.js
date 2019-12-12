@@ -38,10 +38,14 @@ export default class MessagesView {
 
 		const userInfo = storage.get('userInfo');
 		if (userInfo) {
-			for (let folder of userInfo.getFolders()) {
+			let folders = userInfo.getFolders();
+			folders.push({name: 'search'});
+			for (let folder of folders) {
+				console.log(folder);
 				eventBus.addEventListener(`render:/messages/${folder.name}`, partial(this.renderFolder, folder.name));
 			}
 		}
+		// eventBus.addEventListener('render:/messages/search', partial(this.renderFolder, 'search'));
 
 		eventBus.addEventListener('rerender:/messages/compose', this.renderCompose);
 		eventBus.addEventListener('messages:compose-validate', this.composeMessage);
@@ -164,6 +168,7 @@ export default class MessagesView {
 	};
 
 	renderFolder = (folderName) => {
+		console.log('renderFolder ', folderName);
 		this.currentFolder = folderName;
 		// сколько сейчас есть страниц в хранилище
 		console.log((storage.get('userInfo').getMessages().get(folderName) || []).length);

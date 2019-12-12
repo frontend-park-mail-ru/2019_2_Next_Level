@@ -48,5 +48,12 @@ export default class HeaderView {
 			{nickname: userData.nickName, avatar: userData.avatar, authorized: storage.get('authState')},
 			// this.headerModel.userInfo,
 		);
+
+		let searchForm = document.getElementsByClassName('header__search__form')[0];
+		searchForm.addEventListener('submit', event => {
+			event.preventDefault();
+			const query = searchForm.elements.query.value;
+			eventBus.emitEvent('header:search', {query});
+		});
 	};
 }

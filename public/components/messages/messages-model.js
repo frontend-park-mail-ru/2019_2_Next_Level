@@ -26,7 +26,7 @@ export default class MessagesModel {
 		eventBus.addEventListener('messages:delete-button-clicked', this.deleteMessage);
 
 		// слушатели для получения сообщений при переходе на соответствующую страницу
-		for (let link of MessagesPages.slice(2)) {
+		for (let link of MessagesPages.slice(3)) {
 			const name = link.split('/').splice(-1)[0];	// перевернули массив и взяли первый элемент результата
 			// при запросе на переход к странице папки запрашиваем список писем, затем требуем перерисовки страницы.
 
@@ -42,6 +42,7 @@ export default class MessagesModel {
 		eventBus.addEventListener('messages:loadnewpage', ({page, folder}) => {
 			this.loadFolder(folder, page);
 		});
+		eventBus.addEventListener('application:getMessagesById', this.loadMessagesById);
 	}
 
 	dropRenderState = () => {
@@ -66,9 +67,6 @@ export default class MessagesModel {
 		console.log( Config.messagesPerPage);
 		this.updateFolderMessages(folder, page, Config.messagesPerPage);
 	};
-
-	loadInbox = partial(this.loadFolder, 'inbox');
-	loadSent = partial(this.loadFolder, 'sent');
 
 	onAuthorized = userInfo => {
 		this.userInfo = userInfo;
@@ -252,6 +250,38 @@ export default class MessagesModel {
 				return;
 			}
 			console.error(response);
+		}).catch(consoleError);
+	};
+
+	loadMessagesById = ({messages, folder}) => {
+		jsonize(fetchPost(`/api/messages/getById`, {ids: messages})).then(response => {
+			if (response.status === 'ok') {
+				if (!response.messages){
+					console.log('Empty getMessages response');
+					return;
+				}
+				response.messages.forEach(message => this.transformDate(message, new Date()));
+				let userInfo = storage.get('userInfo');
+				userInfo.getMessages().delete(folder);
+				userInfo.addMessageList(folder, response.messages);
+				// eventBus.emitEvent('prerender:/messages/search', {});
+				eventBus.emitEvent(`render:/messages/${folder}`);
+				return;
+			}
+
+			switch (response.error.code) {
+			case Errors.NotAuthorized.code:
+				eventBus.emitEvent('application:sign-out');
+				break;
+			case Errors.InvalidEmail.code:
+			case Errors.EmptySubject.code:
+			case Errors.EmptyContent.code:
+			case Errors.ContentTooLarge.code:
+				eventBus.emitEvent('messages:compose-validate', response.error.msg);
+				break;
+			default:
+				console.error('Unknown response:', response);
+			}
 		}).catch(consoleError);
 	}
 }

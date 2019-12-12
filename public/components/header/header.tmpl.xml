@@ -9,7 +9,9 @@
 			<fest:if test="args.authorized === true">
 				<div class="layout__right layout__right_header">
 					<div class="header__search-wrap">
-						<input class="header__search" type="text" placeholder="Search"/>
+						<form class="header__search__form">
+							<input class="header__search" name="query" type="text" placeholder="Search"/>
+						</form>
 					</div>
 					<a class="header__profile-wrap" href="/settings/user-info">
 						<div class="header__profile-name"><fest:value>args.nickname</fest:value></div>
