@@ -6,6 +6,8 @@ import {partial} from '../../modules/partial.js';
 import {ReplaceInnerRenderer} from '../../modules/renderer.js';
 import router from '../../modules/router.js';
 import routes from '../../modules/routes.js';
+import {Config} from 'config.js';
+
 
 import './messages.css';
 import './compose/compose.tmpl.js';
@@ -23,6 +25,9 @@ export default class MessagesView {
 		console.log('Messages-view create');
 		this.messagesModel = messagesModel;
 		this.currentFolder = 'inbox';
+		this.requestedPage = 1;
+		this.pagesLoadPlan = new Map();
+		this.loadPagesMutex = new Map();
 
 		routes.GetModuleRoutes('auth', 'settings').forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.messagesModel.dropRenderState);
@@ -160,6 +165,13 @@ export default class MessagesView {
 
 	renderFolder = (folderName) => {
 		this.currentFolder = folderName;
+		// сколько сейчас есть страниц в хранилище
+		console.log((storage.get('userInfo').getMessages().get(folderName) || []).length);
+		const messagesCount = (storage.get('userInfo').getMessages().get(folderName) || []).length;
+		let pagesCount = Math.trunc(messagesCount/Config.messagesPerPage)+(messagesCount%Config.messagesPerPage>0);
+
+		this.loadPagesMutex.set(folderName, pagesCount);
+		this.requestedPage = pagesCount;
 		console.log('Render folder: ', folderName);
 		renderFest(
 			ReplaceInnerRenderer,
@@ -171,12 +183,24 @@ export default class MessagesView {
 						},
 		);
 
-		document.getElementsByClassName('box box_datalist')[0].addEventListener('onscroll', event => {
+		document.getElementsByClassName('main')[0].addEventListener('scroll', event => {
 			event.preventDefault();
 			let element = event.target;
-			var scroll = element.scrollTop;
-			var height = element.scrollHeight - element.clientHeight;
-			if ( height - scroll === 0 ) alert('ok!');
+			const scroll = element.scrollTop+1;
+			const height = element.scrollHeight - element.clientHeight;
+			if ( height - scroll <= 0 ) {
+				console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
+				this.requestedPage++;
+				// если запросили следущую страницу, то идем и получаем
+				if (this.requestedPage-this.loadPagesMutex.get(this.currentFolder)<=1) {
+					console.log('Requst page: ', this.requestedPage);
+					eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder});
+				} else {
+					// если запрос уже был, но страница еще не перерисована, откатываем счетчик
+					this.requestedPage--;
+				}
+			}
+			console.log(height, scroll)
 
 		});
 
