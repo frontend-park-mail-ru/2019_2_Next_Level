@@ -46,7 +46,7 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
-		
+
 		console.log('Init settings-view');
 	}
 
@@ -78,7 +78,17 @@ export default class SettingsView {
 			const birthDate = form.elements.birthDate.value;
 			const sex = form.elements.sex.value;
 
-			eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
+			const formData = new FormData();
+			const fileField = form.querySelector('input[type="file"]');
+			formData.append('avatar', fileField.files[0]);
+			formData.append('firstName', firstName);
+			formData.append('secondName', secondName);
+			// formData.append('nickName', nickName);
+			formData.append('birthDate', birthDate);
+			formData.append('sex', sex);
+
+			// eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
+			eventBus.emitEvent('settings:user-info-save-button-clicked', formData);
 		});
 
 		document.querySelector('.form__button_cancel').addEventListener('click', event => {
@@ -169,6 +179,7 @@ export default class SettingsView {
 
 	onUserInfoEdited = () => {
 		this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		eventBus.emitEvent('application:load_userdata');
 		alert('User info edited successful');
 	}
 }

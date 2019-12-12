@@ -37,6 +37,7 @@ export default class ApplicationModel {
 			storage.set('userInfo', new UserInfo());
 		});
 		eventBus.addEventListener('auth:authorized', () => this.loadUserData(), 10);
+		eventBus.addEventListener('application:load_userdata', () => this.loadUserData());
 	};
 
 	/**
@@ -91,13 +92,18 @@ export default class ApplicationModel {
 		jsonize(fetchGet('/api/profile/get')).then(response => {
 			console.log("GET PROFILE ");
 			if (response.status === 'ok') {
-
 				this.authorized = true;
 				const {userInfo} = response;
 				// debugger;
 				this.userInfo = new UserInfo(userInfo);
 				storage.set('userInfo', this.userInfo);
 				eventBus.emitEvent('application:authorized', this.userInfo);
+			} else if (response.error.code === Errors.NotAuthorized.code) {
+				this.authorized = false;
+				storage.set('authState', false);
+				eventBus.emitEvent('application:not-authorized');
+			} else {
+				consoleError('Unknown response', response);
 			}
 		}).catch(consoleError);
 	}

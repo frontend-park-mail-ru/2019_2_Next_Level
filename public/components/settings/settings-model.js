@@ -5,11 +5,12 @@ import {jsonize, fetchPost, consoleError} from '../../modules/fetch.js';
 import {checkName, checkNickName, checkDate, checkSex, checkPassword} from '../../modules/validate.es6.inc.js';
 import {Events} from './consts';
 import {partial} from '../../modules/partial';
-import {fetchGet} from '../../modules/fetch';
+import {fetchGet, fetchFile} from '../../modules/fetch';
 import router from '../../modules/router';
 import {SettingsPages} from './routes';
 import storage from '../../modules/storage';
 import {UserInfo} from '../../modules/userInfo';
+import form from '../common/form/form';
 
 export default class SettingsModel {
 	/**
@@ -58,28 +59,30 @@ export default class SettingsModel {
 		this.userInfo = {};
 	};
 
-	onUserInfoSaveButtonClicked = ({firstName, secondName, nickName, birthDate, sex}) => {
-		const checks = [
-			{check: checkName, variable: firstName, name: 'firstName', msg: 'Wrong first name!'},
-			{check: checkName, variable: secondName, name: 'secondName', msg: 'Wrong second name!'},
-			{check: checkNickName, variable: nickName, name: 'nickName', msg: 'Wrong nick name!'},
-			{check: checkDate, variable: birthDate, name: 'birthDate', msg: 'Wrong birth date!'},
-			{check: checkSex, variable: sex, name: 'sex', msg: 'Wrong sex!'},
-		];
+	// onUserInfoSaveButtonClicked = ({firstName, secondName, nickName, birthDate, sex}) => {
+	onUserInfoSaveButtonClicked = (formData) => {
+		// const checks = [
+		// 	{check: checkName, variable: firstName, name: 'firstName', msg: 'Wrong first name!'},
+		// 	{check: checkName, variable: secondName, name: 'secondName', msg: 'Wrong second name!'},
+		// 	{check: checkNickName, variable: nickName, name: 'nickName', msg: 'Wrong nick name!'},
+		// 	{check: checkDate, variable: birthDate, name: 'birthDate', msg: 'Wrong birth date!'},
+		// 	{check: checkSex, variable: sex, name: 'sex', msg: 'Wrong sex!'},
+		// ];
 
-		for (let c of checks) {
-			if (!c.check(c.variable)) {
-				eventBus.emitEvent('settings:user-info-validate', {inputName: c.name, message: c.msg});
-				return;
-			}
-		}
+		// for (let c of checks) {
+		// 	if (!c.check(c.variable)) {
+		// 		eventBus.emitEvent('settings:user-info-validate', {inputName: c.name, message: c.msg});
+		// 		return;
+		// 	}
+		// }
 
-		const userInfo = {firstName, secondName, nickName, avatar: null, birthDate, sex};
-
-		jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
+		// const userInfo = {firstName, secondName, nickName, avatar: null, birthDate, sex};
+		jsonize(fetchFile('/api/profile/editUserInfo', formData)).then(response => {
 			if (response.status === 'ok') {
-				storage.set('userInfo', new UserInfo(userInfo));
+				// storage.set('userInfo', new UserInfo(userInfo));
+
 				eventBus.emitEvent('settings:user-info-edited');
+				eventBus.emitEvent('render:/settings/user-info');
 				return;
 			}
 
@@ -109,6 +112,39 @@ export default class SettingsModel {
 			}
 			eventBus.emitEvent('settings:user-info-validate', {inputName, message: response.error.msg});
 		}).catch(consoleError);
+		// jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
+		// 	if (response.status === 'ok') {
+		// 		storage.set('userInfo', new UserInfo(userInfo));
+		// 		eventBus.emitEvent('settings:user-info-edited');
+		// 		return;
+		// 	}
+		//
+		// 	let inputName = '';
+		// 	switch (response.error.code) {
+		// 	case Errors.NotAuthorized:
+		// 		eventBus.emitEvent('application:sign-out');
+		// 		break;
+		// 	case Errors.InvalidFirstName.code:
+		// 		inputName = 'firstName';
+		// 		break;
+		// 	case Errors.InvalidSecondName.code:
+		// 		inputName = 'secondName';
+		// 		break;
+		// 	case Errors.InvalidNickName.code:
+		// 		inputName = 'nickName';
+		// 		break;
+		// 	case Errors.InvalidBirthDate.code:
+		// 		inputName = 'birthDate';
+		// 		break;
+		// 	case Errors.InvalidSex.code:
+		// 		inputName = 'sex';
+		// 		break;
+		// 	default:
+		// 		console.error('Unknown response:', response);
+		// 		return;
+		// 	}
+		// 	eventBus.emitEvent('settings:user-info-validate', {inputName, message: response.error.msg});
+		// }).catch(consoleError);
 	};
 
 	onSecuritySaveButtonClicked = ({currentPassword, newPassword, newPasswordAgain}) => {

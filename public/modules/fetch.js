@@ -10,6 +10,19 @@ const backend = Config.backend;
  * @param   {Object} body
  * @returns {Promise<Response>}
  */
+
+export const fetchFile = (url, body) => {
+	console.log('fetchFile', url);
+	return fetch(backend + url, {
+		method: 'PUT',
+		headers: {
+			'Accept': 'multipart/form-data',
+			// 'Content-Type': 'multipart/form-data',
+		},
+		body: body,
+		credentials: 'include',
+	});
+}
 export const fetchPost = (url, body) => {
 	console.log('fetchPost', url, body);
 	return fetch(backend + url, {
