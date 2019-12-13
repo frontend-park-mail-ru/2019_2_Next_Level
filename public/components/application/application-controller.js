@@ -2,10 +2,10 @@ import ApplicationModel from './application-model.js';
 import ApplicationView from './application-view.js';
 import HeaderController from '../header/header-controller.js';
 import MainController from '../main/main-controller.js';
-import eventBus from '../../modules/event-bus.js';
-import router from '../../modules/router.js';
-import routes from '../../modules/routes.js';
-import storage from '../../modules/storage';
+import eventBus from 'modules/event-bus.js';
+import router from 'modules/router.js';
+import routes from 'modules/routes.js';
+import storage from 'modules/storage';
 
 import {SettingsPages} from '../settings/routes.js';
 import {AuthPages} from '../auth/routes.js';

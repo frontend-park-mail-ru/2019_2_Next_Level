@@ -1,10 +1,10 @@
 import {NavRenderSate} from './nav-utility.js';
-import eventBus from '../../modules/event-bus.js';
-import {partial} from '../../modules/partial.js';
-import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import router from '../../modules/router.js';
-import {renderFest} from '../../modules/view-utility.js';
-import routes from '../../modules/routes.js';
+import eventBus from 'modules/event-bus.js';
+import {partial} from 'modules/partial.js';
+import {ReplaceInnerRenderer} from 'modules/renderer.js';
+import router from 'modules/router.js';
+import {renderFest} from 'modules/view-utility.js';
+import routes from 'modules/routes.js';
 
 import './nav.css';
 import './nav.tmpl.js';

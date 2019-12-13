@@ -1,8 +1,8 @@
 import {HeaderRenderState} from './header-utility.js';
-import eventBus from '../../modules/event-bus.js';
-import {consoleError, fetchPost, jsonize, fetchGet} from '../../modules/fetch';
-import {Errors} from '../../modules/errors.es6.inc';
-import storage from '../../modules/storage';
+import eventBus from 'modules/event-bus.js';
+import {consoleError, fetchPost, jsonize, fetchGet} from 'modules/fetch';
+import {Errors} from 'modules/errors.es6.inc';
+import storage from 'modules/storage';
 
 export default class HeaderModel {
 	/**
