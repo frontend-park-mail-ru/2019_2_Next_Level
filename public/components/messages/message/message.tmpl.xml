@@ -12,7 +12,7 @@
 			<div class="message">
 				<div class="message-head">
 					<a class="message-head__avatar-wrap">
-						<img class="message-head__avatar" src="/static/images/icons/no-avatar.svg"/>
+						<img class="message-head__avatar" src="/static/images/icon/no-avatar.svg"/>
 					</a>
 
 					<div class="message-head__content">

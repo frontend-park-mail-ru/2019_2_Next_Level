@@ -178,7 +178,7 @@ export default class SettingsView {
 	]);
 
 	onUserInfoEdited = () => {
-		this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		// this.userInfoDisplayMessage({inputName: 'sex', message: ''});
 		eventBus.emitEvent('application:load_userdata');
 		alert('User info edited successful');
 	}

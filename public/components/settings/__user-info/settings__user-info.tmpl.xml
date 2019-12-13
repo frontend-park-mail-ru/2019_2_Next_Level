@@ -31,18 +31,6 @@
 				}, {
 					r_modifiers: ['settings'],
 					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Nick name',
-					input: {
-						cls: 'form__input_nick-name',
-						type: 'text',
-						id: 'nickName',
-						name: 'nickName',
-						value: args.nickName,
-					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
 					ww_modifiers: ['settings', 'avatar'],
 					label: 'Avatar',
 					input: {

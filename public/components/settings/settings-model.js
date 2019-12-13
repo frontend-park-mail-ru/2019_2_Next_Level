@@ -64,7 +64,6 @@ export default class SettingsModel {
 		const checks = [
 			{check: checkName, variable: formData.get('firstName'), name: 'firstName', msg: 'Wrong first name!'},
 			{check: checkName, variable: formData.get('secondName'), name: 'secondName', msg: 'Wrong second name!'},
-			{check: checkNickName, variable: formData.get('nickName'), name: 'nickName', msg: 'Wrong nick name!'},
 			{check: checkDate, variable: formData.get('birthDate'), name: 'birthDate', msg: 'Wrong birth date!'},
 			{check: checkSex, variable: formData.get('sex'), name: 'sex', msg: 'Wrong sex!'},
 		];

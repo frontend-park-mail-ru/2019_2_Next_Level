@@ -17,7 +17,7 @@
 		</div>
 		<a class="datalist-item__message-wrap" href="/messages/message?id={args.id}">
 			<div class="datalist-item__icon-wrap">
-				<img class="datalist-item__icon" src="/static/images/icons/no-avatar.svg"/>
+				<img class="datalist-item__icon" src="/static/images/icon/no-avatar.svg"/>
 			</div>
 			<div class="datalist-item__addr-wrap">
 				<div class="datalist-item__addr"><fest:value>addr</fest:value></div>
