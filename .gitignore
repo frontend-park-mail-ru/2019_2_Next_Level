@@ -12,3 +12,5 @@ package-lock.json
 *.inc.js
 
 dist/
+
+id_rsa_dep
