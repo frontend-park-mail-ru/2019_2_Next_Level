@@ -1,10 +1,10 @@
 import {HeaderRenderState} from './header-utility.js';
-import eventBus from 'modules/event-bus.js';
-import {partial} from 'modules/partial.js';
-import {ReplaceInnerRenderer} from 'modules/renderer.js';
-import {renderFest} from 'modules/view-utility.js';
-import routes from 'modules/routes.js';
-import storage from 'modules/storage';
+import eventBus from 'event-bus.js';
+import {partial} from 'partial.js';
+import {ReplaceInnerRenderer} from 'renderer.js';
+import {renderFest} from 'view-utility.js';
+import routes from 'routes.js';
+import storage from 'storage';
 
 import './header.css';
 import './header.tmpl.js';

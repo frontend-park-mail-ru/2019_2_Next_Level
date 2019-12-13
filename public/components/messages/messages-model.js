@@ -1,11 +1,11 @@
 import {MessagesRenderState} from './messages-utility.js';
-import {Errors} from 'modules/errors.es6.inc.js';
-import eventBus from 'modules/event-bus.js';
-import {jsonize, fetchGetWithParams, fetchPost, consoleError} from 'modules/fetch.js';
-import {partial} from 'modules/partial.js';
-import {checkEmail} from 'modules/validate.es6.inc.js';
+import {Errors} from 'errors.es6.inc.js';
+import eventBus from 'event-bus.js';
+import {jsonize, fetchGetWithParams, fetchPost, consoleError} from 'fetch.js';
+import {partial} from 'partial.js';
+import {checkEmail} from 'validate.es6.inc.js';
 import {MessagesPages} from './routes';
-import storage from 'modules/storage';
+import storage from 'storage';
 import {Config} from 'config.js';
 
 export default class MessagesModel {
