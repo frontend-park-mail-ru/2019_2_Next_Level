@@ -1,15 +1,15 @@
 import {SettingsRenderState, Events} from './consts.js';
-import eventBus from 'public/modules/event-bus.js';
-import {partial} from 'public/modules/partial.js';
-import {ReplaceInnerRenderer} from 'public/modules/renderer.js';
-import {renderFest, abstractDisplayMessage} from 'public/modules/view-utility.js';
-import routes from 'public/modules/routes.js';
+import eventBus from 'modules/event-bus.js';
+import {partial} from 'modules/partial.js';
+import {ReplaceInnerRenderer} from 'modules/renderer.js';
+import {renderFest, abstractDisplayMessage} from 'modules/view-utility.js';
+import routes from 'modules/routes.js';
 
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
 import './__user_folders/settings__user-folder.tmpl.js';
 import {SettingsPages} from './routes.js';
-import storage from 'public/modules/storage';
+import storage from 'modules/storage';
 
 export default class SettingsView {
 	/**

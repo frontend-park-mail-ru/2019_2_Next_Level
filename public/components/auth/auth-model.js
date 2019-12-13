@@ -1,8 +1,8 @@
 import {AuthRenderState} from './auth-utility.js';
-import {Errors} from 'public/modules/errors.es6.inc.js';
-import eventBus from 'public/modules/event-bus.js';
-import {jsonize, fetchPost, consoleError} from 'public/modules/fetch.js';
-import {checkLogin, checkPassword, checkDate, checkName} from 'public/modules/validate.es6.inc.js';
+import {Errors} from 'modules/errors.es6.inc.js';
+import eventBus from 'modules/event-bus.js';
+import {jsonize, fetchPost, consoleError} from 'modules/fetch.js';
+import {checkLogin, checkPassword, checkDate, checkName} from 'modules/validate.es6.inc.js';
 
 export default class AuthModel {
 	/**

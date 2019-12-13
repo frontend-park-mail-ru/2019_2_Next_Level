@@ -1,5 +1,5 @@
 import {MainRenderState} from './main-utility.js';
-import eventBus from 'public/modules/event-bus.js';
+import eventBus from 'modules/event-bus.js';
 
 export default class MainModel {
 	/**

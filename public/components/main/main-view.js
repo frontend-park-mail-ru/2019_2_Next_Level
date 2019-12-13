@@ -1,9 +1,9 @@
 import {MainRenderState} from './main-utility.js';
-import eventBus from 'public/modules/event-bus.js';
-import {partial} from 'public/modules/partial.js';
-import {ReplaceInnerRenderer} from 'public/modules/renderer.js';
-import {renderFest} from 'public/modules/view-utility.js';
-import routes from 'public/modules/routes.js';
+import eventBus from 'modules/event-bus.js';
+import {partial} from 'modules/partial.js';
+import {ReplaceInnerRenderer} from 'modules/renderer.js';
+import {renderFest} from 'modules/view-utility.js';
+import routes from 'modules/routes.js';
 
 import './main.css';
 import './main.tmpl.js';

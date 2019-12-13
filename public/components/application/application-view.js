@@ -1,13 +1,13 @@
 import {ApplicationRenderState} from './application-utility.js';
-import eventBus from 'public/modules/event-bus.js';
-import {InsertAfterBeginRenderer} from 'public/modules/renderer.js';
-import {renderFest} from 'public/modules/view-utility.js';
+import eventBus from 'modules/event-bus.js';
+import {InsertAfterBeginRenderer} from 'modules/renderer.js';
+import {renderFest} from 'modules/view-utility.js';
 
 import '../common/common-style';
 import './application.css';
 import './application.tmpl.js';
-import routes from 'public/modules/routes.js';
-import {ReplaceInnerRenderer} from 'public/modules/renderer';
+import routes from 'modules/routes.js';
+import {ReplaceInnerRenderer} from 'modules/renderer';
 
 export default class ApplicationView {
 	/**

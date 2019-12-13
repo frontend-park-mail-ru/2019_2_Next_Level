@@ -1,11 +1,11 @@
 import {AuthRenderState} from './auth-utility.js';
-import eventBus from 'public/modules/event-bus.js';
-import {partial} from 'public/modules/partial.js';
-import {ReplaceInnerRenderer} from 'public/modules/renderer.js';
-import {renderFest, abstractDisplayMessage} from 'public/modules/view-utility.js';
-import routes from 'public/modules/routes.js';
+import eventBus from 'modules/event-bus.js';
+import {partial} from 'modules/partial.js';
+import {ReplaceInnerRenderer} from 'modules/renderer.js';
+import {renderFest, abstractDisplayMessage} from 'modules/view-utility.js';
+import routes from 'modules/routes.js';
 
-import 'public/modules/string.js';
+import 'modules/string.js';
 import './__sign-in/auth__sign-in.tmpl.js';
 import './__sign-up/auth__sign-up.tmpl.js';
 
