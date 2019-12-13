@@ -2,6 +2,8 @@ language: node_js
 node_js:
 - 12
 script:
+- npm install --save-dev webpack
+- npm install --save-dev webpack-dev-server
 - npm run build
 - eval "$(ssh-agent -s)"
 - ssh-keyscan -H 84.201.153.27 >> ~/.ssh/known_hosts

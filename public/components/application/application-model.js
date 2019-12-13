@@ -1,12 +1,12 @@
 import {ApplicationRenderState} from './application-utility.js';
-import {Errors} from '../../modules/errors.es6.inc.js';
-import eventBus from '../../modules/event-bus.js';
-import {jsonize, fetchGet, consoleError} from '../../modules/fetch.js';
-import {partial} from '../../modules/partial.js';
-import router from '../../modules/router.js';
-import routes from '../../modules/routes.js';
-import storage from '../../modules/storage';
-import {UserInfo} from '../../modules/userInfo';
+import {Errors} from 'public/modules/errors.es6.inc.js';
+import eventBus from 'public/modules/event-bus.js';
+import {jsonize, fetchGet, consoleError} from 'public/modules/fetch.js';
+import {partial} from 'public/modules/partial.js';
+import router from 'public/modules/router.js';
+import routes from 'public/modules/routes.js';
+import storage from 'public/modules/storage';
+import {UserInfo} from 'public/modules/userInfo';
 
 export default class ApplicationModel {
 	/**

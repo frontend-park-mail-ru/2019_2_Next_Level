@@ -1,6 +1,6 @@
 import MessagesModel from './messages-model.js';
 import MessagesView from './messages-view.js';
-import eventBus from '../../modules/event-bus';
+import eventBus from 'public/modules/event-bus';
 import {MessagesPages} from './routes';
 
 export default class MessagesController {
