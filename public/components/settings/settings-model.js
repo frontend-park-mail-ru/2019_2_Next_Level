@@ -1,15 +1,15 @@
 import {SettingsRenderState} from './consts.js';
-import {Errors} from 'errors.es6.inc.js';
-import eventBus from 'event-bus.js';
-import {jsonize, fetchPost, consoleError} from 'fetch.js';
-import {checkName, checkNickName, checkDate, checkSex, checkPassword} from 'validate.es6.inc.js';
+import {Errors} from '../../modules/errors.es6.inc.js';
+import eventBus from '../../modules/event-bus.js';
+import {jsonize, fetchPost, consoleError} from '../../modules/fetch.js';
+import {checkName, checkNickName, checkDate, checkSex, checkPassword} from '../../modules/validate.es6.inc.js';
 import {Events} from './consts';
-import {partial} from 'partial';
-import {fetchGet, fetchFile} from 'fetch';
-import router from 'router';
+import {partial} from '../../modules/partial';
+import {fetchGet, fetchFile} from '../../modules/fetch';
+import router from '../../modules/router';
 import {SettingsPages} from './routes';
-import storage from 'storage';
-import {UserInfo} from 'userInfo';
+import storage from '../../modules/storage';
+import {UserInfo} from '../../modules/userInfo';
 import form from '../common/form/form';
 
 export default class SettingsModel {

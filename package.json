@@ -5,7 +5,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node server",
-    "build": "npm run sass && npm run fest && webpack",
+    "build": "npm run build1",
     "build0": "npm run fest && npm run inc && webpack",
     "build1": "npm run sass && npm run fest && webpack",
     "fest": "fest-build --dir=public",
