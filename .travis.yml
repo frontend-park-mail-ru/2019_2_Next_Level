@@ -7,9 +7,10 @@ cache:
 script:
 - npm run build
 - eval "$(ssh-agent -s)"
-- chmod 600 ./id_rsa_dep
+- chmod 600 ./deploy_key
 - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- ssh-add ./id_rsa_dep
-- ssh -i ./id_rsa_dep ian@nextlevel.hldns.ru pwd
+- ssh-add ./deploy_key
+- ssh -i ./deploy_key ian@nextlevel.hldns.ru pwd
 before_install:
-- openssl aes-256-cbc -K $encrypted_7bd55255072d_key -iv $encrypted_7bd55255072d_iv -in id_rsa_dep.enc -out ./id_rsa_dep -d
+- openssl aes-256-cbc -K $encrypted_4097da34beb0_key -iv $encrypted_4097da34beb0_iv
+    -in deploy_key.enc -out ./deploy_key -d
