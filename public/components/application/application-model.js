@@ -23,6 +23,16 @@ export default class ApplicationModel {
 		// routes.forEach(page => {
 		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		// });
+		if ('serviceWorker' in navigator) {
+			console.log('SW:exists');
+			// Весь код регистрации у нас асинхронный.
+			navigator.serviceWorker.register('./sw.js')
+				.then(() => navigator.serviceWorker.ready.then((worker) => {
+					worker.sync.register('syncdata');
+				}))
+				.catch((err) => console.log('SW: ' + err));
+		}
+		console.log('SW:not after');
 		console.log('Init application-model');
 	}
 
