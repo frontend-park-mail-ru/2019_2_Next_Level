@@ -26,7 +26,7 @@ export default class ApplicationModel {
 		if ('serviceWorker' in navigator) {
 			console.log('SW:exists');
 			// Весь код регистрации у нас асинхронный.
-			debugger;
+			// debugger;
 			// window.addEventListener('load', function() {
 			// 	navigator.serviceWorker.register('/service-worker.js');
 			// }
