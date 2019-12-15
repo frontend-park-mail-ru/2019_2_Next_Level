@@ -26,6 +26,9 @@ export default class MainView {
 			}, {
 				func: partial(this.prerender, 'messages', MainRenderState.RenderedMessages),
 				pages: routes.GetModuleRoutes('messages'),
+			},{
+				func: partial(this.prerender, 'offline', MainRenderState.RenderOffline),
+				pages: ['/offline'],
 			},
 		].forEach(({func, pages}) => {
 				pages.forEach(page => {
@@ -44,6 +47,7 @@ export default class MainView {
 	};
 
 	render = page => {
+		console.log('Render page ', page);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.application__main-wrap',

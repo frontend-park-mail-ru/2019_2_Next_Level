@@ -1,12 +1,18 @@
+import eventBus from 'modules/event-bus.js';
+
 const CACHE = 'offline-fallback-v1';
-const OFLINE_PAGE = 'ofline.html';
+const OFLINE_PAGE = '/ofline.html';
 
 self.addEventListener('install', (event) => {
 	console.log('SW:Install');
-	event.waitUntil((() => caches.open(CACHE)
-			.then(cache => cache.add(new Request(OFLINE_PAGE, {cache: 'reload'})))
-		// cache.add(new Request(OFLINE_PAGE, {cache: 'reload'}));
-	)());
+	event.waitUntil(
+		caches.open(CACHE)
+			 .then((cache) => cache.addAll(['/']))
+			 .then(cache => cache.add(new Request(OFLINE_PAGE, {cache: 'reload'})))
+			 .then(() => self.skipWaiting())
+			 .then(console.log('SW: Installed'))
+			 .catch(err => console.log('SW:err ', err))
+	);
 });
 // При установке воркера мы должны закешировать часть данных (статику).
 // self.addEventListener('install', (event) => {
@@ -30,13 +36,13 @@ self.addEventListener('activate', (event) => {
 	event.waitUntil(self.clients.claim());
 });
 
-// self.addEventListener('fetch', function(event) {
-// 	// Можете использовать любую стратегию описанную выше.
-// 	// Если она не отработает корректно, то используейте `Embedded fallback`.
-// 	console.log('SW:Fetch');
-// 	event.respondWith(networkOrCache(event.request)
-// 		.catch(() => useFallback()));
-// });
+self.addEventListener('fetch', function(event) {
+	// Можете использовать любую стратегию описанную выше.
+	// Если она не отработает корректно, то используейте `Embedded fallback`.
+	console.log('SW:Fetch');
+	event.respondWith(networkOrCache(event.request)
+		.catch(() => useFallback()));
+});
 
 function networkOrCache(request) {
 	console.log('networkCache');
@@ -45,41 +51,46 @@ function networkOrCache(request) {
 		.catch(() => fromCache(request));
 }
 
-self.addEventListener('fetch', (event) => {
-	// We only want to call event.respondWith() if this is a navigation request
-	// for an HTML page.
-	console.log("SW: fetch");
-	if (event.request.mode === 'navigate') {
-		event.respondWith((async () => {
-			try {
-				// First, try to use the navigation preload response if it's supported.
-				const preloadResponse = await event.preloadResponse;
-				if (preloadResponse) {
-					return preloadResponse;
-				}
-
-				const networkResponse = await fetch(event.request);
-				return networkResponse;
-			} catch (error) {
-				// catch is only triggered if an exception is thrown, which is likely
-				// due to a network error.
-				// If fetch() returns a valid HTTP response with a response code in
-				// the 4xx or 5xx range, the catch() will NOT be called.
-				console.log('Fetch failed; returning offline page instead.', error);
-
-				const cache = await caches.open(CACHE);
-				const cachedResponse = await cache.match(OFLINE_PAGE);
-				return cachedResponse;
-			}
-		})());
-	}
-
-	// If our if() condition is false, then this fetch handler won't intercept the
-	// request. If there are any other fetch handlers registered, they will get a
-	// chance to call event.respondWith(). If no fetch handlers call
-	// event.respondWith(), the request will be handled by the browser as if there
-	// were no service worker involvement.
-});
+// self.addEventListener('fetch', (event) => {
+// 	// We only want to call event.respondWith() if this is a navigation request
+// 	// for an HTML page.
+// 	console.log("SW: fetch: ", event.request.mode);
+// 	// if (event.request.mode === 'navigate') {
+// 	console.log('SW: navigate');
+// 	event.respondWith((async () => {
+// 		console.log('SW: start');
+// 		try {
+// 			console.log('SW: try');
+// 			// First, try to use the navigation preload response if it's supported.
+// 			const preloadResponse = await event.preloadResponse;
+// 			if (preloadResponse) {
+// 				console.log('SW: preload');
+// 				return preloadResponse;
+// 			}
+//
+// 			const networkResponse = await fetch(event.request);
+// 			console.log('SW: networkResponce ', networkResponse);
+// 			return networkResponse;
+// 		} catch (error) {
+// 			// catch is only triggered if an exception is thrown, which is likely
+// 			// due to a network error.
+// 			// If fetch() returns a valid HTTP response with a response code in
+// 			// the 4xx or 5xx range, the catch() will NOT be called.
+// 			console.log('WS: Fetch failed; returning offline page instead.', error);
+//
+// 			const cache = await caches.open(CACHE);
+// 			const cachedResponse = await cache.match(OFLINE_PAGE);
+// 			return cachedResponse;
+// 		}
+// 	})());
+// 	// }
+//
+// 	// If our if() condition is false, then this fetch handler won't intercept the
+// 	// request. If there are any other fetch handlers registered, they will get a
+// 	// chance to call event.respondWith(). If no fetch handlers call
+// 	// event.respondWith(), the request will be handled by the browser as if there
+// 	// were no service worker involvement.
+// });
 
 // Наш Fallback вместе с нашим собсвенным Динозавриком.
 const FALLBACK =
@@ -92,12 +103,17 @@ const FALLBACK =
 // Он никогда не упадет, т.к мы всегда отдаем заранее подготовленные данные.
 function useFallback() {
 	console.log('SW:useFallBack');
-	// const cache = await caches.open(CACHE);
-	// const cachedResponse = await cache.match(OFLINE_PAGE);
-	// return cachedResponse;
-	return Promise.resolve(new Response(FALLBACK, { headers: {
-			'Content-Type': 'text/html; charset=utf-8'
-		}}));
+	return caches.open(CACHE).then(cache => {
+		console.log('SW: aa');
+		debugger;
+		eventBus.emitEvent('render:/offline', {});
+		const e = cache.match(OFLINE_PAGE);
+		console.log('SW: ', e)
+		return e;
+	});
+	// return Promise.resolve(new Response(FALLBACK, { headers: {
+	// 		'Content-Type': 'text/html; charset=utf-8'
+	// 	}}));
 }
 
 function fromCache(request) {

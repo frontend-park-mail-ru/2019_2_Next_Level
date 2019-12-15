@@ -41,9 +41,9 @@ export default class ApplicationModel {
 			// window.addEventListener('load', function() {
 			// 	navigator.serviceWorker.register('/service-worker.js');
 			// }
-			// navigator.serviceWorker.register('/sw.js')
-			// 	.then((registration) => console.log('SW:registered,', registration))
-			// 	.catch((err) => console.log('SW-err: ' + err));
+			navigator.serviceWorker.register('/sw.js')
+				.then((registration) => console.log('SW:registered,', registration))
+				.catch((err) => console.log('SW-err: ' + err));
 			// navigator.serviceWorker.register('/sw.js')
 			// 	.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
 			// 		console.log('SW:2');
