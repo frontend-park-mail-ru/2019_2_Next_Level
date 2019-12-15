@@ -24,7 +24,7 @@
 			</div>
 			<div class="datalist-item__subject-wrap">
 				<span class="datalist-item__subject"><fest:value>args.subject</fest:value></span>
-				<span class="datalist-item__subject-snippet"><fest:value>args.content</fest:value></span>
+				<span class="datalist-item__subject-snippet"><fest:value output="text">args.content</fest:value></span>
 			</div>
 			<div class="datalist-item__date-wrap">
 				<div class="datalist-item__date"><fest:value>args.date</fest:value></div>
