@@ -26,11 +26,16 @@ export default class ApplicationModel {
 		if ('serviceWorker' in navigator) {
 			console.log('SW:exists');
 			// Весь код регистрации у нас асинхронный.
-			navigator.serviceWorker.register('./sw.js')
-				.then(() => navigator.serviceWorker.ready.then((worker) => {
+			debugger;
+			// window.addEventListener('load', function() {
+			// 	navigator.serviceWorker.register('/service-worker.js');
+			// }
+			navigator.serviceWorker.register('/sw.js')
+				.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
+					console.log('SW:2');
 					worker.sync.register('syncdata');
-				}))
-				.catch((err) => console.log('SW: ' + err));
+				})})
+				.catch((err) => console.log('SW-err: ' + err));
 		}
 		console.log('SW:not after');
 		console.log('Init application-model');

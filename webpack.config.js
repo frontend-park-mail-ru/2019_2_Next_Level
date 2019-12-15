@@ -11,7 +11,7 @@ module.exports = {
 	mode: 'development',
 	plugins: [
 		new ServiceWorkerWebpackPlugin({
-			entry: path.join(__dirname, './public/modules/sw.js.bak'),
+			entry: path.join(__dirname, './public/modules/sw.js'),
 		}),
 		new CopyWebpackPlugin([
 			{
