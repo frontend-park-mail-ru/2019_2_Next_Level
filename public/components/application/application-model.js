@@ -23,6 +23,17 @@ export default class ApplicationModel {
 		// routes.forEach(page => {
 		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		// });
+		navigator.serviceWorker.getRegistrations().then(
+
+			function(registrations) {
+
+				for(let registration of registrations) {
+					console.log("SW: unregister");
+					registration.unregister();
+
+				}
+
+			});
 		if ('serviceWorker' in navigator) {
 			console.log('SW:exists');
 			// Весь код регистрации у нас асинхронный.
@@ -30,12 +41,15 @@ export default class ApplicationModel {
 			// window.addEventListener('load', function() {
 			// 	navigator.serviceWorker.register('/service-worker.js');
 			// }
-			navigator.serviceWorker.register('/sw.js')
-				.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
-					console.log('SW:2');
-					worker.sync.register('syncdata');
-				})})
-				.catch((err) => console.log('SW-err: ' + err));
+			// navigator.serviceWorker.register('/sw.js')
+			// 	.then((registration) => console.log('SW:registered,', registration))
+			// 	.catch((err) => console.log('SW-err: ' + err));
+			// navigator.serviceWorker.register('/sw.js')
+			// 	.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
+			// 		console.log('SW:2');
+			// 		worker.sync.register('syncdata');
+			// 	})})
+			// 	.catch((err) => console.log('SW-err: ' + err));
 		}
 		console.log('SW:not after');
 		console.log('Init application-model');
