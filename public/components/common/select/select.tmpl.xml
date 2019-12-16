@@ -6,9 +6,11 @@
 <!--                    <div class="select__list__item" id="{args[i].name}">-->
 <!--                        <fest:value>args[i].name</fest:value>-->
 <!--                    </div>-->
-                <button class="select__list__item select__list__item_{args[i].name}">
-                    <fest:value>args[i].name</fest:value>
-                </button>
+                <fest:if test="args[i].name !== 'search'">
+                    <button class="select__list__item select__list__item_{args[i].name}">
+                        <fest:value>args[i].name</fest:value>
+                    </button>
+                </fest:if>
             </fest:for>
         </div>
     </div>

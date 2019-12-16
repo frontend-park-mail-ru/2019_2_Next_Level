@@ -192,12 +192,11 @@ export default class MessagesView {
 						},
 		);
 
-		document.getElementsByClassName('main')[0].addEventListener('scroll', event => {
+		// window.onscroll = (event) => console.log(event.scrollTop)
+		window.addEventListener('scroll', event => {
 			event.preventDefault();
-			let element = event.target;
-			const scroll = element.scrollTop+1;
-			const height = element.scrollHeight - element.clientHeight;
-			if ( height - scroll <= 0 ) {
+			const b = document.documentElement.getBoundingClientRect().bottom
+			if (b<document.documentElement.clientHeight-50) {
 				console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
 				this.requestedPage++;
 				// если запросили следущую страницу, то идем и получаем
@@ -209,7 +208,7 @@ export default class MessagesView {
 					this.requestedPage--;
 				}
 			}
-			console.log(height, scroll);
+			console.log(pageYOffset);
 
 		});
 
