@@ -45,6 +45,7 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
+		eventBus.addEventListener('settings/passwordChanged', () => alert('Password succcesfully apdated'));
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
 
 		console.log('Init settings-view');

@@ -105,39 +105,6 @@ export default class SettingsModel {
 			}
 			eventBus.emitEvent('settings:user-info-validate', {inputName, message: response.error.msg});
 		}).catch(consoleError);
-		// jsonize(fetchPost('/api/profile/editUserInfo', {userInfo})).then(response => {
-		// 	if (response.status === 'ok') {
-		// 		storage.set('userInfo', new UserInfo(userInfo));
-		// 		eventBus.emitEvent('settings:user-info-edited');
-		// 		return;
-		// 	}
-		//
-		// 	let inputName = '';
-		// 	switch (response.error.code) {
-		// 	case Errors.NotAuthorized:
-		// 		eventBus.emitEvent('application:sign-out');
-		// 		break;
-		// 	case Errors.InvalidFirstName.code:
-		// 		inputName = 'firstName';
-		// 		break;
-		// 	case Errors.InvalidSecondName.code:
-		// 		inputName = 'secondName';
-		// 		break;
-		// 	case Errors.InvalidNickName.code:
-		// 		inputName = 'nickName';
-		// 		break;
-		// 	case Errors.InvalidBirthDate.code:
-		// 		inputName = 'birthDate';
-		// 		break;
-		// 	case Errors.InvalidSex.code:
-		// 		inputName = 'sex';
-		// 		break;
-		// 	default:
-		// 		console.error('Unknown response:', response);
-		// 		return;
-		// 	}
-		// 	eventBus.emitEvent('settings:user-info-validate', {inputName, message: response.error.msg});
-		// }).catch(consoleError);
 	};
 
 	onSecuritySaveButtonClicked = ({currentPassword, newPassword, newPasswordAgain}) => {
@@ -157,6 +124,7 @@ export default class SettingsModel {
 		jsonize(fetchPost('/api/profile/editPassword', {currentPassword, newPassword})).then(response => {
 			if (response.status === 'ok') {
 				eventBus.emitEvent('settings:security-validate', {inputName: 'newPassword', message: ''});
+				eventBus.emitEvent('settings/passwordChanged', {});
 				eventBus.emitEvent('settings:edit-password');
 				return;
 			}
