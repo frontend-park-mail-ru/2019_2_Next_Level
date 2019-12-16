@@ -58,7 +58,7 @@ export default class AuthModel {
 		const checks = [
 			{check: checkName, variable: firstName, name: 'firstName', msg: 'Wrong name!'},
 			{check: checkName, variable: secondName, name: 'secondName', msg: 'Wrong name!'},
-			{check: checkDate, variable: birthDate, name: 'birthDate', msg: 'Wrong date!'},
+			// {check: checkDate, variable: birthDate, name: 'birthDate', msg: 'Wrong date!'},
 			{check: checkLogin, variable: login, name: 'login', msg: 'Wrong login!'},
 			{check: checkPassword, variable: password, name: 'password', msg: 'Wrong password!'},
 		];
@@ -90,9 +90,6 @@ export default class AuthModel {
 				break;
 			case Errors.InvalidSecondName.code:
 				inputName = 'secondName';
-				break;
-			case Errors.InvalidBirthDate.code:
-				inputName = 'birthDate';
 				break;
 			default:
 				console.error('Unknown response:', response);

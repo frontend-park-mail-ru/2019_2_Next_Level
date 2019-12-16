@@ -23,6 +23,27 @@ export default class ApplicationController {
 		if (currentPage==='/') {
 			currentPage = '/messages/inbox';
 		}
+		// navigator.serviceWorker.getRegistrations().then(
+		//
+		// 	function(registrations) {
+		//
+		// 		for(let registration of registrations) {
+		// 			console.log("SW: unregister");
+		// 			registration.unregister();
+		//
+		// 		}
+		//
+		// 	});
+
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js', { scope: '/' })
+				.then((reg) => {
+					console.log('sw reg success:', reg);
+				})
+				.catch((err) => {
+					console.error('sw reg err:', err);
+				});
+		}
 		storage.set('currentPage', currentPage);
 		console.log("Start: ", storage.get('currentPage'));
 		this.init();
@@ -58,7 +79,7 @@ export default class ApplicationController {
 	reloadRouter = () => {
 		router.clearRoutes();
 		routes.AddRoutes(new Map([['settings', SettingsPages],
-			['auth', AuthPages],
+			['auth', AuthPages.concat('/auth/offline')],
 			['messages', MessagesPages]]));
 
 		router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));

@@ -1,0 +1,5 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<div class="box box_auth">
+		<h1>Соре, не робит</h1>
+	</div>
+</fest:template>

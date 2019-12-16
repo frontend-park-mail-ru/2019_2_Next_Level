@@ -21,24 +21,6 @@
 						name: 'secondName',
 					},
 				}, {
-					label: 'Date of Birth',
-					input: {
-						type: 'text',
-						id: 'birthDate',
-						name: 'birthDate',
-					},
-				}, {
-					label: 'Sex',
-					input: {
-						cls: 'form__input_sex',
-						type: 'radio',
-						name: 'sex',
-						values: [
-							'male',
-							'female',
-						],
-					},
-				}, {
 					label: 'Login',
 					input: {
 						cls: 'form__input_placeholder-right',

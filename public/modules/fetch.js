@@ -1,5 +1,6 @@
 // const backend = 'https://next-level-mail.kerimovdev.now.sh/';
 import {Config} from '../config';
+import eventBus from 'modules/event-bus.js';
 
 // const backend = 'https://nextlevel.hldns.ru';
 const backend = Config.backend;
@@ -113,5 +114,9 @@ export const consoleError = error => {
 export const jsonize = response => {
 	return response
 		.then(jsonizeResponse)
-		.catch(consoleError);
+		.catch(() => {
+			console.log('BB: OFFLINE');
+			eventBus.emitEvent('prerender:/auth/offline', {});
+			consoleError();
+		});
 };

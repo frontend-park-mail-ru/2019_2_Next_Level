@@ -282,6 +282,9 @@ export default class MessagesModel {
 			default:
 				console.error('Unknown response:', response);
 			}
-		}).catch(consoleError);
+		}).catch((err) => {
+			console.log('BB: Error ', err);
+			consoleError(err);
+		});
 	}
 }

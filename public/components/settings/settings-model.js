@@ -64,8 +64,8 @@ export default class SettingsModel {
 		const checks = [
 			{check: checkName, variable: formData.get('firstName'), name: 'firstName', msg: 'Wrong first name!'},
 			{check: checkName, variable: formData.get('secondName'), name: 'secondName', msg: 'Wrong second name!'},
-			{check: checkDate, variable: formData.get('birthDate'), name: 'birthDate', msg: 'Wrong birth date!'},
-			{check: checkSex, variable: formData.get('sex'), name: 'sex', msg: 'Wrong sex!'},
+			// {check: checkDate, variable: formData.get('birthDate'), name: 'birthDate', msg: 'Wrong birth date!'},
+			// {check: checkSex, variable: formData.get('sex'), name: 'sex', msg: 'Wrong sex!'},
 		];
 
 		for (let c of checks) {
@@ -98,12 +98,6 @@ export default class SettingsModel {
 				break;
 			case Errors.InvalidNickName.code:
 				inputName = 'nickName';
-				break;
-			case Errors.InvalidBirthDate.code:
-				inputName = 'birthDate';
-				break;
-			case Errors.InvalidSex.code:
-				inputName = 'sex';
 				break;
 			default:
 				console.error('Unknown response:', response);
