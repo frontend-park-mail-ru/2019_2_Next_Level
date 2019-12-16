@@ -8,6 +8,7 @@ import routes from 'modules/routes.js';
 import 'modules/string.js';
 import './__sign-in/auth__sign-in.tmpl.js';
 import './__sign-up/auth__sign-up.tmpl.js';
+import './offline.tmpl.js';
 
 
 export default class AuthView {
@@ -30,6 +31,10 @@ export default class AuthView {
 				page: 'sign-up',
 				renderer: this.renderSignUp,
 				renderState: AuthRenderState.RenderedSignUp,
+			}, {
+				page: 'offline',
+				renderer: this.renderOffline,
+				renderState: AuthRenderState.RenderedOffline,
 			},
 		].forEach(({page, renderer, renderState}) => {
 			eventBus.addEventListener(`render:/auth/${page}`, partial(this.prerender, renderer, renderState));
@@ -65,6 +70,15 @@ export default class AuthView {
 		});
 	};
 
+
+	renderOffline = () => {
+		renderFest(
+			ReplaceInnerRenderer,
+			'.layout__center_auth-wrap',
+			'components/auth/offline.tmpl',
+		);
+	}
+
 	renderSignUp = () => {
 		renderFest(
 			ReplaceInnerRenderer,
@@ -78,12 +92,12 @@ export default class AuthView {
 
 			const firstName = form.elements.firstName.value;
 			const secondName = form.elements.secondName.value;
-			const birthDate = form.elements.birthDate.value;
-			const sex = form.elements.sex.value;
 			const login = form.elements.login.value;
 			const password = form.elements.password.value;
+			const sex = 'male';
+			const birthDate = '01.01.1200';
 
-			eventBus.emitEvent('auth:sign-up-button-clicked', {firstName, secondName, birthDate, sex, login, password});
+			eventBus.emitEvent('auth:sign-up-button-clicked', {firstName, secondName, sex, birthDate, login, password});
 		});
 	};
 

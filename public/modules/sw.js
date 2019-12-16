@@ -1,20 +1,69 @@
+// const DEBUG = true;
+//
+// const {assets} = global.serviceWorkerOption;
+//
+// const CACHE_NAME = 'aaa';
+//
+// const assetsToCache = [...assets, '/nl.svg', '/static/images/logo/svg',
+// 				'/static/images/logo/nlmail.svg', '/static/images/icon/loupe.svg',
+// 				'/index.html', '/main.js'];
+//
+// self.addEventListener('install', (event) => {
+// 	// Perform install steps.
+// 	if (DEBUG) {
+// 		console.log('[SW] Install event');
+// 	}
+//
+// 	// Add core website files to cache during serviceworker installation.
+// 	event.waitUntil(
+// 		global.caches
+// 			.open(CACHE_NAME)
+// 			.then((cache) => {
+// 				console.log(assetsToCache);
+// 				return cache.addAll(assetsToCache);
+// 			})
+// 			.then(() => {
+// 				if (DEBUG) {
+// 					console.log('Cached assets: main', assetsToCache);
+// 				}
+// 			})
+// 			.catch((error) => {
+// 				console.error(error);
+// 				throw error;
+// 			})
+// 	);
+// });
+//
+//
+// self.addEventListener('fetch', (event) => {
+// 	event.respondWith(
+// 		caches
+// 			.match(event.request)
+// 			.then((cachedResponse) => {
+// 				if (!navigator.onLine && cachedResponse) {
+// 					return cachedResponse;
+// 				}
+//
+// 				return fetch(event.request);
+// 			})
+// 	);
+// });
 const CACHE = 'offline-fallback-v1';
 
 // При установке воркера мы должны закешировать часть данных (статику).
 self.addEventListener('install', (event) => {
-	console.log('SW:Install');
 	event.waitUntil(
 		caches
 			.open(CACHE)
-			.then((cache) => cache.addAll(['/static/']))
+			.then((cache) => cache.addAll(['/nl.svg', '/', '/static/images/logo/svg',
+				'/static/images/logo/nlmail.svg', '/static/images/icon/loupe.svg', '/index.html', '/main.js']))
 			// `skipWaiting()` необходим, потому что мы хотим активировать SW
 			// и контролировать его сразу, а не после перезагрузки.
-			.then(() => self.skipWaiting()).then(console.log('SW: Installed'))
+			// .then(() => self.skipWaiting())
 	);
 });
 
 self.addEventListener('activate', (event) => {
-	console.log('SW:Activate');
 	// `self.clients.claim()` позволяет SW начать перехватывать запросы с самого начала,
 	// это работает вместе с `skipWaiting()`, позволяя использовать `fallback` с самых первых запросов.
 	event.waitUntil(self.clients.claim());
@@ -23,12 +72,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', function(event) {
 	// Можете использовать любую стратегию описанную выше.
 	// Если она не отработает корректно, то используейте `Embedded fallback`.
-	console.log('SW:Fetch');
 	event.respondWith(networkOrCache(event.request)
 		.catch(() => useFallback()));
 });
 
 function networkOrCache(request) {
+	console.log('NoC');
 	return fetch(request)
 		.then((response) => response.ok ? response : fromCache(request))
 		.catch(() => fromCache(request));
@@ -39,53 +88,22 @@ const FALLBACK =
 	'<div>\n' +
 	'    <div>App Title</div>\n' +
 	'    <div>you are offline</div>\n' +
-	'    <img src="/svg/or/base64/of/your/dinosaur" alt="dinosaur"/>\n' +
+	'    ' +
 	'</div>';
 
 // Он никогда не упадет, т.к мы всегда отдаем заранее подготовленные данные.
 function useFallback() {
-	return Promise.resolve(new Response(FALLBACK, { headers: {
-			'Content-Type': 'text/html; charset=utf-8'
-		}}));
+	console.log('Fall');
+	// return Promise.resolve(new Response(FALLBACK, { headers: {
+	// 		'Content-Type': 'text/html; charset=utf-8'
+	// 	}}));
+	return caches.open(CACHE).then(cache => cache.match('/index.html'));
 }
 
 function fromCache(request) {
+	console.log('fromCache');
 	return caches.open(CACHE).then((cache) =>
 		cache.match(request).then((matching) =>
 			matching || Promise.reject('no-match')
 		));
-}
-
-// При запросе на сервер мы используем данные из кэша и только после идем на сервер.
-self.addEventListener('fetch', (event) => {
-	// Как и в предыдущем примере, сначала `respondWith()` потом `waitUntil()`
-	event.respondWith(fromCache(event.request));
-	event.waitUntil(
-		update(event.request)
-		// В конце, после получения "свежих" данных от сервера уведомляем всех клиентов.
-			.then(refresh)
-	);
-});
-
-function update(request) {
-	return caches.open(CACHE).then((cache) =>
-		fetch(request).then((response) =>
-			cache.put(request, response.clone()).then(() => response)
-		)
-	);
-}
-
-// Шлём сообщения об обновлении данных всем клиентам.
-function refresh(response) {
-	return self.clients.matchAll().then((clients) => {
-		clients.forEach((client) => {
-			const message = {
-				type: 'refresh',
-				url: response.url,
-				eTag: response.headers.get('ETag')
-			};
-			// Уведомляем клиент об обновлении данных.
-			client.postMessage(JSON.stringify(message));
-		});
-	});
 }

@@ -175,6 +175,10 @@ export default class MessagesView {
 		const messagesCount = (storage.get('userInfo').getMessages().get(folderName) || []).length;
 		let pagesCount = Math.trunc(messagesCount/Config.messagesPerPage)+(messagesCount%Config.messagesPerPage>0);
 
+		// const height = document.documentElement.clientHeight;
+		// Config.messagesPerPage = Math.trunc(height/36+1);
+		// console.log('R', height, Math.trunc(height/36+1));
+
 		this.loadPagesMutex.set(folderName, pagesCount);
 		this.requestedPage = pagesCount;
 		console.log('Render folder: ', folderName);

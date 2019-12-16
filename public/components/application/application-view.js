@@ -8,6 +8,7 @@ import './application.css';
 import './application.tmpl.js';
 import routes from 'modules/routes.js';
 import {ReplaceInnerRenderer} from 'modules/renderer';
+import {Config} from '../../config';
 
 export default class ApplicationView {
 	/**
@@ -24,6 +25,8 @@ export default class ApplicationView {
 	}
 
 	render = () => {
+		const height = document.documentElement.clientHeight;
+		Config.messagesPerPage = Math.trunc(height/36+1);
 		if (this.applicationModel.renderState === ApplicationRenderState.Rendered) {
 			return;
 		}

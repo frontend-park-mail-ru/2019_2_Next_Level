@@ -23,21 +23,60 @@ export default class ApplicationModel {
 		// routes.forEach(page => {
 		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		// });
-		if ('serviceWorker' in navigator) {
-			console.log('SW:exists');
-			// Весь код регистрации у нас асинхронный.
-			// debugger;
-			// window.addEventListener('load', function() {
-			// 	navigator.serviceWorker.register('/service-worker.js');
-			// }
-			navigator.serviceWorker.register('/sw.js')
-				.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
-					console.log('SW:2');
-					worker.sync.register('syncdata');
-				})})
-				.catch((err) => console.log('SW-err: ' + err));
-		}
-		console.log('SW:not after');
+		// navigator.serviceWorker.getRegistrations().then(
+		//
+		// 	function(registrations) {
+		//
+		// 		for(let registration of registrations) {
+		// 			console.log("SW: unregister");
+		// 			registration.unregister();
+		//
+		// 		}
+		//
+		// 	});
+		// if ('serviceWorker' in navigator) {
+		// 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
+		// 		.then((reg) => {
+		// 			console.log('sw reg success:', reg);
+		// 		})
+		// 		.catch((err) => {
+		// 			console.error('sw reg err:', err);
+		// 		});
+		// }
+		// if ('serviceWorker' in navigator) {
+		// 	// Весь код регистрации у нас асинхронный.
+		// 	navigator.serviceWorker.register('/sw.js')
+		// 		.then(() => navigator.serviceWorker.ready.then((worker) => {
+		// 			worker.sync.register('syncdata');
+		// 		}))
+		// 		.catch((err) => console.log(err));
+		// }
+
+		// if ('serviceWorker' in navigator) {
+		// // 	console.log('SW:exists');
+		// // 	// Весь код регистрации у нас асинхронный.
+		// // 	// debugger;
+		// // 	// window.addEventListener('load', function() {
+		// // 	// 	navigator.serviceWorker.register('/service-worker.js');
+		// // 	// }
+		// 	navigator.serviceWorker.register('/sw.js')
+		// 		.then((registration) => console.log('SW:registered,', registration))
+		// 		.catch((err) => console.log('SW-err: ' + err));
+		// // 	// navigator.serviceWorker.register('/sw.js')
+		// // 	// 	.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
+		// // 	// 		console.log('SW:2');
+		// // 	// 		worker.sync.register('syncdata');
+		// // 	// 	})})
+		// // 	// 	.catch((err) => console.log('SW-err: ' + err));
+		// }
+		// // if ('serviceWorker' in navigator) {
+		// // 	navigator.serviceWorker.register('sw.js');
+		// // }
+		// console.log('SW:not after');
+		// window.addEventListener('offline', event => {
+		// 	console.log('offline');
+		// });
+
 		console.log('Init application-model');
 	}
 
@@ -59,7 +98,8 @@ export default class ApplicationModel {
 	 * Tries to GET /api/profile/get
 	 */
 	prerender = (toRender, data) => {
-		if (this.authorized === !/auth/.test(toRender)) {
+
+		if (this.authorized === !/auth/.test(toRender) || toRender==='/auth/offline') {
 			console.log('AUTHORIZED');
 			storage.set('currentPage', toRender);
 			eventBus.emitEvent(`render:${toRender}`, data);
@@ -100,7 +140,10 @@ export default class ApplicationModel {
 				return;
 			}
 			eventBus.emitEvent(`render:${toRender}`, data);
-		}).catch(consoleError);
+		}).catch((err) => {
+			console.log('Error ', err);
+			consoleError(err);
+		});
 	};
 
 	loadUserData = () => {

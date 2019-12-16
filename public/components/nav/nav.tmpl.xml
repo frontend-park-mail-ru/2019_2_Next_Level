@@ -24,10 +24,11 @@
 								<a class="nav__link nav__link__main nav__link__main_active" href="/messages/inbox">Messages</a>
 								<ul class="nav__list nav__list_2">
 									<fest:for iterate="args.messages" index="i">
-										<li class="nav__list-item_secondary"><a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
-											<!-- <svg viewBox="0 0 16 16" fill="#4AC92C" style="height: 16px; width: 16px; display: block;"><path d="M13.6633.9967H2.3367c-.7367 0-1.3334.5966-1.3334 1.3333v2a.667.667 0 0 0 .6667.6667h12.66a.667.667 0 0 0 .6667-.6667v-2c0-.7367-.5967-1.3333-1.3334-1.3333zm-.33 5H2.6667A.667.667 0 0 0 2 6.6633V13.67c0 .7367.5967 1.3333 1.3333 1.3333h9.3334c.7366 0 1.3333-.5966 1.3333-1.3333V6.6633a.667.667 0 0 0-.6667-.6666zm-2.67 3.029c-.0008.566-.4595 1.0248-1.0256 1.0256h-3.282c-.5662 0-1.0257-.4595-1.0257-1.0257C5.33 8.4595 5.7895 8 6.3556 8h3.282c.5662.0008 1.025.4595 1.0257 1.0256z"></path></svg> -->
-											<fest:value>args.messages[i]</fest:value>
-										</a></li>
+										<fest:if test="args.messages[i] !== 'search'">
+											<li class="nav__list-item_secondary"><a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
+												<fest:value>args.messages[i]</fest:value>
+											</a></li>
+										</fest:if>
 									</fest:for>
 		<!--							<li class="nav__list-item"><a class="nav__link" href="/messages/inbox" name="inbox">Inbox</a></li>-->
 		<!--							<li class="nav__list-item"><a class="nav__link" href="/messages/sent" name="sent">Sent</a></li>-->

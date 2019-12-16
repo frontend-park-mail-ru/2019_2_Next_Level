@@ -74,18 +74,15 @@ export default class SettingsView {
 
 			const firstName = form.elements.firstName.value;
 			const secondName = form.elements.secondName.value;
-			// const nickName = form.elements.nickName.value;
-			const birthDate = form.elements.birthDate.value;
-			const sex = form.elements.sex.value;
 
 			const formData = new FormData();
 			const fileField = form.querySelector('input[type="file"]');
-			formData.append('avatar', fileField.files[0]);
+			const ava = fileField.files[0] || ''
+			formData.append('avatar', ava);
 			formData.append('firstName', firstName);
 			formData.append('secondName', secondName);
-			// formData.append('nickName', nickName);
-			formData.append('birthDate', birthDate);
-			formData.append('sex', sex);
+			formData.append('birthDate', '01.01.1000');
+			formData.append('sex', 'male');
 
 			// eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
 			eventBus.emitEvent('settings:user-info-save-button-clicked', formData);
@@ -166,9 +163,6 @@ export default class SettingsView {
 	userInfoDisplayMessage = partial(abstractDisplayMessage, [
 		'firstName',
 		'secondName',
-		'nickName',
-		'birthDate',
-		'sex',
 	]);
 
 	securityDisplayMessage = partial(abstractDisplayMessage, [

@@ -40,32 +40,6 @@
 						name: 'avatar',
 						src: args.avatar,
 					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Date of Birth',
-					input: {
-						type: 'text',
-						id: 'birthDate',
-						name: 'birthDate',
-						value: args.birthDate,
-					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Sex',
-					input: {
-						cls: 'form__input_sex',
-						type: 'radio',
-						name: 'sex',
-						values: [
-							'male',
-							'female',
-						],
-						value: args.sex,
-					},
 				},
 			],
 			actions: {
