@@ -39,10 +39,10 @@
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
   overflow: hidden;
   align-items: stretch;
-  width: 200px;
+  width: 150px;
   left: 16px;
   top: 49px;
-  margin-left: -90px;
+  margin-left: -70px;
 }
 
 .select__header {

@@ -1,2 +1,6 @@
 @import '-content/message-content.css';
 @import '-head/message-head.css';
+
+.box_messages {
+  padding: 0 12px 0 0;
+}

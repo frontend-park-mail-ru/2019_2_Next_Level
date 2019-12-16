@@ -12,6 +12,8 @@
 	background-color: rgb(250, 250, 249);
 	margin-top: -66px;
 	z-index: 20;
+	position: fixed;
+	height: 100vh;
 }
 
 @media screen and (max-width: 765px) {
