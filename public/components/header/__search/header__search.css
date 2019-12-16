@@ -27,6 +27,12 @@
 	background-position: left;
 }
 
+@media screen and (max-width: 765px) {
+	.header__search {
+		width: 150px;
+	}
+}
+
 .header__search:focus {
 	background-color: #00000011;
 	outline: none;

@@ -11,3 +11,8 @@
 	padding: 40px 32px;
 	margin-top: 64px;
 }
+@media screen and (max-width: 765px) {
+	.box_auth {
+		margin: 32px 16px;
+	}
+}
