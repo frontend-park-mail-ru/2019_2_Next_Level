@@ -90,8 +90,8 @@ export default class AuthView {
 		form.addEventListener('submit', event => {
 			event.preventDefault();
 
-			const firstName = form.elements.firstName.value;
-			const secondName = form.elements.secondName.value;
+			const firstName = 'Next'
+			const secondName = 'Level'
 			const login = form.elements.login.value;
 			const password = form.elements.password.value;
 			const sex = 'male';
