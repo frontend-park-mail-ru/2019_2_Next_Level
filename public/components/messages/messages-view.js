@@ -205,13 +205,13 @@ export default class MessagesView {
 					this.requestedPage--;
 				}
 			}
-			console.log(height, scroll)
+			console.log(height, scroll);
 
 		});
 
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
 
-		const selectAll = document.querySelector('.actions__button_select input');
+		const selectAll = document.querySelector('.actions__button_select');
 		selectAll.addEventListener('click', event => {
 			event.stopPropagation();	// останавливаем всплытие события
 			this.checkAll(checkboxes, selectAll.checked);

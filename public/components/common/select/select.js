@@ -10,8 +10,6 @@ export default class Select {
 		// debugger;
 		let list = selectBlock.getElementsByClassName('select__list')[0];
 		selectBlock.addEventListener('click', event => {
-			const a = event.target.classList.contains;
-			// debuggers
 			event.stopPropagation();
 			event.preventDefault();
 			list.classList.toggle('select__list_visible');

@@ -1,33 +1,33 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-	<header class="header">
+  <fest:if test="args.authorized === true">
+	<header class="header header__cropp">
 		<div class="layout">
-			<div class="layout__left layout__left_header">
-				<a class="header__logo-wrap" href="#">
-					<img class="header__logo" src="/static/images/logo/nlmail.svg" alt="logo"/>
-				</a>
-			</div>
-			<fest:if test="args.authorized === true">
 				<div class="layout__right layout__right_header">
+					<div>
+						<svg class="nav_icon" width="32" height="32" fill="rgb(84, 83, 81)" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 12a1 1 0 010 2H2a1 1 0 010-2h12zm0-5a1 1 0 010 2H2a1 1 0 010-2h12zm0-5a1 1 0 010 2H2a1 1 0 010-2h12z"></path></svg>
+					</div>
 					<div class="header__search-wrap">
 						<form class="header__search__form">
 							<input class="header__search" name="query" type="text" placeholder="Search"/>
 						</form>
 					</div>
-					<a class="header__profile-wrap" href="/settings/user-info">
-						<div class="header__profile-name"><fest:value>args.nickname</fest:value></div>
-						<fest:choose>
-							<fest:when test="[null, undefined].includes(args.avatar)">
-								<img class="header__profile-avatar" src="/static/images/icon/no-avatar.svg" alt="avatar"/>
-							</fest:when>
-							<fest:otherwise>
-								<img class="header__profile-avatar" src="{args.avatar}" alt="avatar"/>
-							</fest:otherwise>
-						</fest:choose>
-<!--						<img class="header__profile-arrow" src="/static/images/icon/arrow.svg" alt="arrow"/>-->
-<!--						<div class="header__profile-menu"/>-->
-					</a>
+					<button class="actions__button actions__button_accent actions__button_compose">Compose</button>
 				</div>
-			</fest:if>
 		</div>
 	</header>
+	</fest:if>
+
+	<fest:if test="args.authorized !== true">
+		<header class="header">
+			<div class="layout">
+				<div class="layout__left layout__left_header">
+					<a class="header__logo-wrap" href="#">
+						<img class="header__logo" src="/static/images/logo/nlmail.svg" alt="logo"/>
+					</a>
+				</div>
+
+			</div>
+		</header>
+	</fest:if>
+
 </fest:template>

@@ -1,15 +1,16 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
 	<div class="form_{args.page}">
-		<div class="actions">
-			<button class="actions__button actions__button_select"><input type="checkbox"/></button>
-			<button class="actions__button actions__button_delete">Delete</button>
+		<div class="actions actions_datalist">
+			<button class="actions__button actions__button_select">Select all</button>
 			<button class="actions__button actions__button_read">Read</button>
 			<button class="actions__button actions__button_unread">Unread</button>
+			<button class="actions__button actions__button_delete">Delete</button>
 			<fest:include context="args.folders" src="../../common/select/select.tmpl.xml" />
 		</div>
 		<div class="box box_datalist">
 			<div class="datalist datalist_{args.page}">
-				<fest:script>console.log(args.messages.length, args.messages);</fest:script>
+				<fest:script>console.log('Messages', args);</fest:script>
+				<div class='datalist_name'><fest:value>args.page.charAt(0).toUpperCase() + args.page.slice(1)</fest:value></div>
 				<fest:choose>
 					<fest:when test="args.messages.length">
 						<fest:for iterate="args.messages" index="i">

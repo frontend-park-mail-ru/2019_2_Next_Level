@@ -1,5 +1,11 @@
 .datalist-item__date {
 	margin: auto 0;
-	font-weight: inherit;
-	color: black;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 18px;
+	overflow: hidden;
+	color: rgb(120, 118, 116);
+	flex-shrink: 0;
+	flex-grow: 1;
+	text-align: right;
 }

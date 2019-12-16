@@ -1,5 +1,5 @@
 .datalist-item__subject-wrap {
-	/*flex-grow: 1;*/
+	flex-grow: 1;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;

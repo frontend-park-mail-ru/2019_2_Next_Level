@@ -72,7 +72,7 @@
 				cls: 'form__actions_settings',
 				buttons: [
 					{
-						cls: 'form__button_accent form__button_save',
+						cls: 'form__button_save',
 						type: 'submit',
 						text: 'Save!',
 					}, {

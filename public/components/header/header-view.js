@@ -4,6 +4,7 @@ import {partial} from 'modules/partial.js';
 import {ReplaceInnerRenderer} from 'modules/renderer.js';
 import {renderFest} from 'modules/view-utility.js';
 import routes from 'modules/routes.js';
+import router from 'modules/router.js';
 import storage from 'modules/storage';
 
 import './header.css';
@@ -55,6 +56,27 @@ export default class HeaderView {
 				event.preventDefault();
 				const query = searchForm.elements.query.value;
 				eventBus.emitEvent('header:search', {query});
+			});
+
+			document.querySelector('.actions__button_compose').addEventListener('click', event => {
+				event.preventDefault();
+
+				if (window.location.pathname === '/messages/compose') {
+					if (confirm('The body of your email will be lost.')) {
+						eventBus.emitEvent('rerender:/messages/compose');
+					}
+					return;
+				}
+
+				router.routeNew({}, '', '/messages/compose');
+			});
+
+			document.querySelector('.nav_icon').addEventListener('click', event => {
+				event.preventDefault();
+
+				let nav = document.getElementsByClassName('layout__left_nav-wrap')[0];
+				nav.classList.toggle('layout__left_nav-wrap_active');
+				nav.focus();
 			});
 		}
 	};

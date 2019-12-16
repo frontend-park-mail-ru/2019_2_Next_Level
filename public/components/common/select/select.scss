@@ -1,4 +1,4 @@
-$border-width: 1px;
+$border-width: 14px;
 .select {
     position: relative;
     display: inline-block;
@@ -18,21 +18,37 @@ $border-width: 1px;
     border: $border-width solid gray;
     border-radius: 0 0 5px 5px;
     background-color: white;
-    padding: $border-width;
-    padding-right: 0;
     margin-top: -$border-width;
     padding-left:-0.5px;
+    border: none;
+}
+.select__list button:focus{
+	outline: none;
 }
 .select__list_visible {
-    display: block;
+    color: rgb(23, 23, 23);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background-color: rgb(255, 255, 255);
+    opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+    overflow: hidden;
+    align-items: stretch;
+    width: 200px;
+    left: 16px;
+    top: 49px;
+    margin-left: -90px;
 }
 
 .select__header {
-    border: $border-width solid gray;
+    // border: $border-width solid gray;
     border-radius: 5px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.2s;
     padding: 2px 4px;
+    font-size: 14px;
 }
 
 .select__list__item {
@@ -45,9 +61,22 @@ $border-width: 1px;
     color:inherit;
     clear: both;
     width:100%;
+
+    cursor: pointer;
+    text-decoration: initial;
+    background-color: rgb(255, 255, 255);
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+    flex-direction: row;
+    display: flex;
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 36px;
 }
 
 .select__list__item:hover {
-    background-color: #cccccc;
+    background-color: rgb(245, 244, 242);
     border-radius: 0;
 }

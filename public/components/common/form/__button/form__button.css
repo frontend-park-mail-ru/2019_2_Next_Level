@@ -7,8 +7,27 @@
 	transition-duration: 0.4s;
 	font:inherit;
 	color:inherit;
+
+	border-radius: 32px;
+	padding: 4px 12px 4px 12px;
+	font-size: 14px;
+	background-color: #94939138;
+	border: none;
 }
 
 .form__button:hover {
 	background-color: #cccccc;
+}
+
+.form__button_auth-sign-in {
+	border-radius: 32px;
+	padding: 4px 12px 4px 12px;
+	font-size: 14px;
+	background-color: #94939138;
+	border: none;
+}
+
+.form__button_auth-sign-in:hover {
+	background-color: #94939185;
+	cursor: pointer;
 }

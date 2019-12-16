@@ -5,6 +5,8 @@ import {ReplaceInnerRenderer} from 'modules/renderer.js';
 import router from 'modules/router.js';
 import {renderFest} from 'modules/view-utility.js';
 import routes from 'modules/routes.js';
+import storage from 'modules/storage';
+
 
 import './nav.css';
 import './nav.tmpl.js';
@@ -38,37 +40,37 @@ export default class NavView {
 
 	prerender = (page, toRenderState) => {
 		// if (this.navModel.renderState !== toRenderState) {
-			this.currentPage = page;
-			this.render();
-		console.log("preRender: nav")
-			this.navModel.renderState = toRenderState;
+		this.currentPage = page;
+		this.render();
+		console.log("preRender: nav");
+		this.navModel.renderState = toRenderState;
 		// }
 	};
 
 	render = () => {
-		console.log("Render: nav")
+		console.log("Render: nav");
 		let page = this.currentPage;
 		let messages = [];
 		routes.GetModuleRoutes('messages').slice(3).forEach(route => {
 			messages.push(route.split('/').slice(-1)[0]);
 		});
-		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page, messages});
+		const userData = storage.get('userInfo');
+		renderFest(ReplaceInnerRenderer, '.layout__left_nav-wrap', 'components/nav/nav.tmpl', {page, messages, nickname: userData.nickName, avatar: userData.avatar, authorized: storage.get('authState')});
 
 		if (page === 'auth') {
 			return;
 		}
 
-		document.querySelector('.actions__button_compose').addEventListener('click', event => {
-			event.preventDefault();
+		const nav = document.querySelector('.nav');
 
-			if (window.location.pathname === '/messages/compose') {
-				if (confirm('The body of your email will be lost.')) {
-					eventBus.emitEvent('rerender:/messages/compose');
-				}
-				return;
+
+		const toogleNav = () => {
+			if (window.innerWidth < 765) {
+				let nav = document.getElementsByClassName('layout__left_nav-wrap')[0];
+				nav.classList.toggle('layout__left_nav-wrap_active');
 			}
+		};
 
-			router.routeNew({}, '', '/messages/compose');
-		});
+		nav.addEventListener('click', toogleNav);
 	};
 }

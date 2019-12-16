@@ -2,5 +2,12 @@
 
 .layout__right {
 	box-sizing: border-box;
-	width: 825px;
+	width: calc(100% - 256px);
+}
+
+
+@media screen and (max-width: 765px) {
+	.layout__right {
+		width: 100%;
+	}
 }

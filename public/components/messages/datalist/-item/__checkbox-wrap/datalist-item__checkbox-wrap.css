@@ -1,3 +1,5 @@
 .datalist-item__checkbox-wrap {
 	line-height: 36px;
+	flex-grow: 0;
+	flex-shrink: 0;
 }

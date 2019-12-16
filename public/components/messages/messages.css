@@ -1,3 +1,7 @@
 @import 'compose/compose.css';
 @import 'datalist/datalist.css';
 @import 'message/message.css';
+
+.layout__right_messages-wrap {
+  padding: 16px 0 0 24px;
+}
