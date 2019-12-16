@@ -23,17 +23,17 @@ export default class ApplicationModel {
 		// routes.forEach(page => {
 		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		// });
-		// navigator.serviceWorker.getRegistrations().then(
-		//
-		// 	function(registrations) {
-		//
-		// 		for(let registration of registrations) {
-		// 			console.log("SW: unregister");
-		// 			registration.unregister();
-		//
-		// 		}
-		//
-		// 	});
+		navigator.serviceWorker.getRegistrations().then(
+
+			function(registrations) {
+
+				for(let registration of registrations) {
+					console.log("SW: unregister");
+					registration.unregister();
+
+				}
+
+			});
 		// if ('serviceWorker' in navigator) {
 		// 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
 		// 		.then((reg) => {
