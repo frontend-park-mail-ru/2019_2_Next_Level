@@ -11,10 +11,11 @@
 					<fest:if test="args.page === 'messages'">
 						<ul class="nav__list nav__list_2">
 							<fest:for iterate="args.messages" index="i">
+								<fest:if test="args.messages[i] !== 'search'">
 								<li class="nav__list-item"><a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
 									<fest:value>args.messages[i]</fest:value>
-
 								</a></li>
+								</fest:if>
 							</fest:for>
 <!--							<li class="nav__list-item"><a class="nav__link" href="/messages/inbox" name="inbox">Inbox</a></li>-->
 <!--							<li class="nav__list-item"><a class="nav__link" href="/messages/sent" name="sent">Sent</a></li>-->
