@@ -45,6 +45,9 @@ export const fetchPost = (url, body) => {
 export const fetchGet = url => {
 	console.log('fetchGet', url);
 	return fetch(backend + url, {
+		headers: {
+			'Cache-Control': 'private, max-age=60',
+		},
 		method: 'GET',
 		credentials: 'include',
 	});
