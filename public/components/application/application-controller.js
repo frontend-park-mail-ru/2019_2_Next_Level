@@ -35,15 +35,15 @@ export default class ApplicationController {
 		//
 		// 	});
 
-		// if ('serviceWorker' in navigator) {
-		// 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
-		// 		.then((reg) => {
-		// 			console.log('sw reg success:', reg);
-		// 		})
-		// 		.catch((err) => {
-		// 			console.error('sw reg err:', err);
-		// 		});
-		// }
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js', { scope: '/' })
+				.then((reg) => {
+					console.log('sw reg success:', reg);
+				})
+				.catch((err) => {
+					console.error('sw reg err:', err);
+				});
+		}
 		storage.set('currentPage', currentPage);
 		console.log("Start: ", storage.get('currentPage'));
 		this.init();
