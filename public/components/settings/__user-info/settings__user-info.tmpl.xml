@@ -31,18 +31,6 @@
 				}, {
 					r_modifiers: ['settings'],
 					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Nick name',
-					input: {
-						cls: 'form__input_nick-name',
-						type: 'text',
-						id: 'nickName',
-						name: 'nickName',
-						value: args.nickName,
-					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
 					ww_modifiers: ['settings', 'avatar'],
 					label: 'Avatar',
 					input: {
@@ -52,39 +40,13 @@
 						name: 'avatar',
 						src: args.avatar,
 					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Date of Birth',
-					input: {
-						type: 'text',
-						id: 'birthDate',
-						name: 'birthDate',
-						value: args.birthDate,
-					},
-				}, {
-					r_modifiers: ['settings'],
-					lw_modifiers: ['settings'],
-					ww_modifiers: ['settings'],
-					label: 'Sex',
-					input: {
-						cls: 'form__input_sex',
-						type: 'radio',
-						name: 'sex',
-						values: [
-							'male',
-							'female',
-						],
-						value: args.sex,
-					},
 				},
 			],
 			actions: {
 				cls: 'form__actions_settings',
 				buttons: [
 					{
-						cls: 'form__button_accent form__button_save',
+						cls: 'form__button_save',
 						type: 'submit',
 						text: 'Save!',
 					}, {

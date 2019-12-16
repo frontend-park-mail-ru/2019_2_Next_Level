@@ -2,5 +2,14 @@
 
 .layout__right {
 	box-sizing: border-box;
-	width: 825px;
+	width: calc(100% - 256px);
+	margin-left: 256px;
+}
+
+
+@media screen and (max-width: 765px) {
+	.layout__right {
+		width: 100%;
+		margin-left: 0;
+	}
 }

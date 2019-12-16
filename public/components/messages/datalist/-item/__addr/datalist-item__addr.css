@@ -1,9 +1,0 @@
-.datalist-item__addr {
-	margin: auto 0;
-	width: 90px;
-	display: inline-block;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	font-weight: inherit;
-}

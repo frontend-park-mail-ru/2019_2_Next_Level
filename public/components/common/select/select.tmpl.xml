@@ -1,0 +1,17 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+    <div class="select">
+        <div class="select__header">Move to folder</div>
+        <div class="select__list">
+            <fest:for iterate="args" index="i">
+<!--                    <div class="select__list__item" id="{args[i].name}">-->
+<!--                        <fest:value>args[i].name</fest:value>-->
+<!--                    </div>-->
+                <fest:if test="args[i].name !== 'search'">
+                    <button class="select__list__item select__list__item_{args[i].name}">
+                        <fest:value>args[i].name</fest:value>
+                    </button>
+                </fest:if>
+            </fest:for>
+        </div>
+    </div>
+</fest:template>

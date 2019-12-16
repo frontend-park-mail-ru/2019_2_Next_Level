@@ -1,4 +1,8 @@
 .layout__right_header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	margin-right: 14px;
+	padding: 0 14px;
+	background-color: white;
 }

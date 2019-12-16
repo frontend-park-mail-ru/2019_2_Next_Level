@@ -1,0 +1,15 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<div class="datalist-item datalist-item_id-{args.name} datalist-item_{modifier}">
+		<div class="datalist-item__checkbox-wrap">
+			<input class="datalist-item__checkbox datalist-item__checkbox_id-{args.name}" type="checkbox"/>
+		</div>
+		<a class="datalist-item__message-wrap" href="/messages/{args.name}">
+			<div class="datalist-item__subject-wrap">
+				<span class="datalist-item__subject"><fest:value>args.name</fest:value></span>
+			</div>
+			<div class="datalist-item__date-wrap">
+				<div class="datalist-item__date"><fest:value>args.capacity</fest:value></div>
+			</div>
+		</a>
+	</div>
+</fest:template>

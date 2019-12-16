@@ -8,7 +8,6 @@ package-lock.json
 # Fest
 *.tmpl.js
 
-# Inc
-*.inc.js
-
 dist/
+
+id_rsa_dep

@@ -12,7 +12,7 @@
 			<div class="message">
 				<div class="message-head">
 					<a class="message-head__avatar-wrap">
-						<img class="message-head__avatar" src="/static/images/icons/no-avatar.svg"/>
+						<img class="message-head__avatar" src="/static/images/icon/no-avatar.svg"/>
 					</a>
 
 					<div class="message-head__content">
@@ -30,10 +30,6 @@
 							</div>
 						</div>
 						<div class="message-head__row">
-							<div class="message-head__label">To</div>
-							<span class="message-head__email"><fest:value>to</fest:value></span>
-						</div>
-						<div class="message-head__row">
 							<div class="message-head__label">Date</div>
 							<div class="message-head__input"><fest:value>args.date</fest:value></div>
 						</div>
@@ -41,7 +37,7 @@
 				</div>
 
 				<div class="message-content">
-					<fest:value>args.content</fest:value>
+					<fest:value output="text">args.content</fest:value>
 				</div>
 			</div>
 		</div>

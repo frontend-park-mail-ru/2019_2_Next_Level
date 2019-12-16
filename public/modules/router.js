@@ -9,6 +9,7 @@ class Router {
 		this.root = root;
 		this.routes = new Map();
 		this.currentPath = null;
+		this.defaultPath = '/auth/sign-in';
 	}
 
 	/**
@@ -28,10 +29,14 @@ class Router {
 			console.error('Path already registered');
 			return this;
 		}
-
 		this.routes.set(path, callback);
+		console.log(`Register: ${path}`)
 		return this;
 	};
+
+	setDefault = (path) => {
+		this.defaultPath = path;
+	}
 
 	/**
 	 * Starts routing
@@ -39,6 +44,7 @@ class Router {
 	 */
 	start = () => {
 		window.addEventListener('popstate', () => {
+			console.log('popstate');
 			this.routeCurrent();
 		});
 
@@ -49,10 +55,9 @@ class Router {
 			}
 
 			event.preventDefault();
-
+			// window.history.pushState({}, link.href.split('/').pop(), link.href);
 			window.history.pushState({}, '', link.href);
 			return this.routeCurrent();
-
 		});
 
 		return this.routeCurrent();
@@ -101,6 +106,7 @@ class Router {
 	 * @returns {Router}
 	 */
 	routeCurrent = () => {
+		console.log('RouteCurrent: ', window.location.pathname);
 		return this.route(window.location.pathname, window.location.search);
 	};
 
@@ -111,15 +117,27 @@ class Router {
 	 * @returns {Router}
 	 */
 	route = (pathname, search) => {
+		// debugger;
 		console.log('route', pathname, search);
 		if (!this.routes.has(pathname)) {
-			console.error(`Unknown pathname: ${pathname}`);
+			console.log(`Unknown pathname: ${pathname}`);
+			this.routeNew({}, '', this.defaultPath);
 			return this;
 		}
 
+		console.log('route(): ', pathname);
 		this.routes.get(pathname)(pathname, parseSearch(search));
 		return this;
 	};
+
+	clearRoutes = () => {
+		this.routes.clear();
+		console.log('Router: clear');
+	}
+
+	getCurrentPage = () => {
+		return window.location.pathname;
+	}
 }
 
 export default new Router();

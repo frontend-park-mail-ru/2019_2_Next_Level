@@ -3,3 +3,16 @@
 .layout__center {
 	margin: 0 auto;
 }
+
+.box_auth {
+	border: solid 2px rgb(240, 239, 237);
+	height: fit-content;
+	border-radius: 5px;
+	padding: 40px 32px;
+	margin-top: 64px;
+}
+@media screen and (max-width: 765px) {
+	.box_auth {
+		margin: 32px 16px;
+	}
+}

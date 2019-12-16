@@ -1,5 +1,6 @@
 .header__profile-wrap {
 	display: flex;
+	align-items: center;
 }
 
 /* for no reason doesn't work */
@@ -8,9 +9,9 @@
 }
 
 .header__profile-avatar {
-	height: 34px;
-	margin-top: 4px;
-	margin-bottom: 4px;
+	height: 32px;
+	width: 32px;
+  border-radius: 50%;
 }
 
 .header__profile-name {

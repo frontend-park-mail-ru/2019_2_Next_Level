@@ -1,9 +1,12 @@
 import {ApplicationRenderState} from './application-utility.js';
-import {Errors} from '../../modules/errors.es6.inc.js';
-import eventBus from '../../modules/event-bus.js';
-import {jsonize, fetchGet, consoleError} from '../../modules/fetch.js';
-import {partial} from '../../modules/partial.js';
-import router from '../../modules/router.js';
+import {Errors} from 'modules/errors.es6.inc.js';
+import eventBus from 'modules/event-bus.js';
+import {jsonize, fetchGet, consoleError} from 'modules/fetch.js';
+import {partial} from 'modules/partial.js';
+import router from 'modules/router.js';
+import routes from 'modules/routes.js';
+import storage from 'modules/storage';
+import {UserInfo} from 'modules/userInfo';
 
 export default class ApplicationModel {
 	/**
@@ -11,41 +14,123 @@ export default class ApplicationModel {
 	 */
 	constructor() {
 		this.authorized = undefined;
+		this.userInfo = new UserInfo();
+		storage.set('userInfo', this.userInfo);
+		storage.set('currentPage', '/messages/inbox');
 
+		// this.renderState = ApplicationRenderState.NotRendered;
+		//
+		// routes.forEach(page => {
+		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
+		// });
+		// navigator.serviceWorker.getRegistrations().then(
+		//
+		// 	function(registrations) {
+		//
+		// 		for(let registration of registrations) {
+		// 			console.log("SW: unregister");
+		// 			registration.unregister();
+		//
+		// 		}
+		//
+		// 	});
+		// if ('serviceWorker' in navigator) {
+		// 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
+		// 		.then((reg) => {
+		// 			console.log('sw reg success:', reg);
+		// 		})
+		// 		.catch((err) => {
+		// 			console.error('sw reg err:', err);
+		// 		});
+		// }
+		// if ('serviceWorker' in navigator) {
+		// 	// Весь код регистрации у нас асинхронный.
+		// 	navigator.serviceWorker.register('/sw.js')
+		// 		.then(() => navigator.serviceWorker.ready.then((worker) => {
+		// 			worker.sync.register('syncdata');
+		// 		}))
+		// 		.catch((err) => console.log(err));
+		// }
+
+		// if ('serviceWorker' in navigator) {
+		// // 	console.log('SW:exists');
+		// // 	// Весь код регистрации у нас асинхронный.
+		// // 	// debugger;
+		// // 	// window.addEventListener('load', function() {
+		// // 	// 	navigator.serviceWorker.register('/service-worker.js');
+		// // 	// }
+		// 	navigator.serviceWorker.register('/sw.js')
+		// 		.then((registration) => console.log('SW:registered,', registration))
+		// 		.catch((err) => console.log('SW-err: ' + err));
+		// // 	// navigator.serviceWorker.register('/sw.js')
+		// // 	// 	.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
+		// // 	// 		console.log('SW:2');
+		// // 	// 		worker.sync.register('syncdata');
+		// // 	// 	})})
+		// // 	// 	.catch((err) => console.log('SW-err: ' + err));
+		// }
+		// // if ('serviceWorker' in navigator) {
+		// // 	navigator.serviceWorker.register('sw.js');
+		// // }
+		// console.log('SW:not after');
+		// window.addEventListener('offline', event => {
+		// 	console.log('offline');
+		// });
+
+		console.log('Init application-model');
+	}
+
+	init = () => {
 		this.renderState = ApplicationRenderState.NotRendered;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/settings/user-info',
-			'/settings/security',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
+		routes.forEach(page => {
 			eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
 		});
-	}
+		// clear
+		eventBus.addEventListener('application:not-authorized', () => {
+			storage.set('userInfo', new UserInfo());
+		});
+		eventBus.addEventListener('auth:authorized', () => this.loadUserData(), 10);
+		eventBus.addEventListener('application:load_userdata', () => this.loadUserData());
+	};
 
 	/**
 	 * Tries to GET /api/profile/get
 	 */
 	prerender = (toRender, data) => {
-		if (this.authorized === !/auth/.test(toRender)) {
+
+		if (this.authorized === !/auth/.test(toRender) || toRender==='/auth/offline') {
+			console.log('AUTHORIZED');
+			storage.set('currentPage', toRender);
 			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
 		}
+
+		// авторизован и пошел на /auth/...
+		// неавторизован и идешь в приватную часть
 		jsonize(fetchGet('/api/profile/get')).then(response => {
+			console.log("GET PROFILE ", toRender);
 			if (response.status === 'ok') {
+
 				this.authorized = true;
+				storage.set('authState', true);
 				const {userInfo} = response;
-				eventBus.emitEvent('application:authorized', userInfo);
+				// debugger;
+				this.userInfo = new UserInfo(userInfo);
+				storage.set('userInfo', this.userInfo);
+				eventBus.emitEvent('application:authorized', this.userInfo);
 				if (/auth/.test(toRender)) {
-					return router.routeNew({}, '', '/messages/inbox');
+					let path = storage.get('currentPage');
+					if (/auth/.test(path)) {
+						path = '/messages/inbox';
+						storage.set('currentPage', path);
+					}
+					return router.routeNew({}, '', path);
+					// return router.routeNew({}, '', storage.get('currentPage'));
 				}
 			} else if (response.error.code === Errors.NotAuthorized.code) {
 				this.authorized = false;
+				storage.set('authState', false);
 				eventBus.emitEvent('application:not-authorized');
 				if (!/auth/.test(toRender)) {
 					return router.routeNew({}, '', '/auth/sign-in');
@@ -55,8 +140,31 @@ export default class ApplicationModel {
 				return;
 			}
 			eventBus.emitEvent(`render:${toRender}`, data);
-		}).catch(consoleError);
+		}).catch((err) => {
+			console.log('Error ', err);
+			consoleError(err);
+		});
 	};
+
+	loadUserData = () => {
+		jsonize(fetchGet('/api/profile/get')).then(response => {
+			console.log("GET PROFILE ");
+			if (response.status === 'ok') {
+				this.authorized = true;
+				const {userInfo} = response;
+				// debugger;
+				this.userInfo = new UserInfo(userInfo);
+				storage.set('userInfo', this.userInfo);
+				eventBus.emitEvent('application:authorized', this.userInfo);
+			} else if (response.error.code === Errors.NotAuthorized.code) {
+				this.authorized = false;
+				storage.set('authState', false);
+				eventBus.emitEvent('application:not-authorized');
+			} else {
+				consoleError('Unknown response', response);
+			}
+		}).catch(consoleError);
+	}
 
 
 }

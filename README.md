@@ -3,7 +3,7 @@
 
 [Репозиторий бекенда](https://github.com/go-park-mail-ru/2019_2_Next_Level)
 
-<a href="https://nextlevel.now.sh"><img src="https://sun9-28.userapi.com/c857628/v857628146/818b3/Uqc9OlGEf20.jpg"></a>
+<a href="https://nl-mail.ru"><img src="https://sun9-28.userapi.com/c857628/v857628146/818b3/Uqc9OlGEf20.jpg"></a>
 <br>(тык на деплой)
 
 ## Команда разработчиков

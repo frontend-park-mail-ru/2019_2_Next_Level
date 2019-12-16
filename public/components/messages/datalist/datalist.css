@@ -1,2 +1,10 @@
 @import '-empty/datalist-empty.css';
 @import '-item/datalist-item.css';
+
+.datalist_name {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 48px;
+  color: rgb(68, 67, 65);
+  margin: 12px 0 24px;
+}

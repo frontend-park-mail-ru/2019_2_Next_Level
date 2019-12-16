@@ -1,5 +1,9 @@
 // const backend = 'https://next-level-mail.kerimovdev.now.sh/';
-const backend = 'https://nextlevel.hldns.ru';
+import {Config} from '../config';
+import eventBus from 'modules/event-bus.js';
+
+// const backend = 'https://nextlevel.hldns.ru';
+const backend = Config.backend;
 
 /**
  * Fetch POST
@@ -7,6 +11,19 @@ const backend = 'https://nextlevel.hldns.ru';
  * @param   {Object} body
  * @returns {Promise<Response>}
  */
+
+export const fetchFile = (url, body) => {
+	console.log('fetchFile', url);
+	return fetch(backend + url, {
+		method: 'PUT',
+		headers: {
+			'Accept': 'multipart/form-data',
+			// 'Content-Type': 'multipart/form-data',
+		},
+		body: body,
+		credentials: 'include',
+	});
+}
 export const fetchPost = (url, body) => {
 	console.log('fetchPost', url, body);
 	return fetch(backend + url, {
@@ -97,5 +114,9 @@ export const consoleError = error => {
 export const jsonize = response => {
 	return response
 		.then(jsonizeResponse)
-		.catch(consoleError);
+		.catch(() => {
+			console.log('BB: OFFLINE');
+			eventBus.emitEvent('prerender:/auth/offline', {});
+			consoleError();
+		});
 };

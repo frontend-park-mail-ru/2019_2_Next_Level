@@ -1,11 +1,15 @@
-import {SettingsRenderState} from './settings-utility.js';
-import eventBus from '../../modules/event-bus.js';
-import {partial} from '../../modules/partial.js';
-import {ReplaceInnerRenderer} from '../../modules/renderer.js';
-import {renderFest, abstractDisplayMessage} from '../../modules/view-utility.js';
+import {SettingsRenderState, Events} from './consts.js';
+import eventBus from 'modules/event-bus.js';
+import {partial} from 'modules/partial.js';
+import {ReplaceInnerRenderer} from 'modules/renderer.js';
+import {renderFest, abstractDisplayMessage} from 'modules/view-utility.js';
+import routes from 'modules/routes.js';
 
 import './__security/settings__security.tmpl.js';
 import './__user-info/settings__user-info.tmpl.js';
+import './__user_folders/settings__user-folder.tmpl.js';
+import {SettingsPages} from './routes.js';
+import storage from 'modules/storage';
 
 export default class SettingsView {
 	/**
@@ -13,16 +17,10 @@ export default class SettingsView {
 	 * @param {SettingsModel} settingsModel
 	 */
 	constructor(settingsModel) {
+		console.log('Settings-view create');
 		this.settingsModel = settingsModel;
 
-		[
-			'/auth/sign-in',
-			'/auth/sign-up',
-			'/messages/compose',
-			'/messages/inbox',
-			'/messages/sent',
-			'/messages/message',
-		].forEach(page => {
+		routes.GetModuleRoutes('auth', 'messages').forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.settingsModel.dropRenderState);
 		});
 
@@ -35,6 +33,10 @@ export default class SettingsView {
 				page: 'security',
 				renderer: this.renderSecurity,
 				renderState: SettingsRenderState.RenderedSecurity,
+			}, {
+				page: 'folders',
+				renderer: this.renderFolders,
+				renderState: SettingsRenderState.RenderFolders,
 			},
 		].forEach(({page, renderer, renderState}) => {
 			eventBus.addEventListener(`render:/settings/${page}`, partial(this.prerender, renderer, renderState));
@@ -42,15 +44,21 @@ export default class SettingsView {
 
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
-
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
+		eventBus.addEventListener('settings/passwordChanged', () => alert('Password succcesfully apdated'));
+		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
+
+		console.log('Init settings-view');
 	}
 
 	prerender = (renderer, toRenderState) => {
-		if (this.settingsModel.renderState !== toRenderState) {
-			renderer();
-			this.settingsModel.renderState = toRenderState;
-		}
+		console.log("SettingsView prerenderer");
+		// if (this.settingsModel.renderState !== toRenderState) {
+		// 	renderer();
+		// 	this.settingsModel.renderState = toRenderState;
+		// }
+		console.log("preRender: settings")
+		renderer();
 	};
 
 	renderUserInfo = () => {
@@ -58,7 +66,7 @@ export default class SettingsView {
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__user-info/settings__user-info.tmpl',
-			this.settingsModel.userInfo,
+			storage.get('userInfo'),
 		);
 
 		const form = document.querySelector('.form_user-info');
@@ -67,11 +75,18 @@ export default class SettingsView {
 
 			const firstName = form.elements.firstName.value;
 			const secondName = form.elements.secondName.value;
-			const nickName = form.elements.nickName.value;
-			const birthDate = form.elements.birthDate.value;
-			const sex = form.elements.sex.value;
 
-			eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
+			const formData = new FormData();
+			const fileField = form.querySelector('input[type="file"]');
+			const ava = fileField.files[0] || ''
+			formData.append('avatar', ava);
+			formData.append('firstName', firstName);
+			formData.append('secondName', secondName);
+			formData.append('birthDate', '01.01.1000');
+			formData.append('sex', 'male');
+
+			// eventBus.emitEvent('settings:user-info-save-button-clicked', {firstName, secondName, nickName, birthDate, sex});
+			eventBus.emitEvent('settings:user-info-save-button-clicked', formData);
 		});
 
 		document.querySelector('.form__button_cancel').addEventListener('click', event => {
@@ -87,7 +102,7 @@ export default class SettingsView {
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
 			'components/settings/__security/settings__security.tmpl',
-			this.settingsModel.userInfo,
+			storage.get('userInfo'),
 		);
 
 		const form = document.querySelector('.form_security');
@@ -109,12 +124,46 @@ export default class SettingsView {
 		});
 	};
 
+	renderFolders = () => {
+		console.log("RenderFolders");
+		// console.log("Folders: ", this.settingsModel.getFolders());
+		renderFest(
+			ReplaceInnerRenderer,
+			'.layout__right_settings-wrap',
+			'components/settings/__user_folders/settings__user-folder.tmpl',
+			storage.get('userInfo').getFolders(),
+		);
+
+		const folderNameInput = document.querySelector('.actions__input_name');
+		document.querySelector('.actions__button_create').addEventListener('click', event => {
+			event.preventDefault();
+			const newFolderName = folderNameInput.value;
+			eventBus.emitEvent(
+				Events.AddFolderButtonCLicked,
+				{newFolderName},
+			);
+		});
+		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
+
+		document.querySelector('.actions__button_delete').addEventListener('click', event => {
+			event.preventDefault();
+			let ids = [];
+			checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+				ids.push(checkbox.className.match(/id-(\w+)/)[1]);
+			});
+			eventBus.emitEvent(Events.DeleteFolderButtonClicked, ids);
+		});
+
+	};
+
+
+	deleteElement = (elem) => {
+		elem.parent.removeChild(elem);
+	};
+
 	userInfoDisplayMessage = partial(abstractDisplayMessage, [
 		'firstName',
 		'secondName',
-		'nickName',
-		'birthDate',
-		'sex',
 	]);
 
 	securityDisplayMessage = partial(abstractDisplayMessage, [
@@ -124,7 +173,8 @@ export default class SettingsView {
 	]);
 
 	onUserInfoEdited = () => {
-		this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		// this.userInfoDisplayMessage({inputName: 'sex', message: ''});
+		eventBus.emitEvent('application:load_userdata');
 		alert('User info edited successful');
 	}
 }

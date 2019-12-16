@@ -1,0 +1,23 @@
+.actions__add_wrap {
+    display: block;
+    max-width: 100px;
+    height: 100px;
+    padding: 50px;
+    overflow: hidden;   
+}
+
+.actions__add_wrap div:hover{
+    background-color: #0f0;
+    max-width: 300px;
+    overflow: visible;
+}
+
+.actions__input_name_invisible:hover {
+    /* display: none; */
+    /* visibility: hidden; */
+    background-color: #f00;
+}
+
+.actions__input_name_visible {
+    display: inline-block;
+}

@@ -30,7 +30,7 @@
 		"indent": ["error", "tab"],
 		"init-declarations": ["error", "always"],
 		"key-spacing": "error",
-		"linebreak-style": ["error", "unix"],
+//		"linebreak-style": ["error", "unix"],
 		"lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
 		"max-depth": ["warn", 5],
 		"no-case-declarations": "error",

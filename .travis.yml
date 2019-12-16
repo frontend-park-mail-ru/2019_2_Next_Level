@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+- 12
+branches:
+    only:
+    - master
+    - develop
+script:
+- npm run build
+- eval "$(ssh-agent -s)"
+- ssh-keyscan -H 84.201.153.27 >> ~/.ssh/known_hosts
+- chmod 600 ./deploy_key
+- echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- ssh-add ./deploy_key
+- ssh -i ./deploy_key ian@84.201.153.27 pwd
+- scp -i ./deploy_key -r ./dist ian@84.201.153.27:/var/www/html
+before_install:
+- openssl aes-256-cbc -K $encrypted_4097da34beb0_key -iv $encrypted_4097da34beb0_iv
+    -in deploy_key.enc -out ./deploy_key -d
