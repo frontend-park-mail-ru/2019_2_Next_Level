@@ -72,8 +72,10 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', function(event) {
 	// Можете использовать любую стратегию описанную выше.
 	// Если она не отработает корректно, то используейте `Embedded fallback`.
-	event.respondWith(networkOrCache(event.request)
-		.catch(() => useFallback()));
+	if (!event.request.url.includes('/api/')){
+		event.respondWith(networkOrCache(event.request)
+			.catch(() => useFallback()));
+	}
 });
 
 function networkOrCache(request) {
