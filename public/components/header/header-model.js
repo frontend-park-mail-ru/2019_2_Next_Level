@@ -11,19 +11,19 @@ export default class HeaderModel {
 	constructor() {
 		this.renderState = HeaderRenderState.NotRendered;
 
-		eventBus.addEventListener('application:authorized', this.onAuthorized);
+		// eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 		eventBus.addEventListener('header:search', this.onSearch);
 		// eventBus.addEventListener('header:getMessages', this.loadMessages);
 	}
 
-	onAuthorized = userInfo => {
-		this.userInfo = {
-			authorized: true,
-			nickName: userInfo.nickName,
-			avatar: userInfo.avatar,
-		};
-	};
+	// onAuthorized = userInfo => {
+	// 	// this.userInfo = {
+	// 	// 	authorized: true,
+	// 	// 	nickName: userInfo.nickName,
+	// 	// 	avatar: userInfo.avatar,
+	// 	// };
+	// };
 
 	onNotAuthorized = () => {
 		this.userInfo = {

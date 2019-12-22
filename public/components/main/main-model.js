@@ -7,17 +7,17 @@ export default class MainModel {
 	 */
 	constructor() {
 		this.renderState = MainRenderState.NotRendered;
-		this.authorized = undefined;
-
-		eventBus.addEventListener('application:authorized', this.onAuthorized);
-		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
+		// this.authorized = undefined;
+		//
+		// eventBus.addEventListener('application:authorized', this.onAuthorized);
+		// eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 	}
 
-	onAuthorized = () => {
-		this.authorized = true;
-	};
+	// onAuthorized = () => {
+	// 	this.authorized = true;
+	// };
 
-	onNotAuthorized = () => {
-		this.authorized = false;
-	}
+	// onNotAuthorized = () => {
+	// 	this.authorized = false;
+	// }
 }

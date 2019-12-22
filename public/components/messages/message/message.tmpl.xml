@@ -22,10 +22,10 @@
 						<div class="message-head__row">
 							<div class="message-head__label">From</div>
 							<div class="message-head__input">
-								<fest:if test="args.from.name">
-									<span class="message-head__name"><fest:value>args.from.name</fest:value></span>
-									<!-- TODO: add whitespace -->
-								</fest:if>
+<!--								<fest:if test="args.from.name">-->
+<!--									<span class="message-head__name"><fest:value>args.from.name</fest:value></span>-->
+<!--									&lt;!&ndash; TODO: add whitespace &ndash;&gt;-->
+<!--								</fest:if>-->
 								<span class="message-head__email"><fest:value>args.from.email</fest:value></span>
 							</div>
 						</div>

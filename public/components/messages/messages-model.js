@@ -16,7 +16,7 @@ export default class MessagesModel {
 		console.log('Messages-model create');
 		this.onNotAuthorized();
 
-		eventBus.addEventListener('application:authorized', this.onAuthorized);
+		// eventBus.addEventListener('application:authorized', this.onAuthorized);
 		eventBus.addEventListener('application:not-authorized', this.onNotAuthorized);
 
 		eventBus.addEventListener('messages:compose-send-button-clicked', this.onComposeSendButtonClicked);
@@ -39,8 +39,8 @@ export default class MessagesModel {
 		}
 
 		eventBus.addEventListener('messages:move_messages', this.moveMessage);
-		eventBus.addEventListener('messages:loadnewpage', ({page, folder}) => {
-			this.loadFolder(folder, page);
+		eventBus.addEventListener('messages:loadnewpage', ({page, folder, since}) => {
+			this.loadFolder(folder, page, since);
 		});
 		eventBus.addEventListener('application:getMessagesById', this.loadMessagesById);
 	}
@@ -63,15 +63,15 @@ export default class MessagesModel {
 		}
 	};
 
-	loadFolder = (folder, page=1) => {
+	loadFolder = (folder, page=1, since=2**64-1) => {
 		console.log( Config.messagesPerPage);
-		this.updateFolderMessages(folder, page, Config.messagesPerPage);
+		this.updateFolderMessages(folder, page, Config.messagesPerPage, since);
 	};
 
-	onAuthorized = userInfo => {
-		this.userInfo = userInfo;
-		console.log('Add userinfo to MessageModel ', userInfo);
-	};
+	// onAuthorized = userInfo => {
+	// 	// this.userInfo = userInfo;
+	// 	// console.log('Add userinfo to MessageModel ', userInfo);
+	// };
 
 	onNotAuthorized = () => {
 		this.dropRenderState();
@@ -211,31 +211,51 @@ export default class MessagesModel {
 	};
 
 	moveMessage = ({from, to, list}) => {
-		for (let id of list) {
-			jsonize(fetchPost(`/api/messages/changeFolder/${id}/${to}`, {})).then(response => {
-				if (response.status === 'ok') {
-					let localUserInfo = storage.get('userInfo');
+		jsonize(fetchPost(`/api/messages/changeFolder/${to}`, {messages: list})).then(response => {
+			if (response.status === 'ok') {
+				let localUserInfo = storage.get('userInfo');
+				list.forEach(id => {
 					localUserInfo.moveMessage(from, to, id);
-					storage.set('userInfo', localUserInfo);
-					// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
-					eventBus.emitEvent('render:update');
-					console.log(`${status} successful`);
-					return;
-				}
+				});
+				storage.set('userInfo', localUserInfo);
+				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+				eventBus.emitEvent('render:update');
+				console.log(`${status} successful`);
+				return;
+			}
 
-				if (response.error.code === Errors.NotAuthorized.code) {
-					eventBus.emitEvent('application:sign-out');
-					return;
-				}
+			if (response.error.code === Errors.NotAuthorized.code) {
+				eventBus.emitEvent('application:sign-out');
+				return;
+			}
 
-				consoleError('Unknown response:', response);
-			}).catch(consoleError);
-
-		}
+			consoleError('Unknown response:', response);
+		}).catch(consoleError);
+		// for (let id of list) {
+		// 	jsonize(fetchPost(`/api/messages/changeFolder/${id}/${to}`, {})).then(response => {
+		// 		if (response.status === 'ok') {
+		// 			let localUserInfo = storage.get('userInfo');
+		// 			localUserInfo.moveMessage(from, to, id);
+		// 			storage.set('userInfo', localUserInfo);
+		// 			// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+		// 			eventBus.emitEvent('render:update');
+		// 			console.log(`${status} successful`);
+		// 			return;
+		// 		}
+		//
+		// 		if (response.error.code === Errors.NotAuthorized.code) {
+		// 			eventBus.emitEvent('application:sign-out');
+		// 			return;
+		// 		}
+		//
+		// 		consoleError('Unknown response:', response);
+		// 	}).catch(consoleError);
+		//
+		// }
 	}
 
-	updateFolderMessages = (folder, page, perPage) => {
-		return jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage, page, folder})).then(response => {
+	updateFolderMessages = (folder, page, perPage, since) => {
+		return jsonize(fetchGetWithParams('/api/messages/getByPage', {perPage, page, folder, since})).then(response => {
 			if (response.status === 'ok') {
 				let userInfo = storage.get('userInfo');
 				if (!response.messages || response.messages.length===0) {

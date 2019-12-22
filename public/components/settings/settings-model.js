@@ -48,12 +48,10 @@ export default class SettingsModel {
 	};
 
 	onAuthorized = userInfo => {
-		this.userInfo = userInfo;
-		console.log('Add userinfo to Settings.model', userInfo);
+		// this.userInfo = userInfo;
+		// console.log('Add userinfo to Settings.model', userInfo);
 		// запрос на перезапись маршрутов в Messages
 		eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
-		// eventBus.emitEvent('settings:folders-added', storage.get('userInfo').folders);
-		// eventBus.emitEvent('router:reload');
 	};
 
 	onNotAuthorized = () => {
@@ -190,10 +188,6 @@ export default class SettingsModel {
  			jsonize(fetchPost(`/api/messages/deleteFolder/${name}`, {})).then(response => {
 				if (response.status === 'ok') {
 					let localUserInfo = storage.get('userInfo');
-					// const index =localUserInfo.folders.findIndex((element) => element.name===name);
-					// if (index>=0){
-					// 	localUserInfo.folders.splice(index, 1);
-					// }
 					localUserInfo.deleteFolderByName(name);
 					storage.set('userInfo', localUserInfo);
 

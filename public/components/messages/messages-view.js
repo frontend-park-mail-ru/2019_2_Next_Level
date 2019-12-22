@@ -79,7 +79,9 @@ export default class MessagesView {
 	};
 
 	renderMessage = message => {
-		eventBus.emitEvent('messages:read-button-clicked', {folder: this.currentFolder, ids: [message.id], fetchOnly: true});
+		if (!message.read) {
+			eventBus.emitEvent('messages:read-button-clicked', {folder: this.currentFolder, ids: [message.id], fetchOnly: true});
+		}
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
@@ -205,7 +207,8 @@ export default class MessagesView {
 				// если запросили следущую страницу, то идем и получаем
 				if (this.requestedPage-this.loadPagesMutex.get(this.currentFolder)<=1) {
 					console.log('Requst page: ', this.requestedPage);
-					eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder});
+					const id = storage.get('userInfo').getMessages().get(this.currentFolder).slice(-1).pop().id
+					eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder, since: id});
 				} else {
 					// если запрос уже был, но страница еще не перерисована, откатываем счетчик
 					this.requestedPage--;
