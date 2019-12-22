@@ -1,29 +1,17 @@
 .actions__button {
-	background-color: white;
-	border-radius: 5px;
-	-webkit-transition-duration: 0.4s; /* Safari */
-	transition-duration: 0.2s;
+	background-color: transparent;
 	font:inherit;
 	color:inherit;
-	margin: 0px 2px;
-	padding: 4px 12px;
-	border: none;
-
+	margin: 0 2px;
 
 	cursor: pointer;
-	background-color: white;
-	border: 1px solid gray;
-	border-radius: 5px;
+	border: 1px solid #eee;
 	-webkit-transition-duration: 0.4s; /* Safari */
 	transition-duration: 0.4s;
-	font:inherit;
-	color:inherit;
 
 	border-radius: 32px;
 	padding: 4px 12px 4px 12px;
 	font-size: 14px;
-	background-color: transparent;
-	border: none;
 }
 
 .actions__button:hover {
