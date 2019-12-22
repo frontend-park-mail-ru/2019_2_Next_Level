@@ -89,7 +89,11 @@ export default class ApplicationController {
 
 		router.register('/', () => router.routeNew({}, '', '/auth/sign-in'));
 		routes.forEach(path => {
-			router.register(path, (pathname, search) => eventBus.emitEvent(`prerender:${path}`, {pathname, search}));
+			let event = `prerender:${path}`;
+			if (typeof path === 'object') {
+				event = 'prerender:/messages/message';
+			}
+			router.register(path, (pathname, search) => eventBus.emitEvent(event, {pathname, search}));
 		});
 	};
 

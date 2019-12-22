@@ -159,10 +159,11 @@ export default class MessagesModel {
 
 	getMessage = id => {
 		console.log('HERE', id);
-		jsonize(fetchGetWithParams('/api/messages/get', {id})).then(response => {
-			if (response.status === 'ok') {
-				this.transformDate(response.message, new Date());
-				eventBus.emitEvent('messages:render-message', response.message);
+		jsonize(fetchPost('/api/messages/getById', {ids: [id]} )).then(response => {
+			if (response.status === 'ok'&& response.messages && response.messages.length > 0) {
+				let message = response.messages[0];
+				this.transformDate(message, new Date());
+				eventBus.emitEvent('messages:render-message', message);
 				return;
 			}
 
@@ -175,7 +176,7 @@ export default class MessagesModel {
 		}).catch(consoleError);
 	};
 
-	toggleMessageState = (status, {folder, ids}) => {
+	toggleMessageState = (status, {folder, ids, fetchOnly}) => {
 		jsonize(fetchPost(`/api/messages/${status}`, {messages: ids})).then(response => {
 			if (response.status === 'ok') {
 				console.log(storage.get('userInfo').getMessages(), folder);
@@ -184,9 +185,10 @@ export default class MessagesModel {
 						message.read = status === 'read';
 					}
 				});
-				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
+				if (fetchOnly) {
+					return;
+				}
 				eventBus.emitEvent('render:update');
-				console.log(`${status} successful`);
 				return;
 			}
 

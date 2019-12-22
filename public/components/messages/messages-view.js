@@ -73,10 +73,13 @@ export default class MessagesView {
 	};
 
 	prerenderMessage = ({pathname, search}) => {
-		this.messagesModel.getMessage(search.id);
+		const id = pathname.match(/\/messages\/message\/(\d+)/)[1];
+		// debugger;
+		this.messagesModel.getMessage(+id);
 	};
 
 	renderMessage = message => {
+		eventBus.emitEvent('messages:read-button-clicked', {folder: this.currentFolder, ids: [message.id], fetchOnly: true});
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',

@@ -119,14 +119,22 @@ class Router {
 	route = (pathname, search) => {
 		// debugger;
 		console.log('route', pathname, search);
-		if (!this.routes.has(pathname)) {
-			console.log(`Unknown pathname: ${pathname}`);
-			this.routeNew({}, '', this.defaultPath);
-			return this;
+		// if (!this.routes.has(pathname)) {
+		// 	console.log(`Unknown pathname: ${pathname}`);
+		// 	this.routeNew({}, '', this.defaultPath);
+		// 	return this;
+		// }
+		let callback = this.routes.get(pathname);
+		if (!callback) {
+			callback = this.resolveByRegexp(pathname);
+			if (!callback) {
+				console.log(`Unknown pathname: ${pathname}`);
+				this.routeNew({}, '', this.defaultPath);
+				return this;
+			}
 		}
-
 		console.log('route(): ', pathname);
-		this.routes.get(pathname)(pathname, parseSearch(search));
+		callback(pathname, parseSearch(search));
 		return this;
 	};
 
@@ -137,6 +145,15 @@ class Router {
 
 	getCurrentPage = () => {
 		return window.location.pathname;
+	}
+
+	resolveByRegexp(path) {
+		for (let pair of this.routes) {
+			if (typeof pair[0] === 'object' && pair[0].test(path)) {
+				return pair[1];
+			}
+		}
+		return null;
 	}
 }
 
