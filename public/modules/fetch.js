@@ -114,9 +114,12 @@ export const consoleError = error => {
 export const jsonize = response => {
 	return response
 		.then(jsonizeResponse)
-		.catch(() => {
-			console.log('BB: OFFLINE');
-			eventBus.emitEvent('prerender:/auth/offline', {});
-			consoleError();
+		.catch((error) => {
+			if (!navigator.onLine) {
+				console.log('BB: OFFLINE');
+				consoleError(error);
+				eventBus.emitEvent('prerender:/auth/offline', {});
+			}
 		});
 };
+

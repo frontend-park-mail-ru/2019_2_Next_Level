@@ -10,6 +10,7 @@ import storage from 'modules/storage';
 import {SettingsPages} from '../settings/routes.js';
 import {AuthPages} from '../auth/routes.js';
 import {MessagesPages} from '../messages/routes.js';
+import {Config} from '../../config';
 
 export default class ApplicationController {
 	/**
@@ -23,27 +24,31 @@ export default class ApplicationController {
 		if (currentPage==='/') {
 			currentPage = '/messages/inbox';
 		}
-		// navigator.serviceWorker.getRegistrations().then(
-		//
-		// 	function(registrations) {
-		//
-		// 		for(let registration of registrations) {
-		// 			console.log("SW: unregister");
-		// 			registration.unregister();
-		//
-		// 		}
-		//
-		// 	});
+		if (!Config.swActive){
+			navigator.serviceWorker.getRegistrations().then(
 
-		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('/sw.js', { scope: '/' })
-				.then((reg) => {
-					console.log('sw reg success:', reg);
-				})
-				.catch((err) => {
-					console.error('sw reg err:', err);
+				function(registrations) {
+
+					for(let registration of registrations) {
+						console.log("SW: unregister");
+						registration.unregister();
+
+					}
+
 				});
+
+		} else {
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/sw.js', { scope: '/' })
+					.then((reg) => {
+						console.log('sw reg success:', reg);
+					})
+					.catch((err) => {
+						console.error('sw reg err:', err);
+					});
+			}
 		}
+
 		storage.set('currentPage', currentPage);
 		console.log("Start: ", storage.get('currentPage'));
 		this.init();

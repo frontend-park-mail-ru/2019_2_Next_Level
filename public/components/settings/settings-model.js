@@ -11,6 +11,7 @@ import {SettingsPages} from './routes';
 import storage from 'modules/storage';
 import {UserInfo} from 'modules/userInfo';
 import form from '../common/form/form';
+import {Folder} from '../../modules/folder';
 
 export default class SettingsModel {
 	/**
@@ -156,20 +157,22 @@ export default class SettingsModel {
 		jsonize(fetchPost(`/api/messages/addFolder/${newFolderName}`, {})).then(response => {
 			if (response.status === 'ok') {
 				let localUserInfo = storage.get('userInfo');
-				localUserInfo.addFolder({name: newFolderName, capacity: 0});
+				localUserInfo.addFolder(new Folder(newFolderName));
 				storage.set('userInfo', localUserInfo);
 
 				eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
 				return;
 			}
 			switch (response.error.code) {
-			case Errors.NotAuthorized:
+			case Errors.NotAuthorized.code:
 				eventBus.emitEvent('application:sign-out');
 				break;
-			case Errors.AlreadyExists:
-				eventBus.emitEvent('settings:security-validate', {inputName: 'folder name', message: 'Folder already exists'});
+			case Errors.AlreadyExists.code:
+			case Errors.InvalidRequest.code:
+				eventBus.emitEvent('settings:displayFormMessage', {inputName: 'add', message: 'Folder already exists'});
 				break;
 			default:
+				eventBus.emitEvent('settings:displayFormMessage', {inputName: 'add', message: 'Unknown error. Try later.'});
 				console.error('Unknown response:', response);
 				return;
 			}

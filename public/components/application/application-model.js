@@ -18,65 +18,6 @@ export default class ApplicationModel {
 		storage.set('userInfo', this.userInfo);
 		storage.set('currentPage', '/messages/inbox');
 
-		// this.renderState = ApplicationRenderState.NotRendered;
-		//
-		// routes.forEach(page => {
-		// 	eventBus.addEventListener(`prerender:${page}`, partial(this.prerender, page));
-		// });
-		// navigator.serviceWorker.getRegistrations().then(
-		//
-		// 	function(registrations) {
-		//
-		// 		for(let registration of registrations) {
-		// 			console.log("SW: unregister");
-		// 			registration.unregister();
-		//
-		// 		}
-		//
-		// 	});
-		// if ('serviceWorker' in navigator) {
-		// 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
-		// 		.then((reg) => {
-		// 			console.log('sw reg success:', reg);
-		// 		})
-		// 		.catch((err) => {
-		// 			console.error('sw reg err:', err);
-		// 		});
-		// }
-		// if ('serviceWorker' in navigator) {
-		// 	// Весь код регистрации у нас асинхронный.
-		// 	navigator.serviceWorker.register('/sw.js')
-		// 		.then(() => navigator.serviceWorker.ready.then((worker) => {
-		// 			worker.sync.register('syncdata');
-		// 		}))
-		// 		.catch((err) => console.log(err));
-		// }
-
-		// if ('serviceWorker' in navigator) {
-		// // 	console.log('SW:exists');
-		// // 	// Весь код регистрации у нас асинхронный.
-		// // 	// debugger;
-		// // 	// window.addEventListener('load', function() {
-		// // 	// 	navigator.serviceWorker.register('/service-worker.js');
-		// // 	// }
-		// 	navigator.serviceWorker.register('/sw.js')
-		// 		.then((registration) => console.log('SW:registered,', registration))
-		// 		.catch((err) => console.log('SW-err: ' + err));
-		// // 	// navigator.serviceWorker.register('/sw.js')
-		// // 	// 	.then(() => {console.log('SW:1'); navigator.serviceWorker.ready.then((worker) => {
-		// // 	// 		console.log('SW:2');
-		// // 	// 		worker.sync.register('syncdata');
-		// // 	// 	})})
-		// // 	// 	.catch((err) => console.log('SW-err: ' + err));
-		// }
-		// // if ('serviceWorker' in navigator) {
-		// // 	navigator.serviceWorker.register('sw.js');
-		// // }
-		// console.log('SW:not after');
-		// window.addEventListener('offline', event => {
-		// 	console.log('offline');
-		// });
-
 		console.log('Init application-model');
 	}
 

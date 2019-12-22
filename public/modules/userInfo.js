@@ -1,9 +1,14 @@
+import {Folder} from './folder';
+
 export class UserInfo {
 	constructor(src) {
 		if (!src) {
 			return this;
 		}
-		this.folders = src.folders;
+
+		this.folders = Folder.constructArray(src.folders, (folder) => {
+			return new Folder(folder.name, folder.capacity, folder.isSystem);
+		});
 		// this.messages = src.messages;
 		this.avatar = src.avatar;
 		this.birthDate = src.birthDate;

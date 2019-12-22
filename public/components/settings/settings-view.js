@@ -47,17 +47,11 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
 		eventBus.addEventListener('settings/passwordChanged', () => alert('Password succcesfully apdated'));
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
-
+		eventBus.addEventListener('settings:displayFormMessage', SettingsView.displayMessage);
 		console.log('Init settings-view');
 	}
 
-	prerender = (renderer, toRenderState) => {
-		console.log("SettingsView prerenderer");
-		// if (this.settingsModel.renderState !== toRenderState) {
-		// 	renderer();
-		// 	this.settingsModel.renderState = toRenderState;
-		// }
-		console.log("preRender: settings")
+	prerender = (renderer) => {
 		renderer();
 	};
 
@@ -126,7 +120,7 @@ export default class SettingsView {
 
 	renderFolders = () => {
 		console.log("RenderFolders");
-		// console.log("Folders: ", this.settingsModel.getFolders());
+		console.log('FFF: ', storage.get('userInfo').getFolders());
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
@@ -138,10 +132,15 @@ export default class SettingsView {
 		document.querySelector('.actions__button_create').addEventListener('click', event => {
 			event.preventDefault();
 			const newFolderName = folderNameInput.value;
-			eventBus.emitEvent(
-				Events.AddFolderButtonCLicked,
-				{newFolderName},
-			);
+			if (newFolderName !== '') {
+				eventBus.emitEvent(
+					Events.AddFolderButtonCLicked,
+					{newFolderName},
+				);
+			} else {
+				eventBus.emitEvent('settings:displayFormMessage', {inputName: 'add', message: 'Empty name'});
+				// SettingsView.displayMessage('add', 'Empty name')
+			}
 		});
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
 
@@ -176,5 +175,10 @@ export default class SettingsView {
 		// this.userInfoDisplayMessage({inputName: 'sex', message: ''});
 		eventBus.emitEvent('application:load_userdata');
 		alert('User info edited successful');
+	}
+
+	static displayMessage({inputName, message}) {
+		console.log('displayMessage', inputName, message);
+		document.querySelector(`.form__message_${inputName}`).innerText = message;
 	}
 }
