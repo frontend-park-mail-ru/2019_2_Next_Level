@@ -9,5 +9,6 @@ package-lock.json
 *.tmpl.js
 
 dist/
+public/config.js
 
 id_rsa_dep

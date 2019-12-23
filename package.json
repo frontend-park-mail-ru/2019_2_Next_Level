@@ -5,14 +5,16 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node server",
-    "build": "npm run build1",
+    "build": "npm run prepconfprod && npm run build1",
     "build0": "npm run fest && npm run inc && webpack",
     "build1": "npm run sass && npm run fest && webpack",
     "fest": "fest-build --dir=public",
     "sass": "sass ./public/components:./public/components",
     "inc": "node build/errors.js && node build/validate.js",
     "lint": "eslint --ignore-path .gitignore .",
-    "bs": "npm run build1 && xcopy /Y/E dist %userprofile%\\nginx\\html\\dist\\"
+    "bs": "npm rum prepconflocal && npm run build1 && xcopy /Y/E dist %userprofile%\\nginx\\html\\dist\\",
+    "prepconflocal": "del /f public\\config.js && copy public\\config_local.js public\\config.js",
+    "prepconfprod": "rm public/config.js && cp public/config_prod.js public/config.js"
   },
   "repository": {
     "type": "git",
