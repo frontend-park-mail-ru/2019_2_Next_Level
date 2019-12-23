@@ -10,6 +10,7 @@ import './__user-info/settings__user-info.tmpl.js';
 import './__user_folders/settings__user-folder.tmpl.js';
 import {SettingsPages} from './routes.js';
 import storage from 'modules/storage';
+import Alert from '../common/alert/alert';
 
 export default class SettingsView {
 	/**
@@ -45,7 +46,7 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
-		eventBus.addEventListener('settings/passwordChanged', () => alert('Password succcesfully apdated'));
+		eventBus.addEventListener('settings/passwordChanged', () => Alert.show('Password succcesfully apdated'));
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
 		eventBus.addEventListener('settings:displayFormMessage', SettingsView.displayMessage);
 		console.log('Init settings-view');
@@ -174,8 +175,8 @@ export default class SettingsView {
 	onUserInfoEdited = () => {
 		// this.userInfoDisplayMessage({inputName: 'sex', message: ''});
 		eventBus.emitEvent('application:load_userdata');
-		alert('User info edited successful');
-	}
+		Alert.show('User info edited successful');
+	};
 
 	static displayMessage({inputName, message}) {
 		console.log('displayMessage', inputName, message);

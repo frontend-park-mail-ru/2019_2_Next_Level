@@ -15,6 +15,7 @@ import './datalist/datalist.tmpl.js';
 import './datalist/-item/datalist-item.tmpl.js';
 import './message/message.tmpl.js';
 import storage from 'modules/storage';
+import Alert from '../common/alert/alert';
 
 export default class MessagesView {
 	/**
@@ -122,9 +123,10 @@ export default class MessagesView {
 		document.querySelector('.compose-message').innerText = msg;
 	};
 
-	onComposeSend = () => {
-		alert('Message sent!');
+	onComposeSend = ({to}) => {
+		// alert('Message sent!');
 		router.routeNew({}, '', '/messages/sent');
+		Alert.show('Message sent!', `To ${to}`, 20000);
 	};
 
 	checkAll = (checkboxes, checked) => {
@@ -197,6 +199,8 @@ export default class MessagesView {
 						},
 		);
 
+		// let t = new Alert('Hello', 'world');
+		// Alert.show('Hello', 'Message sent. Message sent. Message sent.');
 		// window.onscroll = (event) => console.log(event.scrollTop)
 		window.addEventListener('scroll', event => {
 			event.preventDefault();

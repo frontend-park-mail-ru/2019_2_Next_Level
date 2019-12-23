@@ -113,8 +113,8 @@ export default class MessagesModel {
 		jsonize(fetchPost('/api/messages/send', {message: {to, subject, content}})).then(response => {
 			if (response.status === 'ok') {
 				eventBus.emitEvent('messages:compose-validate', '');
-				eventBus.emitEvent('messages:compose-send');
-				this.loadSent();
+				eventBus.emitEvent('messages:compose-send', {to});
+				// this.loadSent();
 				return;
 			}
 
