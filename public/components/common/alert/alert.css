@@ -10,9 +10,9 @@
   width: 150px;
   display: flex;
   flex-direction: column;
-  background-color: #fafafa;
+  background-color: #f3f3f3;
   border-radius: 4px;
-  border: 1px solid #eff9f8;
+  border: 1px solid #e3f3f2;
   padding: 5px 10px;
   color: white;
   transition-duration: 0.5s;
@@ -28,16 +28,18 @@
 }
 
 .alert__header {
-  color: #73a9d0;
+  color: #6eabd1;
   justify-items: center;
   display: inline-block;
-  font-size: 10pt;
+  font-size: 8pt;
   padding: 2px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .alert__body {
   justify-content: left;
-  color: #a8b2b7;
+  color: #838d97;
   font-size: 10pt;
   padding: 2px;
 }

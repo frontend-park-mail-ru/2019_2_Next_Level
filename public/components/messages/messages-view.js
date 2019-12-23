@@ -126,7 +126,7 @@ export default class MessagesView {
 	onComposeSend = ({to}) => {
 		// alert('Message sent!');
 		router.routeNew({}, '', '/messages/sent');
-		Alert.show('Message sent!', `To ${to}`, 20000);
+		Alert.show('Message sent!', `To ${to}`, 2000);
 	};
 
 	checkAll = (checkboxes, checked) => {
