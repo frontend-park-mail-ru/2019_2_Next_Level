@@ -16,15 +16,15 @@ export default class Alert {
 
 	static setText(header, message, level) {
 		header=header.toUpperCase();
-		if (Alert.alert) {
-			document.body.removeChild(Alert.alert);
-			Alert.alert = null;
-		}
+		Alert.deleteFromDom();
 		renderFest(InsertBeforeEndRenderer,
 			'body',
 			'components/common/alert/alert.tmpl',
 			{header, message});
 		Alert.alert = document.body.querySelector('.alert');
+		Alert.alert.addEventListener('click', () => {
+			Alert.deleteFromDom();
+		});
 		// if (!Alert.alert) {
 		// 	renderFest(InsertBeforeEndRenderer,
 		// 		'body',
@@ -68,10 +68,16 @@ export default class Alert {
 			clearTimeout(Alert.removeTimer);
 		}
 		setTimeout(() => {
-			document.body.removeChild(Alert.alert);
-			Alert.alert = null;
+			Alert.deleteFromDom();
 			Alert.removeTimer = null;
 		}, styles.vanish_durations*1000);
+	}
+
+	static deleteFromDom() {
+		if (Alert.alert) {
+			document.body.removeChild(Alert.alert);
+			Alert.alert = null;
+		}
 	}
 
 }
