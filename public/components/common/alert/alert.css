@@ -1,5 +1,5 @@
 :export {
-  vanish_durations: 0.5;
+  vanish_durations: 1;
 }
 
 .alert {
@@ -15,8 +15,16 @@
   border: 1px solid #e3f3f2;
   padding: 5px 10px;
   color: white;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
+}
+
+.alert_emerged {
+  background-color: cornflowerblue;
+  color: white !important;
+}
+
+.alert_transition {
+  transition-duration: 1s;
+  -webkit-transition-duration: 1s;
 }
 
 .alert_warn {

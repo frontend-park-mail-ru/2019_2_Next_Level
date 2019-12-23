@@ -1,5 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
-    <div class="alert">
+    <div class="alert alert_emerged alert_transition">
         <div class="alert__header"><fest:value>args.header</fest:value></div>
         <div class="alert__body"><fest:value>args.message</fest:value></div>
     </div>

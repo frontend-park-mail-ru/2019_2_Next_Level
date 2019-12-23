@@ -1,7 +1,8 @@
-$vanish_duration: 0.5;
+$vanish_duration: 1;
 $border_color_info: rgb(227, 243, 242);
 //$header_color: rgb(52, 186, 196);
 $header_color: rgb(110, 171, 209);
+$bg-color: rgb(243, 243, 243);
 :export {
     vanish_durations: $vanish_duration;
 }
@@ -16,11 +17,19 @@ $header_color: rgb(110, 171, 209);
     display: flex;
     flex-direction: column;
 
-    background-color: rgb(243, 243, 243);
+    background-color: $bg-color;
     border-radius: 4px;
     border: 1px solid $border_color_info;
     padding: 5px 10px;
     color: white;
+}
+
+.alert_emerged {
+    background-color: cornflowerblue;
+    color: white !important;
+}
+
+.alert_transition {
     transition-duration: $vanish_duration+s;
     -webkit-transition-duration: $vanish_duration + s;
 }
