@@ -2,8 +2,8 @@
 	<fest:script><![CDATA[
 		var modifier = args.read ? 'read' : 'unread';
 		var addr = '';
-		if (args.folder === 'sent') {
-			addr = args.to.forEach(to => addr += `${to} `);
+		if (args.direction === 'out') {
+			addr = args.to.name ? args.to.name : args.to.email;
 		} else {
 			addr = args.from.name ? args.from.name : args.from.email;
 		}
