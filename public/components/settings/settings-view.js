@@ -46,7 +46,9 @@ export default class SettingsView {
 		eventBus.addEventListener('settings:user-info-validate', this.userInfoDisplayMessage);
 		eventBus.addEventListener('settings:security-validate', this.securityDisplayMessage);
 		eventBus.addEventListener('settings:user-info-edited', this.onUserInfoEdited);
-		eventBus.addEventListener('settings/passwordChanged', () => Alert.show('Password succcesfully apdated'));
+		eventBus.addEventListener('settings/passwordChanged',
+			() => Alert.show('Edit password', 'Password succcesfully updated', 'ok', 2000)
+		);
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
 		eventBus.addEventListener('settings:displayFormMessage', SettingsView.displayMessage);
 		console.log('Init settings-view');
@@ -175,7 +177,7 @@ export default class SettingsView {
 	onUserInfoEdited = () => {
 		// this.userInfoDisplayMessage({inputName: 'sex', message: ''});
 		eventBus.emitEvent('application:load_userdata');
-		Alert.show('User info edited successful');
+		Alert.show('Edit', 'User info edited successful', 'ok', 200000);
 	};
 
 	static displayMessage({inputName, message}) {

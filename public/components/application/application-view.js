@@ -32,7 +32,7 @@ export default class ApplicationView {
 		}
 
 		// renderFest(InsertAfterBeginRenderer, 'body', 'components/application/application.tmpl');
-		renderFest(ReplaceInnerRenderer, 'body', 'components/application/application.tmpl');
+		renderFest(ReplaceInnerRenderer, '.application', 'components/application/application.tmpl');
 		this.applicationModel.renderState = ApplicationRenderState.Rendered;
 		console.log("Render: application");
 	};

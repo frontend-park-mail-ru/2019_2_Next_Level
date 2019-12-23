@@ -7,13 +7,15 @@ export default class Alert {
 	static alert;
 	static opacityTimer;
 	static removeTimer;
+	static level;
 
-	static show(header, message, timeout=1000) {
-		Alert.setText(header, message);
+	static show(header='', message='', level='info', timeout=1000) {
+		Alert.setText(header, message, level);
 		Alert.vanishAlert(timeout);
 	}
 
-	static setText(header, message) {
+	static setText(header, message, level) {
+		header=header.toUpperCase();
 		if (!Alert.alert) {
 			renderFest(InsertBeforeEndRenderer,
 				'body',
@@ -24,6 +26,12 @@ export default class Alert {
 			Alert.alert.querySelector('.alert__header').innerHTML = header;
 			Alert.alert.querySelector('.alert__body').innerHTML = message;
 		}
+		if (['info', 'warn', 'error'].indexOf(level) < 0) {
+			level = 'info';
+		}
+		Alert.alert.classList.remove(`alert_${Alert.level}`);
+		Alert.alert.classList.add(`alert_${level}`);
+		Alert.level = level;
 	}
 
 	static vanishAlert(timeout) {

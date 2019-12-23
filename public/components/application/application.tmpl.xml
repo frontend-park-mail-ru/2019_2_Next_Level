@@ -1,6 +1,4 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-	<div class="application">
 		<div class="application__header-wrap"/>
 		<div class="application__main-wrap"/>
-	</div>
 </fest:template>
