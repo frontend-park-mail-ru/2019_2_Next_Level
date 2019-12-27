@@ -89,6 +89,14 @@ export default class MessagesView {
 			'components/messages/message/message.tmpl',
 			message,
 		);
+		document.querySelector('.actions__button_reply').addEventListener('click', (event) => {
+			event.preventDefault();
+			let newBody = '\n\n--------------------\n' + '|' + message.content;
+			message.content = newBody;
+			message.subject = 'Re: ' + message.subject;
+			storage.set('message_for_compose', message);
+			router.routeNew({}, '', '/messages/compose');
+		});
 	};
 
 
@@ -98,6 +106,28 @@ export default class MessagesView {
 			'.layout__right_messages-wrap',
 			'components/messages/compose/compose.tmpl',
 		);
+
+		let to='', subject='', body='';
+
+		const messageForCompose = storage.get('message_for_compose');
+		if (messageForCompose) {
+			if (messageForCompose.direction==='in'){
+				to = messageForCompose.from.email;
+			} else {
+				to = messageForCompose.to.email;
+			}
+			if (to.indexOf('@')<0) {
+				to += 'mail.nl-mail.ru';
+			}
+			body = messageForCompose.content;
+			subject = messageForCompose.subject;
+		}
+
+		document.querySelector('.compose-head__input[name=to]').value = to;
+		document.querySelector('.compose-head__input[name=subject]').value = subject;
+		let bodyElem = document.querySelector('.compose-content__textarea');
+		bodyElem.innerHTML = body;
+		bodyElem.focus();
 
 		const form = document.querySelector('.messages');
 		form.addEventListener('submit', event => {
