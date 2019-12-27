@@ -111,6 +111,7 @@ export default class MessagesView {
 
 		const messageForCompose = storage.get('message_for_compose');
 		if (messageForCompose) {
+			storage.set('message_for_compose', undefined);
 			if (messageForCompose.direction==='in'){
 				to = messageForCompose.from.email;
 			} else {
