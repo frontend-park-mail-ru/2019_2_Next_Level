@@ -15,3 +15,24 @@
 .form__input_field:focus{
 	outline: none;
 }
+
+.form__input_placeholder {
+	border: none;
+	margin:	0;
+
+}
+
+.form__input_email_wrapper {
+	font-size: 15px;
+	box-sizing: border-box;
+	text-decoration: initial;
+	border-radius: 32px;
+	margin-top: 8px;
+	border-style: solid;
+	border-color: rgb(240, 239, 237);
+	border-width: 2px;
+	color: grey;
+	display: flex;
+	align-items: center;
+	padding-right: 8px;
+}

@@ -1,7 +1,15 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
 	<fest:choose>
 		<fest:when test="['text', 'password'].includes(args.type)">
-			<input class="form__input form__input_field {args.cls}" type="{args.type}" id="{args.id}" name="{args.name}" placeholder="{args.placeholder}" value="{args.value}" required=""/>
+			<fest:if test="!!args.placeholder">
+				<div class="form__input_email_wrapper">
+					<input class="form__input form__input_field form__input_placeholder {args.cls}" type="{args.type}" id="{args.id}" name="{args.name}" value="{args.value}" required=""/>
+					<fest:value>args.placeholder</fest:value>
+				</div>
+			</fest:if>
+			<fest:if test="!args.placeholder">
+				<input class="form__input form__input_field {args.cls}" type="{args.type}" id="{args.id}" name="{args.name}" placeholder="{args.placeholder}" value="{args.value}" required=""/>
+			</fest:if>
 		</fest:when>
 		<fest:when test="args.type === 'radio'">
 			<fest:for iterate="args.values" index="i">
