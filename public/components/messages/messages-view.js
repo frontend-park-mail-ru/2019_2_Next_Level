@@ -97,6 +97,7 @@ export default class MessagesView {
 			storage.set('message_for_compose', message);
 			router.routeNew({}, '', '/messages/compose');
 		});
+		window.removeEventListener('scroll', this.onscroll);
 	};
 
 
@@ -106,6 +107,8 @@ export default class MessagesView {
 			'.layout__right_messages-wrap',
 			'components/messages/compose/compose.tmpl',
 		);
+
+		window.removeEventListener('scroll', this.onscroll);
 
 		let to='', subject='', body='';
 
@@ -233,25 +236,7 @@ export default class MessagesView {
 		// let t = new Alert('Hello', 'world');
 		// Alert.show('Hello', 'Message sent. Message sent. Message sent.');
 		// window.onscroll = (event) => // console.log(event.scrollTop)
-		window.addEventListener('scroll', event => {
-			event.preventDefault();
-			const b = document.documentElement.getBoundingClientRect().bottom
-			if (b<document.documentElement.clientHeight-50) {
-				// console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
-				this.requestedPage++;
-				// если запросили следущую страницу, то идем и получаем
-				if (this.requestedPage-this.loadPagesMutex.get(this.currentFolder)<=1) {
-					// console.log('Requst page: ', this.requestedPage);
-					const id = storage.get('userInfo').getMessages().get(this.currentFolder).slice(-1).pop().id
-					eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder, since: id});
-				} else {
-					// если запрос уже был, но страница еще не перерисована, откатываем счетчик
-					this.requestedPage--;
-				}
-			}
-			// console.log(pageYOffset);
-
-		});
+		window.addEventListener('scroll', this.onscroll);
 
 		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
 
@@ -311,6 +296,24 @@ export default class MessagesView {
 			ids.push(converter(checkbox.className.match(/id(\d+)/)[1]));
 		});
 		return ids;
+	}
+
+	onscroll = (event) => {
+		event.preventDefault();
+		const b = document.documentElement.getBoundingClientRect().bottom
+		if (b<document.documentElement.clientHeight-50) {
+			// console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
+			this.requestedPage++;
+			// если запросили следущую страницу, то идем и получаем
+			if (this.requestedPage-this.loadPagesMutex.get(this.currentFolder)<=1) {
+				// console.log('Requst page: ', this.requestedPage);
+				const id = storage.get('userInfo').getMessages().get(this.currentFolder).slice(-1).pop().id
+				eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder, since: id});
+			} else {
+				// если запрос уже был, но страница еще не перерисована, откатываем счетчик
+				this.requestedPage--;
+			}
+		}
 	}
 
 
