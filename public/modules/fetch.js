@@ -13,7 +13,7 @@ const backend = Config.backend;
  */
 
 export const fetchFile = (url, body) => {
-	console.log('fetchFile', url);
+	// console.log('fetchFile', url);
 	return fetch(backend + url, {
 		method: 'PUT',
 		headers: {
@@ -25,7 +25,7 @@ export const fetchFile = (url, body) => {
 	});
 }
 export const fetchPost = (url, body) => {
-	console.log('fetchPost', url, body);
+	// console.log('fetchPost', url, body);
 	return fetch(backend + url, {
 		method: 'POST',
 		headers: {
@@ -43,7 +43,7 @@ export const fetchPost = (url, body) => {
  * @returns {Promise<Response>}
  */
 export const fetchGet = url => {
-	console.log('fetchGet', url);
+	// console.log('fetchGet', url);
 	return fetch(backend + url, {
 		method: 'GET',
 		credentials: 'include',
@@ -57,7 +57,7 @@ export const fetchGet = url => {
  * @returns {Promise<Response>}
  */
 export const fetchGetWithParams = (url, params) => {
-	console.log('fetchGetWithParams', url, params);
+	// console.log('fetchGetWithParams', url, params);
 
 	let fullUrl = new URL(backend + url);
 	fullUrl.search = new URLSearchParams(params).toString();
@@ -103,7 +103,7 @@ export const jsonizeResponse = response => {
  * @param error
  */
 export const consoleError = error => {
-	console.error(error);
+	// console.error(error);
 };
 
 /**
@@ -116,7 +116,7 @@ export const jsonize = response => {
 		.then(jsonizeResponse)
 		.catch((error) => {
 			if (!navigator.onLine) {
-				console.log('BB: OFFLINE');
+				// console.log('BB: OFFLINE');
 				consoleError(error);
 				eventBus.emitEvent('prerender:/auth/offline', {});
 			}

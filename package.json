@@ -5,6 +5,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node server",
+    "start1": "npm run build1 && npm start",
     "build": "npm run prepconfprod && npm run build1",
     "build0": "npm run fest && npm run inc && webpack",
     "build1": "npm run sass && npm run fest && webpack",

@@ -39,7 +39,7 @@ const default_port = 3000;
 const port = process.env.PORT || default_port;
 
 app.listen(port, () => {
-	console.log(`Server listening port ${port}`);
+	// console.log(`Server listening port ${port}`);
 });
 
 const jsonizeError = error => ({status: 'error', error});
@@ -60,11 +60,11 @@ const response = (res, json) => res.status(HttpStatus.OK).json(json);
 }));
 
 app.get('/api/auth/isAuthorized', (req, res) => {
-	console.log('/api/auth/isAuthorized');
+	// console.log('/api/auth/isAuthorized');
 
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -72,16 +72,16 @@ app.get('/api/auth/isAuthorized', (req, res) => {
 });
 
 app.post('/api/auth/signIn', (req, res) => {
-	console.log('/api/auth/signIn');
+	// console.log('/api/auth/signIn');
 
 	const {login, password} = req.body;
 	if (!(login in users)) {
-		console.log(Errors.WrongLogin.msg);
+		// console.log(Errors.WrongLogin.msg);
 		return response(res, jsonizeError(Errors.WrongLogin));
 	}
 
 	if (users[login].password !== password) {
-		console.log(Errors.WrongPassword.msg);
+		// console.log(Errors.WrongPassword.msg);
 		return response(res, jsonizeError(Errors.WrongPassword));
 	}
 
@@ -89,7 +89,7 @@ app.post('/api/auth/signIn', (req, res) => {
 });
 
 const signIn = (res, login) => {
-	console.log('signIn', login);
+	// console.log('signIn', login);
 
 	const session_id = uuid();
 	ids[session_id] = login;
@@ -99,7 +99,7 @@ const signIn = (res, login) => {
 };
 
 app.post('/api/auth/signUp', (req, res) => {
-	console.log('/api/auth/signUp');
+	// console.log('/api/auth/signUp');
 
 	const {firstName, secondName, birthDate, sex, login, password} = req.body;
 
@@ -115,7 +115,7 @@ app.post('/api/auth/signUp', (req, res) => {
 
 	for (let c of checks) {
 		if (!c.check(c.variable)) {
-			console.log(c.error.msg);
+			// console.log(c.error.msg);
 			return response(res, jsonizeError(c.error));
 		}
 	}
@@ -126,11 +126,11 @@ app.post('/api/auth/signUp', (req, res) => {
 });
 
 app.get('/api/auth/signOut', (req, res) => {
-	console.log('/api/auth/signOut');
+	// console.log('/api/auth/signOut');
 
 	const {session_id} = req.cookies;
 	if (!(session_id in ids)) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -154,11 +154,11 @@ const auth = req => {
 };
 
 app.get('/api/profile/get', (req, res) => {
-	console.log('/api/profile/get');
+	// console.log('/api/profile/get');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -177,16 +177,16 @@ app.get('/api/profile/get', (req, res) => {
 });
 
 app.post('/api/profile/editUserInfo', (req, res) => {
-	console.log('/api/profile/editUserInfo');
+	// console.log('/api/profile/editUserInfo');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	const {firstName, secondName, nickName, birthDate, sex, avatar} = req.body.userInfo;
-	console.log(firstName, secondName, nickName, birthDate, sex, avatar);
+	// console.log(firstName, secondName, nickName, birthDate, sex, avatar);
 
 	const checks = [
 		{check: checkName, variable: firstName, error: Errors.InvalidFirstName},
@@ -198,7 +198,7 @@ app.post('/api/profile/editUserInfo', (req, res) => {
 
 	for (let c of checks) {
 		if (!c.check(c.variable)) {
-			console.log(c.error.msg);
+			// console.log(c.error.msg);
 			return response(res, jsonizeError(c.error));
 		}
 	}
@@ -213,11 +213,11 @@ app.post('/api/profile/editUserInfo', (req, res) => {
 });
 
 app.post('/api/profile/editPassword', (req, res) => {
-	console.log('/api/profile/editPassword');
+	// console.log('/api/profile/editPassword');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -231,7 +231,7 @@ app.post('/api/profile/editPassword', (req, res) => {
 
 	for (let c of checks) {
 		if (!c.check(c.variable)) {
-			console.log(c.error.msg);
+			// console.log(c.error.msg);
 			return response(res, jsonizeError(c.error));
 		}
 	}
@@ -325,18 +325,18 @@ const messages = {
 var SERIAL = 6;
 
 app.get('/api/messages/getUnreadCount', (req, res) => {
-	console.log('/api/messages/getUnreadCount');
+	// console.log('/api/messages/getUnreadCount');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	const {folder} = req.body;
 
 	if (!checkFolder(folder)) {
-		console.log(Errors.InvalidFolder.msg);
+		// console.log(Errors.InvalidFolder.msg);
 		return response(res, jsonizeError(Errors.InvalidFolder));
 	}
 
@@ -346,11 +346,11 @@ app.get('/api/messages/getUnreadCount', (req, res) => {
 });
 
 app.get('/api/messages/get', (req, res) => {
-	console.log('/api/messages/get');
+	// console.log('/api/messages/get');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -359,7 +359,7 @@ app.get('/api/messages/get', (req, res) => {
 	const msgs = messages[login] || (messages[login] = []);
 	const msg = msgs.filter(msg => msg.id === +id);
 	if (!msg.length) {
-		console.error(Errors.WrongMessage.msg);
+		// console.error(Errors.WrongMessage.msg);
 		return response(res, jsonizeError(Errors.WrongMessage));
 	}
 	const message = msg[0];
@@ -367,18 +367,18 @@ app.get('/api/messages/get', (req, res) => {
 });
 
 app.get('/api/messages/getByPage', (req, res) => {
-	console.log('/api/messages/getByPage');
+	// console.log('/api/messages/getByPage');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
 	// const {perPage, page, folder} = req.body;
 	const {folder} = req.query;
 	if (!checkFolder(folder)) {
-		console.log(Errors.InvalidFolder.msg);
+		// console.log(Errors.InvalidFolder.msg);
 		return response(res, jsonizeError(Errors.InvalidFolder));
 	}
 
@@ -389,11 +389,11 @@ app.get('/api/messages/getByPage', (req, res) => {
 });
 
 app.post('/api/messages/send', (req, res) => {
-	console.log('/api/messages/send');
+	// console.log('/api/messages/send');
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 
@@ -438,11 +438,11 @@ app.post('/api/messages/send', (req, res) => {
 });
 
 const abstractReadUnreadRemoveCallback = (field, value, req, res) => {
-	console.log('abstractReadUnreadRemoveCallback', field, value);
+	// console.log('abstractReadUnreadRemoveCallback', field, value);
 
 	const login = auth(req);
 	if (!login) {
-		console.log(Errors.NotAuthorized.msg);
+		// console.log(Errors.NotAuthorized.msg);
 		return response(res, jsonizeError(Errors.NotAuthorized));
 	}
 

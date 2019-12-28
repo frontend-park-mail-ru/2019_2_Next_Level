@@ -4,7 +4,9 @@
 			<fest:if test="!!args.placeholder">
 				<div class="form__input_email_wrapper">
 					<input class="form__input form__input_field form__input_placeholder {args.cls}" type="{args.type}" id="{args.id}" name="{args.name}" value="{args.value}" required=""/>
-					<fest:value>args.placeholder</fest:value>
+					<div class="form__input_email_placeholder">
+						<fest:value>args.placeholder</fest:value>
+					</div>
 				</div>
 			</fest:if>
 			<fest:if test="!args.placeholder">

@@ -47,7 +47,7 @@ export default class AuthView {
 	prerender = (renderer, toRenderState) => {
 		if (this.authModel.renderState !== toRenderState) {
 			renderer();
-			console.log("Render: auth")
+			// console.log("Render: auth")
 			this.authModel.renderState = toRenderState;
 		}
 	};

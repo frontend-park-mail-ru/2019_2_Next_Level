@@ -1,3 +1,8 @@
 .compose-head__row {
 	display: flex;
+	font-size: 18px;
+}
+
+.compose-head__input-wrap {
+	width: 100%;
 }

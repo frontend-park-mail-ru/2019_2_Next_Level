@@ -35,7 +35,7 @@ export default class HeaderModel {
 		jsonize(fetchGet(`/api/messages/search/${query}`)).then(response => {
 			if (response.status === 'ok') {
 				if (!response.messages){
-					console.log('Empty search response');
+					// console.log('Empty search response');
 					return;
 				}
 				eventBus.emitEvent('application:getMessagesById', {folder: 'search', messages: response.messages});
@@ -53,7 +53,7 @@ export default class HeaderModel {
 				eventBus.emitEvent('messages:compose-validate', response.error.msg);
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 			}
 		}).catch(consoleError);
 	}
@@ -63,7 +63,7 @@ export default class HeaderModel {
 		jsonize(fetchPost(`/api/messages/getById`, {ids: messages})).then(response => {
 			if (response.status === 'ok') {
 				if (!response.messages || response.messages.length===0){
-					console.log('Empty getMessages response');
+					// console.log('Empty getMessages response');
 					return;
 				}
 				let userInfo = storage.get('userInfo');
@@ -84,7 +84,7 @@ export default class HeaderModel {
 				eventBus.emitEvent('messages:compose-validate', response.error.msg);
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 			}
 		}).catch(consoleError);
 	}

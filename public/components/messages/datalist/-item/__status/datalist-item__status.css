@@ -1,6 +1,6 @@
 .datalist-item__status {
 	color: rgb(99, 161, 238);
-	background-color: white;
+	background-color: transparent;
 	padding: 0;
 	border: none;
 	width: 100%;

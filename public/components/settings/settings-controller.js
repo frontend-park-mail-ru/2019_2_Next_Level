@@ -6,7 +6,7 @@ export default class SettingsController {
 	 * @constructor
 	 */
 	constructor() {
-		console.log('Settings-controller create');
+		// console.log('Settings-controller create');
 		this.settingsModel = new SettingsModel();
 		this.settingsView = new SettingsView(this.settingsModel);
 	}

@@ -60,7 +60,7 @@ class EventBus {
 	 * @returns {EventBus}
 	 */
 	emitEvent = (event, data={}) => {
-		console.log('emit', event, data);
+		// console.log('emit', event, data);
 		if (!this.listeners[event]) {
 			return this;
 		}
@@ -68,7 +68,7 @@ class EventBus {
 		if (this.listeners[event].lifetime) {
 			this.listeners[event].lifetime--;
 			if (this.listeners[event].lifetime===0) {
-				console.log('Remove event ', event);
+				// console.log('Remove event ', event);
 				this.listeners[event] = undefined;
 			}
 		}

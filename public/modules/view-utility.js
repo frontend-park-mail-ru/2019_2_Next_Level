@@ -66,7 +66,7 @@ export const addStyleSheet = href => {
  * @param {string} message
  */
 export const abstractDisplayMessage = (inputs, {inputName, message}) => {
-	console.log('abstractDisplayMessage', inputs, inputName, message);
+	// console.log('abstractDisplayMessage', inputs, inputName, message);
 	inputs.forEach(input => {
 		Form.displayMessage(input, '');
 	});

@@ -23,7 +23,7 @@ export default class MessagesView {
 	 * @param {MessagesModel} messagesModel
 	 */
 	constructor(messagesModel) {
-		console.log('Messages-view create');
+		// console.log('Messages-view create');
 		this.messagesModel = messagesModel;
 		this.currentFolder = 'inbox';
 		this.requestedPage = 1;
@@ -42,7 +42,7 @@ export default class MessagesView {
 			let folders = userInfo.getFolders();
 			folders.push({name: 'search'});
 			for (let folder of folders) {
-				console.log(folder);
+				// console.log(folder);
 				eventBus.addEventListener(`render:/messages/${folder.name}`, partial(this.renderFolder, folder.name));
 			}
 		}
@@ -62,7 +62,7 @@ export default class MessagesView {
 	prerender = (renderer, toRenderState) => {
 		// if (this.messagesModel.renderState !== toRenderState) {
 			renderer();
-			console.log('Render: messages');
+			// console.log('Render: messages');
 			this.messagesModel.renderState = toRenderState;
 		// }
 	};
@@ -199,27 +199,27 @@ export default class MessagesView {
 	};
 
 	toggleMessageReadStatus = id => {
-		console.log('id', id);
+		// console.log('id', id);
 		const datalistItem = document.querySelector(`.datalist-item_id${id}`);
 		datalistItem.classList.toggle('datalist-item_read');
 		datalistItem.classList.toggle('datalist-item_unread');
 	};
 
 	renderFolder = (folderName) => {
-		console.log('renderFolder ', folderName);
+		// console.log('renderFolder ', folderName);
 		this.currentFolder = folderName;
 		// сколько сейчас есть страниц в хранилище
-		console.log((storage.get('userInfo').getMessages().get(folderName) || []).length);
+		// console.log((storage.get('userInfo').getMessages().get(folderName) || []).length);
 		const messagesCount = (storage.get('userInfo').getMessages().get(folderName) || []).length;
 		let pagesCount = Math.trunc(messagesCount/Config.messagesPerPage)+(messagesCount%Config.messagesPerPage>0);
 
 		// const height = document.documentElement.clientHeight;
 		// Config.messagesPerPage = Math.trunc(height/36+1);
-		// console.log('R', height, Math.trunc(height/36+1));
+		// // console.log('R', height, Math.trunc(height/36+1));
 
 		this.loadPagesMutex.set(folderName, pagesCount);
 		this.requestedPage = pagesCount;
-		console.log('Render folder: ', folderName);
+		// console.log('Render folder: ', folderName);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_messages-wrap',
@@ -232,16 +232,16 @@ export default class MessagesView {
 
 		// let t = new Alert('Hello', 'world');
 		// Alert.show('Hello', 'Message sent. Message sent. Message sent.');
-		// window.onscroll = (event) => console.log(event.scrollTop)
+		// window.onscroll = (event) => // console.log(event.scrollTop)
 		window.addEventListener('scroll', event => {
 			event.preventDefault();
 			const b = document.documentElement.getBoundingClientRect().bottom
 			if (b<document.documentElement.clientHeight-50) {
-				console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
+				// console.log("Ping ", this.requestedPage, this.loadPagesMutex.get(this.currentFolder));
 				this.requestedPage++;
 				// если запросили следущую страницу, то идем и получаем
 				if (this.requestedPage-this.loadPagesMutex.get(this.currentFolder)<=1) {
-					console.log('Requst page: ', this.requestedPage);
+					// console.log('Requst page: ', this.requestedPage);
 					const id = storage.get('userInfo').getMessages().get(this.currentFolder).slice(-1).pop().id
 					eventBus.emitEvent('messages:loadnewpage', {page: this.requestedPage, folder: this.currentFolder, since: id});
 				} else {
@@ -249,7 +249,7 @@ export default class MessagesView {
 					this.requestedPage--;
 				}
 			}
-			console.log(pageYOffset);
+			// console.log(pageYOffset);
 
 		});
 

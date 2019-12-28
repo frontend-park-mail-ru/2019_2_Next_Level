@@ -19,7 +19,7 @@
 .form__input_placeholder {
 	border: none;
 	margin:	0;
-
+	padding-right: 70px;
 }
 
 .form__input_email_wrapper {
@@ -34,5 +34,10 @@
 	color: grey;
 	display: flex;
 	align-items: center;
-	padding-right: 8px;
+	position: relative;
+}
+
+.form__input_email_placeholder {
+	position: absolute;
+	right: 8px;
 }

@@ -11,3 +11,14 @@
 @import '__note/form__note.css';
 @import '__row/form__row.css';
 @import '__widget-wrap/form__widget-wrap.css';
+
+
+
+.form_user-info .form__header, .form_security .form__header{
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 48px;
+    color: rgb(68, 67, 65);
+    margin: 12px 0 55px;
+    text-align: left;
+}

@@ -47,7 +47,7 @@ export default class AuthModel {
 				inputName = 'password';
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 				return;
 			}
 			eventBus.emitEvent('auth:sign-in-validate', {inputName, message: response.error.msg});
@@ -92,7 +92,7 @@ export default class AuthModel {
 				inputName = 'secondName';
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 				return;
 			}
 			eventBus.emitEvent('auth:sign-up-validate', {inputName, message: response.error.msg});

@@ -1,6 +1,9 @@
 .header__profile-wrap {
 	display: flex;
 	align-items: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-left: 16px;
 }
 
 /* for no reason doesn't work */

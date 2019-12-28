@@ -46,16 +46,15 @@
 	transition: background-color .1s ease-in;
 	padding: 0 16px;
 	height: 40px;
-	cursor: pointer;
 }
 
 .nav__list-item .nav__link__main:hover {
-	background-color: rgba(0, 191, 161, 0.15);
-	color: rgb(0, 95, 79);
+	/* background-color: rgba(0, 191, 161, 0.15); */
+	/* color: rgb(0, 95, 79); */
 }
 
 .nav__list-item .nav__link__main_active {
-	background-color: rgba(74, 201, 44, 0.12);
+	/* background-color: rgba(74, 201, 44, 0.12); */
 }
 
 
@@ -64,6 +63,9 @@
 	display: block;
 	font-size: 18px;
 	width: 100%;
+}
+.nav:focus {
+	outline: none;
 }
 
 .actions__button_compose {
@@ -90,6 +92,8 @@
 
 .nav__list-item_secondary {
 	height: 32px;
+	margin: 8px 0;
+	text-transform: capitalize;
 }
 
 .nav__list-item_secondary .nav__link {
@@ -101,4 +105,77 @@
 .nav__list-item_secondary:hover {
 	color: rgb(10, 110, 160);
 }
+
+.nav__list-item_secondary_active {
+	color: rgb(10, 110, 160);
+}
+
+
+
+.actions__button_create {
+	background-color: rgba(74, 201, 44, 0.12);
+	color: #007a66;
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+
+.actions__button_create:hover {
+	background-color: rgba(0, 191, 161, 0.15);
+	color: rgb(0, 95, 79);
+}
+
+.actions__button_delete {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+.actions__button_delete:hover {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
+}
+
+
+.layout__right_settings-wrap .actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 14px;
+	align-items: center;
+}
+
+
+.datalist-item__subject-settings {
+	color: black;
+	font-weight: inherit;
+	text-transform: capitalize;
+	font-size: 18px;
+}
+
+.datalist-item__subject::after {
+	content: "    ";
+	white-space: pre;
+}
+
+.datalist-item__checkbox-settings {
+	margin-right: 16px;
+}
+
 

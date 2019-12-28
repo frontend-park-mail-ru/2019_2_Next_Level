@@ -18,7 +18,7 @@ export default class SettingsModel {
 	 * @constructor
 	 */
 	constructor() {
-		console.log('Settings-model create');
+		// console.log('Settings-model create');
 		this.dropRenderState();
 
 		eventBus.addEventListener('application:authorized', this.onAuthorized);
@@ -29,17 +29,17 @@ export default class SettingsModel {
 		eventBus.addEventListener('settings:security-save-button-clicked', this.onSecuritySaveButtonClicked);
 		eventBus.addEventListener(Events.DeleteFolderButtonClicked, this.onDeleteFolderButtonClicked);
 		eventBus.addEventListener(Events.AddFolderButtonCLicked, this.onAddFolderButtonClicked);
-		// console.log('Init settings-model');
+		// // console.log('Init settings-model');
 	}
 
 	getFolders = () => {
 		return storage.get('userInfo').folders;
 		// if (!this.userInfo) {
 		// 	//debugger;
-		// 	console.log("Empty folders")
+		// 	// console.log("Empty folders")
 		// 	return SettingsPages;
 		// }
-		// console.log("Folders", storage.get('userInfo').folders);
+		// // console.log("Folders", storage.get('userInfo').folders);
 		// return this.userInfo.folders;
 	};
 
@@ -49,7 +49,7 @@ export default class SettingsModel {
 
 	onAuthorized = userInfo => {
 		// this.userInfo = userInfo;
-		// console.log('Add userinfo to Settings.model', userInfo);
+		// // console.log('Add userinfo to Settings.model', userInfo);
 		// запрос на перезапись маршрутов в Messages
 		eventBus.emitEvent('settings:folders-changed', storage.get('userInfo').folders);
 	};
@@ -99,7 +99,7 @@ export default class SettingsModel {
 				inputName = 'nickName';
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 				return;
 			}
 			eventBus.emitEvent('settings:user-info-validate', {inputName, message: response.error.msg});
@@ -143,7 +143,7 @@ export default class SettingsModel {
 				inputName = 'newPassword';
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 				return;
 			}
 			eventBus.emitEvent('settings:security-validate', {inputName, message: response.error.msg});
@@ -151,7 +151,7 @@ export default class SettingsModel {
 	};
 
 	onAddFolderButtonClicked = ({newFolderName}) => {
-		console.log('Add');
+		// console.log('Add');
 		jsonize(fetchPost(`/api/messages/addFolder/${newFolderName}`, {})).then(response => {
 			if (response.status === 'ok') {
 				let localUserInfo = storage.get('userInfo');
@@ -171,7 +171,7 @@ export default class SettingsModel {
 				break;
 			default:
 				eventBus.emitEvent('settings:displayFormMessage', {inputName: 'add', message: 'Unknown error. Try later.'});
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 				return;
 			}
 
@@ -182,7 +182,7 @@ export default class SettingsModel {
 		const folderExceptions = ['sent', 'inbox', 'spam', 'proceed', 'trash'];
 		folderName.forEach(name => {
 			if (folderExceptions.includes(name)) {
-				console.log('Folder exception');
+				// console.log('Folder exception');
 				return;
 			}
  			jsonize(fetchPost(`/api/messages/deleteFolder/${name}`, {})).then(response => {
@@ -204,7 +204,7 @@ export default class SettingsModel {
 						});
 						break;
 					default:
-						console.error('Unknown response:', response);
+						// console.error('Unknown response:', response);
 						return;
 					}
 				}

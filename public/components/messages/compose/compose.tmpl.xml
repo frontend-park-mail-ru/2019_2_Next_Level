@@ -1,10 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+	<div class="datalist_name">Compose</div>
 	<form class="messages" id="compose">
-		<div class="actions">
-			<button class="actions__button actions__button_send" type="submit">Send</button>
-			<button class="actions__button actions__button_cancel">Cancel</button>
-		</div>
-
 		<div class="box box_messages">
 			<div class="compose">
 				<div class="compose-head">
@@ -24,6 +20,10 @@
 					<textarea class="compose-content__textarea" form="compose" name="content" id="content"/>
 				</div>
 			</div>
+		</div>
+		<div class="actions">
+			<button class="actions__button actions__button_send" type="submit">Send</button>
+			<button class="actions__button actions__button_cancel">Cancel</button>
 		</div>
 	</form>
 </fest:template>

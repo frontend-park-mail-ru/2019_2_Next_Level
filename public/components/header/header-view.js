@@ -34,14 +34,14 @@ export default class HeaderView {
 	prerender = toRenderState => {
 		if (this.headerModel.renderState !== toRenderState) {
 			this.render();
-			console.log("Render: header")
+			// console.log("Render: header")
 			this.headerModel.renderState = toRenderState;
 		}
 	};
 
 	render = () => {
 		const userData = storage.get('userInfo');
-		console.log("Header: ", storage.get('authState'));
+		// console.log("Header: ", storage.get('authState'));
 		renderFest(
 			ReplaceInnerRenderer,
 			'.application__header-wrap',

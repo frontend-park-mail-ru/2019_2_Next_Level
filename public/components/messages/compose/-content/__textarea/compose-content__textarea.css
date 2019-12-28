@@ -4,4 +4,10 @@
 	height: 375px;
 	resize: none;
 	border-radius: 5px;
+	padding: 16px;
+	font-size: 18px;
+}
+
+.compose-content__textarea:focus {
+	outline: none;
 }

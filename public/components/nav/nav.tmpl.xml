@@ -14,39 +14,37 @@
 				</a>
 
 				<div class="box box_nav">
-
 					<ul class="nav__list">
 						<li class="nav__list-item">
-							<fest:if test="args.page !== 'messages'">
-								<a class="nav__link__main" href="/messages/inbox">Messages</a>
-							</fest:if>
-							<fest:if test="args.page === 'messages'">
-								<a class="nav__link nav__link__main nav__link__main_active" href="/messages/inbox">Messages</a>
+								<a class="nav__link nav__link__main nav__link__main_active">Messages</a>
 								<ul class="nav__list nav__list_2">
 									<fest:for iterate="args.messages" index="i">
 										<fest:if test="args.messages[i] !== 'search'">
-											<li class="nav__list-item_secondary"><a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
-												<fest:value>args.messages[i]</fest:value>
-											</a></li>
+											<fest:if test="args.page !== args.messages[i]">
+												<li class="nav__list-item_secondary">
+													<a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
+														<fest:value>args.messages[i]</fest:value>
+													</a>
+												</li>
+											</fest:if>
+											<fest:if test="args.page == args.messages[i]">
+												<li class="nav__list-item_secondary nav__list-item_secondary_active">
+													<a class="nav__link" href="/messages/{args.messages[i]}" name="{args.messages[i]}">
+														<fest:value>args.messages[i]</fest:value>
+													</a>
+												</li>
+											</fest:if>
 										</fest:if>
 									</fest:for>
-		<!--							<li class="nav__list-item"><a class="nav__link" href="/messages/inbox" name="inbox">Inbox</a></li>-->
-		<!--							<li class="nav__list-item"><a class="nav__link" href="/messages/sent" name="sent">Sent</a></li>-->
 								</ul>
-							</fest:if>
 						</li>
 						<li class="nav__list-item">
-							<fest:if test="args.page !== 'settings'">
-								<a class="nav__link__main" href="/settings/user-info">Settings</a>
-							</fest:if>
-							<fest:if test="args.page === 'settings'">
-								<a class="nav__link nav__link__main nav__link__main_active" href="/settings/user-info">Settings</a>
+								<a class="nav__link nav__link__main nav__link__main_active">Settings</a>
 								<ul class="nav__list nav__list_2">
 									<li class="nav__list-item_secondary"><a class="nav__link" href="/settings/user-info" name="userInfo">User info</a></li>
 									<li class="nav__list-item_secondary"><a class="nav__link" href="/settings/security" name="security">Security</a></li>
 									<li class="nav__list-item_secondary"><a class="nav__link" href="/settings/folders" name="security">Folders</a></li>
 								</ul>
-							</fest:if>
 						</li>
 					</ul>
 				</div>

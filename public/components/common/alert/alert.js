@@ -37,7 +37,7 @@ export default class Alert {
 		// 	Alert.alert.classList.remove('alert_transition');
 		// 	Alert.alert.classList.add('alert_emerged');
 		// 	Alert.alert.classList.add('alert_transition');
-		// 	console.log('Alert', Alert.alert.classList);
+		// 	// console.log('Alert', Alert.alert.classList);
 		// }
 		if (['info', 'warn', 'error'].indexOf(level) < 0) {
 			level = 'info';

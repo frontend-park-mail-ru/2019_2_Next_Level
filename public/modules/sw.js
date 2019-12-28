@@ -11,7 +11,7 @@
 // self.addEventListener('install', (event) => {
 // 	// Perform install steps.
 // 	if (DEBUG) {
-// 		console.log('[SW] Install event');
+// 		// console.log('[SW] Install event');
 // 	}
 //
 // 	// Add core website files to cache during serviceworker installation.
@@ -19,16 +19,16 @@
 // 		global.caches
 // 			.open(CACHE_NAME)
 // 			.then((cache) => {
-// 				console.log(assetsToCache);
+// 				// console.log(assetsToCache);
 // 				return cache.addAll(assetsToCache);
 // 			})
 // 			.then(() => {
 // 				if (DEBUG) {
-// 					console.log('Cached assets: main', assetsToCache);
+// 					// console.log('Cached assets: main', assetsToCache);
 // 				}
 // 			})
 // 			.catch((error) => {
-// 				console.error(error);
+// 				// console.error(error);
 // 				throw error;
 // 			})
 // 	);
@@ -79,7 +79,7 @@ self.addEventListener('fetch', function(event) {
 });
 
 function networkOrCache(request) {
-	console.log('NoC');
+	// console.log('NoC');
 	return fetch(request)
 		.then((response) => response.ok ? response : fromCache(request))
 		.catch(() => fromCache(request));
@@ -95,7 +95,7 @@ const FALLBACK =
 
 // Он никогда не упадет, т.к мы всегда отдаем заранее подготовленные данные.
 function useFallback() {
-	console.log('Fall');
+	// console.log('Fall');
 	// return Promise.resolve(new Response(FALLBACK, { headers: {
 	// 		'Content-Type': 'text/html; charset=utf-8'
 	// 	}}));
@@ -103,7 +103,7 @@ function useFallback() {
 }
 
 function fromCache(request) {
-	console.log('fromCache');
+	// console.log('fromCache');
 	return caches.open(CACHE).then((cache) =>
 		cache.match(request).then((matching) =>
 			matching || Promise.reject('no-match')

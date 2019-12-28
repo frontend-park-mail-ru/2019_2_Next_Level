@@ -18,7 +18,7 @@ export default class SettingsView {
 	 * @param {SettingsModel} settingsModel
 	 */
 	constructor(settingsModel) {
-		console.log('Settings-view create');
+		// console.log('Settings-view create');
 		this.settingsModel = settingsModel;
 
 		routes.GetModuleRoutes('auth', 'messages').forEach(page => {
@@ -51,7 +51,7 @@ export default class SettingsView {
 		);
 		// eventBus.addEventListener('settings:folders-changed', this.renderFolders, 10);
 		eventBus.addEventListener('settings:displayFormMessage', SettingsView.displayMessage);
-		console.log('Init settings-view');
+		// console.log('Init settings-view');
 	}
 
 	prerender = (renderer) => {
@@ -122,8 +122,8 @@ export default class SettingsView {
 	};
 
 	renderFolders = () => {
-		console.log("RenderFolders");
-		console.log('FFF: ', storage.get('userInfo').getFolders());
+		// console.log("RenderFolders");
+		// console.log('FFF: ', storage.get('userInfo').getFolders());
 		renderFest(
 			ReplaceInnerRenderer,
 			'.layout__right_settings-wrap',
@@ -181,7 +181,7 @@ export default class SettingsView {
 	};
 
 	static displayMessage({inputName, message}) {
-		console.log('displayMessage', inputName, message);
+		// console.log('displayMessage', inputName, message);
 		document.querySelector(`.form__message_${inputName}`).innerText = message;
 	}
 }

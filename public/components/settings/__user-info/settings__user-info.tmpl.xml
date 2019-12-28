@@ -48,7 +48,7 @@
 					{
 						cls: 'form__button_save',
 						type: 'submit',
-						text: 'Save!',
+						text: 'Save',
 					}, {
 						cls: 'form__button_cancel',
 						text: 'Cancel',

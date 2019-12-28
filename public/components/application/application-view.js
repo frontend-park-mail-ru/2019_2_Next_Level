@@ -21,7 +21,7 @@ export default class ApplicationView {
 		routes.forEach(page => {
 			eventBus.addEventListener(`render:${page}`, this.render);
 		});
-		console.log('Init application-view');
+		// console.log('Init application-view');
 	}
 
 	render = () => {
@@ -34,6 +34,6 @@ export default class ApplicationView {
 		// renderFest(InsertAfterBeginRenderer, 'body', 'components/application/application.tmpl');
 		renderFest(ReplaceInnerRenderer, '.application', 'components/application/application.tmpl');
 		this.applicationModel.renderState = ApplicationRenderState.Rendered;
-		console.log("Render: application");
+		// console.log("Render: application");
 	};
 }

@@ -21,7 +21,7 @@ export default class AuthController {
 			this.authView.renderSignUp();
 			break;
 		default:
-			console.error(`Unknown page: ${page}`);
+			// console.error(`Unknown page: ${page}`);
 		}
 	};
 

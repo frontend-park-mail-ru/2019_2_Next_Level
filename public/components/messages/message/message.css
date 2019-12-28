@@ -4,3 +4,29 @@
 .box_messages {
   padding: 0 12px 0 0;
 }
+
+
+.actions__button_reply {
+	background-color: rgba(74, 201, 44, 0.12);
+	color: #007a66;
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+
+.actions__button_reply:hover {
+	background-color: rgba(5, 241, 110, 0.15);
+	color: rgb(0, 95, 79);
+}
+
+.message {
+  margin-top: 40px;
+}

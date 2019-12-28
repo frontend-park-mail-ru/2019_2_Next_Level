@@ -11,7 +11,7 @@ export default class Form {
 	};
 
 	static displayMessage(inputName, message) {
-		console.log('displayMessage', inputName, message);
+		// console.log('displayMessage', inputName, message);
 		document.querySelector(`.form__message_${inputName}`).innerText = message;
 	}
 }

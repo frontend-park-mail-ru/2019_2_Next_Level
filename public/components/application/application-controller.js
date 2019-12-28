@@ -30,7 +30,7 @@ export default class ApplicationController {
 				function(registrations) {
 
 					for(let registration of registrations) {
-						console.log("SW: unregister");
+						// console.log("SW: unregister");
 						registration.unregister();
 
 					}
@@ -41,25 +41,25 @@ export default class ApplicationController {
 			if ('serviceWorker' in navigator) {
 				navigator.serviceWorker.register('/sw.js', { scope: '/' })
 					.then((reg) => {
-						console.log('sw reg success:', reg);
+						// console.log('sw reg success:', reg);
 					})
 					.catch((err) => {
-						console.error('sw reg err:', err);
+						// console.error('sw reg err:', err);
 					});
 			}
 		}
 
 		storage.set('currentPage', currentPage);
-		console.log("Start: ", storage.get('currentPage'));
+		// console.log("Start: ", storage.get('currentPage'));
 		this.init();
 	}
 
 	// Creates and recreates whole the application except Model
 	init = () => {
 		// debugger;
-		console.log('REINIT');
+		// console.log('REINIT');
 		const currentPage = router.getCurrentPage();
-		console.log("Remembered page: ", storage.get('currentPage'));
+		// console.log("Remembered page: ", storage.get('currentPage'));
 		eventBus.Clear();
 		this.reloadRouter();
 		this.applicationModel.init();

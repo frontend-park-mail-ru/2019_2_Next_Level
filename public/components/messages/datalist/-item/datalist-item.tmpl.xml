@@ -8,6 +8,9 @@
 			addr = args.from.name ? args.from.name : args.from.email;
 		}
 
+		let div = document.createElement('div');
+  	div.innerHTML = args.content.trim();
+		args.content = div.textContent;
 	]]></fest:script>
 	<div class="datalist-item datalist-item_id{args.id} datalist-item_{modifier}">
 		<div class="datalist-item__checkbox-wrap">
@@ -24,8 +27,18 @@
 			  <fest:value>addr</fest:value>
 			</div>
 			<div class="datalist-item__subject-wrap">
-				<span class="datalist-item__subject"><fest:value>args.subject</fest:value></span>
-				<span class="datalist-item__subject-snippet"><fest:value output="text">args.content</fest:value></span>
+				<fest:if test="args.subject.innerText">
+					<span class="datalist-item__subject"><fest:value>args.subject.innerText</fest:value></span>
+				</fest:if>
+				<fest:if test="!args.subject.innerText">
+					<span class="datalist-item__subject"><fest:value>args.subject</fest:value></span>
+				</fest:if>
+				<fest:if test="args.content.textContent">
+					<span class="datalist-item__subject-snippet"><fest:value output="text">args.content.textContent</fest:value></span>
+				</fest:if>
+				<fest:if test="typeof args.content === 'string'">
+					<span class="datalist-item__subject-snippet"><fest:value output="text">args.content</fest:value></span>
+				</fest:if>
 			</div>
 			<div class="datalist-item__date-wrap">
 				<div class="datalist-item__date"><fest:value>args.date</fest:value></div>

@@ -13,7 +13,7 @@ export default class MessagesModel {
 	 * @constructor
 	 */
 	constructor() {
-		console.log('Messages-model create');
+		// console.log('Messages-model create');
 		this.onNotAuthorized();
 
 		// eventBus.addEventListener('application:authorized', this.onAuthorized);
@@ -31,11 +31,11 @@ export default class MessagesModel {
 			// при запросе на переход к странице папки запрашиваем список писем, затем требуем перерисовки страницы.
 
 			eventBus.addEventListener(`prerender:${link}`, () => {
-				console.log('MessagesModel');
+				// console.log('MessagesModel');
 				eventBus.addSporadicEventListener(`folder.onload/${name}`, () => eventBus.emitEvent(`render:${link}`));
 				this.loadFolder(name, 1);
 			}, 10);
-			console.log('LoadMessage ', name);
+			// console.log('LoadMessage ', name);
 		}
 
 		eventBus.addEventListener('messages:move_messages', this.moveMessage);
@@ -64,13 +64,13 @@ export default class MessagesModel {
 	};
 
 	loadFolder = (folder, page=1, since=2**64-1) => {
-		console.log( Config.messagesPerPage);
+		// console.log( Config.messagesPerPage);
 		this.updateFolderMessages(folder, page, Config.messagesPerPage, since);
 	};
 
 	// onAuthorized = userInfo => {
 	// 	// this.userInfo = userInfo;
-	// 	// console.log('Add userinfo to MessageModel ', userInfo);
+	// 	// // console.log('Add userinfo to MessageModel ', userInfo);
 	// };
 
 	onNotAuthorized = () => {
@@ -129,7 +129,7 @@ export default class MessagesModel {
 				eventBus.emitEvent('messages:compose-validate', response.error.msg);
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 			}
 		}).catch(consoleError);
 	};
@@ -144,7 +144,7 @@ export default class MessagesModel {
 					}
 				});
 				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
-				console.log(`${status} successful`);
+				// console.log(`${status} successful`);
 				return;
 			}
 
@@ -158,7 +158,7 @@ export default class MessagesModel {
 	};
 
 	getMessage = id => {
-		console.log('HERE', id);
+		// console.log('HERE', id);
 		jsonize(fetchPost('/api/messages/getById', {ids: [id]} )).then(response => {
 			if (response.status === 'ok'&& response.messages && response.messages.length > 0) {
 				let message = response.messages[0];
@@ -179,7 +179,7 @@ export default class MessagesModel {
 	toggleMessageState = (status, {folder, ids, fetchOnly}) => {
 		jsonize(fetchPost(`/api/messages/${status}`, {messages: ids})).then(response => {
 			if (response.status === 'ok') {
-				console.log(storage.get('userInfo').getMessages(), folder);
+				// console.log(storage.get('userInfo').getMessages(), folder);
 				storage.get('userInfo').getMessages().get(folder).forEach(message => {
 					if (ids.includes(message.id)) {
 						message.read = status === 'read';
@@ -220,7 +220,7 @@ export default class MessagesModel {
 				storage.set('userInfo', localUserInfo);
 				// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
 				eventBus.emitEvent('render:update');
-				console.log(`${status} successful`);
+				// console.log(`${status} successful`);
 				return;
 			}
 
@@ -239,7 +239,7 @@ export default class MessagesModel {
 		// 			storage.set('userInfo', localUserInfo);
 		// 			// eventBus.emitEvent(`messages:${folder}-${status}`, ids);
 		// 			eventBus.emitEvent('render:update');
-		// 			console.log(`${status} successful`);
+		// 			// console.log(`${status} successful`);
 		// 			return;
 		// 		}
 		//
@@ -259,7 +259,7 @@ export default class MessagesModel {
 			if (response.status === 'ok') {
 				let userInfo = storage.get('userInfo');
 				if (!response.messages || response.messages.length===0) {
-					console.log("Break")
+					// console.log("Break")
 					return;
 				}
 				response.messages.forEach(message => this.transformDate(message, new Date()));
@@ -271,7 +271,7 @@ export default class MessagesModel {
 				eventBus.emitEvent(`folder.onload/${folder}`);
 				return;
 			}
-			console.error(response);
+			// console.error(response);
 		}).catch(consoleError);
 	};
 
@@ -279,7 +279,7 @@ export default class MessagesModel {
 		jsonize(fetchPost(`/api/messages/getById`, {ids: messages})).then(response => {
 			if (response.status === 'ok') {
 				if (!response.messages){
-					console.log('Empty getMessages response');
+					// console.log('Empty getMessages response');
 					return;
 				}
 				response.messages.forEach(message => this.transformDate(message, new Date()));
@@ -302,10 +302,10 @@ export default class MessagesModel {
 				eventBus.emitEvent('messages:compose-validate', response.error.msg);
 				break;
 			default:
-				console.error('Unknown response:', response);
+				// console.error('Unknown response:', response);
 			}
 		}).catch((err) => {
-			console.log('BB: Error ', err);
+			// console.log('BB: Error ', err);
 			consoleError(err);
 		});
 	}

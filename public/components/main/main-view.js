@@ -41,13 +41,13 @@ export default class MainView {
 	prerender = (page, toRenderState) => {
 		if (this.mainModel.renderState !== toRenderState) {
 			this.render(page);
-			console.log("Render: main")
+			// console.log("Render: main")
 			this.mainModel.renderState = toRenderState;
 		}
 	};
 
 	render = page => {
-		console.log('Render page ', page);
+		// console.log('Render page ', page);
 		renderFest(
 			ReplaceInnerRenderer,
 			'.application__main-wrap',

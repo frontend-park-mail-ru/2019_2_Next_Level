@@ -4,9 +4,9 @@ const fs = require('fs');
 
 const callback = err => {
 	if (err) {
-		console.error(err);
+		// console.error(err);
 	}
-	console.log('file write successful');
+	// console.log('file write successful');
 };
 
 module.exports = (moduleName, exports) => {

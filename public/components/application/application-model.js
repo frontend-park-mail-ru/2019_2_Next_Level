@@ -18,7 +18,7 @@ export default class ApplicationModel {
 		storage.set('userInfo', this.userInfo);
 		storage.set('currentPage', '/messages/inbox');
 
-		console.log('Init application-model');
+		// console.log('Init application-model');
 	}
 
 	init = () => {
@@ -41,7 +41,7 @@ export default class ApplicationModel {
 	prerender = (toRender, data) => {
 
 		if (this.authorized === !/auth/.test(toRender) || toRender==='/auth/offline') {
-			console.log('AUTHORIZED');
+			// console.log('AUTHORIZED');
 			storage.set('currentPage', toRender);
 			eventBus.emitEvent(`render:${toRender}`, data);
 			return;
@@ -50,7 +50,7 @@ export default class ApplicationModel {
 		// авторизован и пошел на /auth/...
 		// неавторизован и идешь в приватную часть
 		jsonize(fetchGet('/api/profile/get')).then(response => {
-			console.log("GET PROFILE ", toRender);
+			// console.log("GET PROFILE ", toRender);
 			if (response.status === 'ok') {
 
 				this.authorized = true;
@@ -82,14 +82,14 @@ export default class ApplicationModel {
 			}
 			eventBus.emitEvent(`render:${toRender}`, data);
 		}).catch((err) => {
-			console.log('Error ', err);
+			// console.log('Error ', err);
 			consoleError(err);
 		});
 	};
 
 	loadUserData = () => {
 		jsonize(fetchGet('/api/profile/get')).then(response => {
-			console.log("GET PROFILE ");
+			// console.log("GET PROFILE ");
 			if (response.status === 'ok') {
 				this.authorized = true;
 				const {userInfo} = response;

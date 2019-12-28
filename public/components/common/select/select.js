@@ -25,7 +25,7 @@ export default class Select {
 		}
 		// selectBlock.getElementsByClassName(se)
 		// let selectBlock = document.getElementsByClassName('select');
-		// console.log(select);
+		// // console.log(select);
 		//
 		// let select = selectBlock[0].getElementsByTagName('select')[0];
 		// let a = document.createElement('div');

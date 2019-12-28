@@ -3,4 +3,9 @@
 	width: 200px;
 	text-align: right;
 	padding-right: 25px;
+
+
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }

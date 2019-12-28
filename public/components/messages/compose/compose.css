@@ -1,3 +1,55 @@
 @import '-content/compose-content.css';
 @import '-head/compose-head.css';
 @import '-message/compose-message.css';
+
+.compose-head__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.actions__button_send {
+	background-color: rgba(74, 201, 44, 0.12);
+	color: #007a66;
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+  border-radius: 32px;
+  margin-top: 32px;
+}
+
+.actions__button_send:hover {
+	background-color: rgba(5, 241, 110, 0.15);
+	color: rgb(0, 95, 79);
+}
+
+.actions__button_cancel {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+.actions__button_cancel:hover {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
+}
+
+.layout__right_messages-wrap .datalist_name {
+  margin: 12px 0 55px;
+}

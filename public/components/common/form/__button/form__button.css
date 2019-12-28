@@ -13,6 +13,7 @@
 	font-size: 14px;
 	background-color: #94939138;
 	border: none;
+	margin-right: 8px;
 }
 
 .form__button:hover {
@@ -30,4 +31,45 @@
 .form__button_auth-sign-in:hover {
 	background-color: #94939185;
 	cursor: pointer;
+}
+
+.form__button_save {
+	background-color: rgba(74, 201, 44, 0.12);
+	color: #007a66;
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+
+.form__button_save:hover {
+	background-color: rgba(5, 241, 110, 0.15);
+	color: rgb(0, 95, 79);
+}
+
+.form__button_cancel {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
+
+	border: none;
+	padding: 4px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 700;
+	transition: background-color .1s ease-in;
+	padding: 0 16px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 32px;
+}
+.form__button_cancel:hover {
+	background-color: rgba(192, 57, 43, 0.12);
+	color: rgb(192, 57, 43);
 }

@@ -1,8 +1,9 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="args">
+    <div class='datalist_name'>Folders</div>
     <div class="actions">
-			<button class="actions__button actions__button_delete">Delete</button>
-            <button class="actions__button actions__button_create">Add</button>
             <input type="text" class="actions__button actions__input_name actions__input_name_invisible" placeholder="Folder name" />
+            <button class="actions__button actions__button_create">Add</button>
+			<button class="actions__button actions__button_delete">Delete</button>
             <div class="form__message form__message_add" />
     </div>
     <div class="box box_datalist">

@@ -35,20 +35,20 @@ export default class NavView {
 			eventBus.addEventListener(`render:${page}`, func);
 		}));
 		// eventBus.addEventListener('router:reload', this.render);
-		console.log('Init nav-view');
+		// console.log('Init nav-view');
 	}
 
 	prerender = (page, toRenderState) => {
 		// if (this.navModel.renderState !== toRenderState) {
 		this.currentPage = page;
 		this.render();
-		console.log("preRender: nav");
+		// console.log("preRender: nav");
 		this.navModel.renderState = toRenderState;
 		// }
 	};
 
 	render = () => {
-		console.log("Render: nav");
+		// console.log("Render: nav");
 		let page = this.currentPage;
 		let messages = [];
 		routes.GetModuleRoutes('messages').slice(3).forEach(route => {

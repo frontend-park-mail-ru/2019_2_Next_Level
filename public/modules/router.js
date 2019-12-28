@@ -26,11 +26,11 @@ class Router {
 	 */
 	register = (path, callback) => {
 		if (this.routes.has(path)) {
-			console.error('Path already registered');
+			// console.error('Path already registered');
 			return this;
 		}
 		this.routes.set(path, callback);
-		console.log(`Register: ${path}`)
+		// console.log(`Register: ${path}`)
 		return this;
 	};
 
@@ -44,7 +44,7 @@ class Router {
 	 */
 	start = () => {
 		window.addEventListener('popstate', () => {
-			console.log('popstate');
+			// console.log('popstate');
 			this.routeCurrent();
 		});
 
@@ -106,7 +106,7 @@ class Router {
 	 * @returns {Router}
 	 */
 	routeCurrent = () => {
-		console.log('RouteCurrent: ', window.location.pathname);
+		// console.log('RouteCurrent: ', window.location.pathname);
 		return this.route(window.location.pathname, window.location.search);
 	};
 
@@ -118,9 +118,9 @@ class Router {
 	 */
 	route = (pathname, search) => {
 		// debugger;
-		console.log('route', pathname, search);
+		// console.log('route', pathname, search);
 		// if (!this.routes.has(pathname)) {
-		// 	console.log(`Unknown pathname: ${pathname}`);
+		// 	// console.log(`Unknown pathname: ${pathname}`);
 		// 	this.routeNew({}, '', this.defaultPath);
 		// 	return this;
 		// }
@@ -128,19 +128,19 @@ class Router {
 		if (!callback) {
 			callback = this.resolveByRegexp(pathname);
 			if (!callback) {
-				console.log(`Unknown pathname: ${pathname}`);
+				// console.log(`Unknown pathname: ${pathname}`);
 				this.routeNew({}, '', this.defaultPath);
 				return this;
 			}
 		}
-		console.log('route(): ', pathname);
+		// console.log('route(): ', pathname);
 		callback(pathname, parseSearch(search));
 		return this;
 	};
 
 	clearRoutes = () => {
 		this.routes.clear();
-		console.log('Router: clear');
+		// console.log('Router: clear');
 	}
 
 	getCurrentPage = () => {
