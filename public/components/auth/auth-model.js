@@ -92,8 +92,8 @@ export default class AuthModel {
 				inputName = 'secondName';
 				break;
 			default:
-				// console.error('Unknown response:', response);
-				return;
+				console.error('Unknown response:', response);
+				//return;
 			}
 			eventBus.emitEvent('auth:sign-up-validate', {inputName, message: response.error.msg});
 		}).catch(consoleError);

@@ -107,10 +107,6 @@ export default class AuthView {
 	]);
 
 	signUpDisplayMessage = partial(abstractDisplayMessage, [
-		'firstName',
-		'secondName',
-		'birthDate',
-		// 'sex',
 		'login',
 		'password',
 	]);
