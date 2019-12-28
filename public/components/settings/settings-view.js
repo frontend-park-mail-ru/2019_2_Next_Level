@@ -145,7 +145,7 @@ export default class SettingsView {
 				// SettingsView.displayMessage('add', 'Empty name')
 			}
 		});
-		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox')];
+		const checkboxes = [...document.querySelectorAll('.datalist-item__checkbox-settings')];
 
 		document.querySelector('.actions__button_delete').addEventListener('click', event => {
 			event.preventDefault();
